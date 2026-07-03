@@ -23,6 +23,7 @@
         <button type="button" id="tab5starBtn" class="rarity-tab-btn active" style="flex:1; max-width:220px; padding:12px 20px; border-radius:10px; border:1px solid var(--border-color); background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark)); color:white; font-weight:600; cursor:pointer;">5★ Planner</button>
         <button type="button" id="tab4starBtn" class="rarity-tab-btn" style="flex:1; max-width:220px; padding:12px 20px; border-radius:10px; border:1px solid var(--border-color); background:transparent; color:var(--text-muted); font-weight:600; cursor:pointer;">4★ Planner</button>
         <button type="button" id="tabOddsBtn" class="rarity-tab-btn" style="flex:1; max-width:220px; padding:12px 20px; border-radius:10px; border:1px solid var(--border-color); background:transparent; color:var(--text-muted); font-weight:600; cursor:pointer;">Wish Simulator</button>
+        <button type="button" id="tabBuildBtn" class="rarity-tab-btn" style="flex:1; max-width:220px; padding:12px 20px; border-radius:10px; border:1px solid var(--border-color); background:transparent; color:var(--text-muted); font-weight:600; cursor:pointer;">Build</button>
         <button type="button" id="tabOtherBtn" class="rarity-tab-btn" style="flex:1; max-width:220px; padding:12px 20px; border-radius:10px; border:1px solid var(--border-color); background:transparent; color:var(--text-muted); font-weight:600; cursor:pointer;">Other</button>
     </div>
 
@@ -145,7 +146,6 @@
         </div>
     </div>
 
-    
     <div class="section-card">
         <div class="section-title">Planner Priority</div>
         <div class="explanation" style="margin-bottom: 20px;">Drag to reorder. Assessed top-to-bottom chronologically.</div>
@@ -409,7 +409,37 @@
         </div>
     </div>
 
+    <div id="tabBuildContent" class="hidden">
+        <div class="section-card build-search-card">
+            <div class="section-title">Your builds</div>
+
+            <button type="button" class="btn-add" id="buildAddBtn">+ Add character build</button>
+            <div class="explanation hidden" id="buildEmptyHint" style="text-align:center; margin-top:14px; margin-bottom:0;">No characters added yet. Click above to add your first build.</div>
+            <div class="explanation hidden" id="buildSoftCapHint" style="text-align:center; margin-top:14px; margin-bottom:0; color: var(--warning);"></div>
+        </div>
+
+        <div id="buildCardsWrap"></div>
+    </div>
+
     <div id="tabOtherContent" class="hidden">
+        <div class="section-card">
+            <div class="section-title">Current Banners</div>
+            <div class="explanation" style="margin-top:0;">Live from HoYoverse's own event calendar.</div>
+            <div id="bannersPanel"></div>
+        </div>
+
+        <div class="section-card">
+            <div class="section-title">Endgame Resets</div>
+            <div class="explanation" style="margin-top:0;">Live Primogem rewards and reset dates for Spiral Abyss and Imaginarium Theater — from HoYoverse's own event calendar.</div>
+            <div id="endgameResetsBody"></div>
+        </div>
+
+        <div class="section-card">
+            <div class="section-title">Current Events</div>
+            <div class="explanation" style="margin-top:0;">Live in-game events and their Primogem rewards — from HoYoverse's own event calendar.</div>
+            <div id="eventsPanel"></div>
+        </div>
+
         <div class="section-card">
             <div class="section-title">Active Codes</div>
             <div class="explanation" style="margin-top:0;">Codes are pulled live from a community-maintained tracker, but Claim links are always built from just the code text against genshin.hoyoverse.com — never taken from the API directly.</div>
@@ -424,6 +454,7 @@
 <script src="js/tab-5star-odds.js"></script>
 <script src="js/tab-4star.js"></script>
 <script src="js/tab-other.js"></script>
+<script src="js/tab-build.js"></script>
 <script src="js/app.js"></script>
 
 
