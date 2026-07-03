@@ -931,4 +931,3 @@ function makeCustomCharacter(name, rarity = 5) {
         isCustom: true
     };
 }
-
