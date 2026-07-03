@@ -366,6 +366,8 @@ let priorityPipeline = [];
     function updateTimelineExplanation() {
         const pSelect = document.getElementById('targetPatch');
         const hSelect = document.querySelector('input[name="bannerHalf"]:checked');
+        const pacingEl = document.getElementById('applyPacing');
+        const pacingWrap = document.getElementById('pacingCheckboxWrap');
         if(!pSelect || !hSelect) return;
         const val = parseInt(pSelect.value) || 0;
         let patchLabel;
@@ -373,12 +375,17 @@ let priorityPipeline = [];
         else if (val === 1) patchLabel = "next patch";
         else patchLabel = `${val} patches from now`;
         let text = val === 0 ? "Allocating base wishes" : `Allocating base + income through ${patchLabel}`;
-        text += hSelect.value === 'first' ? " + 65% of banner patch." : " + 100% of banner patch.";
+
+        const isFirst = hSelect.value === 'first';
+        if (pacingWrap) pacingWrap.classList.toggle('hidden', !isFirst);
+        const usesPacing = isFirst && pacingEl && pacingEl.checked;
+        text += usesPacing ? " + 65% of banner patch." : " + 100% of banner patch.";
         document.getElementById('timelineExplanation').innerText = text;
     }
 
     document.getElementById('targetPatch').addEventListener('change', updateTimelineExplanation);
     document.querySelectorAll('input[name="bannerHalf"]').forEach(r => r.addEventListener('change', updateTimelineExplanation));
+    document.getElementById('applyPacing').addEventListener('change', updateTimelineExplanation);
 
     function enforceGoalFloor() {
         const charCurEl = document.getElementById('charCurrentConst');
@@ -439,7 +446,8 @@ let priorityPipeline = [];
             div.setAttribute('data-id', item.id);
             let strategyClass = item.strategy === 'Hard Lock' ? 'tag-hard-lock' : (item.strategy === 'One Shot' ? 'tag-one-shot' : 'tag-optional');
             const patchLabel = item.targetPatch === 0 ? 'Current Patch' : item.targetPatch === 1 ? 'Next Patch' : item.targetPatch === 2 ? '2 Patches Later' : `${item.targetPatch} Patches Later`;
-            let meta = `${patchLabel} (${item.bannerHalf === 'first' ? '1st' : '2nd'} Half) • ${item.type === 'character' ? item.constellation : 'R' + (item.refinement || 1)}`;
+            const halfTag = item.bannerHalf === 'first' ? (item.applyPacing !== false ? '1st Half' : '1st Half, Instant') : '2nd Half';
+            let meta = `${patchLabel} (${halfTag}) • ${item.type === 'character' ? item.constellation : 'R' + (item.refinement || 1)}`;
             const isEnabled = item.enabled !== false;
             if (!isEnabled) div.classList.add('disabled-item');
             const iconHtml = avatarBadgeHtml(item.icon, elementIconPath(item.element), 52, 20);
@@ -512,6 +520,8 @@ let priorityPipeline = [];
         syncTargetPatchUIFromValue();
 
         document.querySelector(`input[name="bannerHalf"][value="${item.bannerHalf}"]`).checked = true;
+        document.getElementById('applyPacing').checked = item.applyPacing !== false;
+        updateTimelineExplanation();
 
         document.getElementById('strategyRule').value = item.strategy;
 
@@ -567,7 +577,8 @@ let priorityPipeline = [];
             weaponType: resolved.weaponType || null,
             isCustom: !!resolved.isCustom,
             targetPatch: chosenTargetPatch,
-            bannerHalf: document.querySelector('input[name="bannerHalf"]:checked').value
+            bannerHalf: document.querySelector('input[name="bannerHalf"]:checked').value,
+            applyPacing: document.getElementById('applyPacing').checked
         };
         if (type === 'character') {
             const goal = parseInt(document.getElementById('charConst').value);
@@ -671,7 +682,8 @@ let priorityPipeline = [];
             let income = baseWishes;
             for (let i = 0; i < item.targetPatch; i++) { income += getPatchIncome(i); }
             const patchIncome = getPatchIncome(item.targetPatch);
-            income += item.bannerHalf === 'first' ? Math.floor(patchIncome * 0.65) : patchIncome;
+            const usesPacing = item.bannerHalf === 'first' && item.applyPacing !== false;
+            income += usesPacing ? Math.floor(patchIncome * 0.65) : patchIncome;
             return income;
         }
 
@@ -727,7 +739,7 @@ let priorityPipeline = [];
                 const loses = losePattern[idx] || 0;
                 const label = item.type === 'character' ? item.constellation : 'R' + (item.refinement || 1);
                 const patchLabel = item.targetPatch === 0 ? 'This Patch' : item.targetPatch === 1 ? 'Next Patch' : `+${item.targetPatch} Patches`;
-                const halfLabel = item.bannerHalf === 'first' ? '1st Half' : '2nd Half';
+                const halfLabel = item.bannerHalf === 'first' ? (item.applyPacing !== false ? '1st Half' : '1st Half, Instant') : '2nd Half';
                 const timing = `${patchLabel} · ${halfLabel}`;
 
                 if (skipRemaining) {

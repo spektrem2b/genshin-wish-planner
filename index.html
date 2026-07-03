@@ -200,13 +200,17 @@
             <div class="radio-group">
                 <div class="radio-btn">
                     <input type="radio" id="halfFirst" name="bannerHalf" value="first" checked="">
-                    <label for="halfFirst" class="radio-label">First Half (65%)</label>
+                    <label for="halfFirst" class="radio-label">First Half</label>
                 </div>
                 <div class="radio-btn">
                     <input type="radio" id="halfSecond" name="bannerHalf" value="second">
-                    <label for="halfSecond" class="radio-label">Second Half (100%)</label>
+                    <label for="halfSecond" class="radio-label">Second Half</label>
                 </div>
             </div>
+            <label class="checkbox-label" id="pacingCheckboxWrap" style="margin-top:13.2px;">
+                <input type="checkbox" id="applyPacing" checked="">
+                Apply first-half pacing (65%) <span style="color: var(--text-muted); font-weight:400;">— uncheck if you're topping up on demand instead of waiting on drip income</span>
+            </label>
             <div class="explanation" id="timelineExplanation">Allocating base wishes + 65% of banner patch.</div>
         </div>
 
