@@ -2,11 +2,12 @@ name: Update Genshin data
 
 on:
   schedule:
-    # Every 3 days at 04:17 UTC. Off-the-hour on purpose to avoid piling
-    # onto everyone else's :00 cron jobs. Only pulls the full character
-    # and weapon lists from Project Ambr, and new content doesn't land
-    # more than roughly every 6 weeks, so this is plenty responsive.
-    - cron: "17 4 */3 * *"
+    # Daily, off-the-hour on purpose to avoid piling onto everyone
+    # else's :00 cron jobs. Cheap most days: update_data.py checks
+    # Ambr's own data version first and skips the whole pipeline
+    # (including the per-character detail pull) unless it actually
+    # changed since last run.
+    - cron: "43 3 * * *"
   workflow_dispatch: {}   # lets you trigger it manually from the Actions tab
 
 permissions:
@@ -34,10 +35,10 @@ jobs:
         run: |
           git config user.name "genshin-data-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add assets/data/characters.js assets/data/weapons.js
+          git add assets/data/characters.js assets/data/weapons.js assets/data/character-profiles/ scripts/.ambr-version
           if git diff --cached --quiet; then
             echo "No data changes, skipping commit."
           else
-            git commit -m "chore: sync characters/weapons from Project Ambr"
+            git commit -m "chore: sync characters/weapons/profiles from Project Ambr"
             git push
           fi

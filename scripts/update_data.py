@@ -1,11 +1,17 @@
 """
-Regenerates assets/data/characters.js and assets/data/weapons.js from
-Project Ambr (via the ambr-py wrapper), in the exact format the wish
-tracker site expects.
+Regenerates assets/data/characters.js, assets/data/weapons.js, and
+assets/data/character-profiles.js from Project Ambr (via ambr-py), in
+the format the wish tracker + Build tab expect.
 
-This is meant to be run by the GitHub Actions workflow
-(.github/workflows/update-data.yml) — not manually. If you ever do want
-to run it locally: `pip install ambr-py` then `python scripts/update_data.py`.
+Gated on Ambr's own data version: fetch_latest_version() is checked
+first, and the whole pipeline (including the expensive per-character
+detail pull) is skipped entirely unless that hash has actually changed
+since the last successful run. Most days this script does one cheap
+API call and exits.
+
+Meant to be run by the GitHub Actions workflow
+(.github/workflows/update-data.yml) — not manually. To run locally:
+`pip install ambr-py` then `python scripts/update_data.py`.
 """
 
 import asyncio
@@ -13,7 +19,10 @@ import json
 import os
 
 import ambr
-                                                                             
+
+VERSION_FILE = os.path.join(os.path.dirname(__file__), ".ambr-version")
+DETAIL_FETCH_DELAY = 0.4  # seconds between per-character detail calls
+
 ELEMENT_MAP = {
     "Wind": "Anemo",
     "Rock": "Geo",
@@ -31,13 +40,16 @@ ELEMENT_MAP = {
     "Cryo": "Cryo",
 }
 
+
 def normalize_element(raw):
     if not raw:
         return None
     return ELEMENT_MAP.get(raw, raw)
 
+
 def js_value(value):
     return json.dumps(value, ensure_ascii=False)
+
 
 CHARACTERS_JS_FOOTER = """
 function getGenshinCharacter(name, rarity = 5) {
@@ -53,6 +65,7 @@ function searchGenshinCharacters(query, rarity = 5) {
 
 function makeCustomCharacter(name, rarity = 5) {
     return {
+        id: null,
         name: name,
         rarity: rarity,
         element: null,
@@ -85,8 +98,20 @@ function makeCustomWeapon(name, rarity = 5) {
 }
 """
 
+CHARACTER_PROFILES_JS_FOOTER = """
+function getCharacterProfile(id) {
+    return GENSHIN_CHARACTER_PROFILES.find(p => p.id === id) || null;
+}
+
+function getCharacterProfileByName(name) {
+    return GENSHIN_CHARACTER_PROFILES.find(p => p.name.toLowerCase() === name.toLowerCase()) || null;
+}
+"""
+
+
 def build_character_entry(c):
     return {
+        "id": c.id,
         "name": c.name,
         "rarity": c.rarity,
         "element": normalize_element(c.element.value if getattr(c, "element", None) else None),
@@ -94,14 +119,212 @@ def build_character_entry(c):
         "isCustom": False,
     }
 
+
 def build_weapon_entry(w):
     return {
         "name": w.name,
         "rarity": w.rarity,
-        "weaponType": None,                                        
+        "weaponType": None,
         "icon": getattr(w, "icon", None),
         "isCustom": False,
     }
+
+
+# --- Character profile (Build tab) helpers -------------------------------
+
+def build_material_lookup(materials):
+    lookup = {}
+    for m in materials:
+        d = m.model_dump()
+        lookup[d["id"]] = {
+            "name": d.get("name"),
+            "icon": d.get("icon"),
+            "rarity": d.get("rarity"),
+        }
+    return lookup
+
+
+def categorize_material(mat_id):
+    """
+    Buckets an ascension material id by Ambr's numeric id-prefix scheme.
+    Verified against two real character samples (Sandrone, Aino); if a
+    future character's materials don't fit cleanly, they'll still land
+    in ascensionMaterials (the full flat list is always kept as a
+    fallback/superset), just possibly uncategorized in the split lists.
+    """
+    if mat_id == 104319:
+        return "talentBooks"  # Crown of Insight
+    if 101000 <= mat_id < 102000:
+        return "localSpecialty"
+    if 104100 <= mat_id < 104200:
+        return "ascensionGems"
+    if 104300 <= mat_id < 104400:
+        return "talentBooks"
+    if 112000 <= mat_id < 114000:
+        return "enemyDrops"
+    return None
+
+
+def resolve_cost_items(cost_items, material_lookup, qty_key):
+    if not cost_items:
+        return []
+    resolved = []
+    for item in cost_items:
+        mat_id = item.get("id")
+        info = material_lookup.get(mat_id, {})
+        resolved.append({
+            "id": mat_id,
+            "name": info.get("name"),
+            "icon": info.get("icon"),
+            "rarity": info.get("rarity"),
+            "qty": item.get(qty_key),
+        })
+    return resolved
+
+
+def trim_character_profile(raw, material_lookup):
+    active_talents = []
+    passive_talents = []
+    for t in raw.get("talents", []):
+        entry = {
+            "name": t.get("name"),
+            "description": t.get("description"),
+            "icon": t.get("icon"),
+        }
+        if t.get("upgrades"):
+            # Cost only — level, Mora, resolved material quantities.
+            # Deliberately excludes each upgrade's damage-scaling
+            # description/params, which is where the multi-thousand-line
+            # bloat came from originally.
+            entry["levelCosts"] = [
+                {
+                    "level": u.get("level"),
+                    "moraCost": u.get("mora_cost"),
+                    "items": resolve_cost_items(u.get("cost_items"), material_lookup, "amount"),
+                }
+                for u in t["upgrades"]
+            ]
+            active_talents.append(entry)
+        else:
+            passive_talents.append(entry)
+
+    constellations = [
+        {
+            "name": c.get("name"),
+            "description": c.get("description"),
+            "icon": c.get("icon"),
+        }
+        for c in raw.get("constellations", [])
+    ]
+
+    ascension_materials = []
+    buckets = {"ascensionGems": [], "localSpecialty": [], "talentBooks": [], "enemyDrops": []}
+
+    for m in raw.get("ascension_materials", []):
+        mat_id = m.get("id")
+        resolved = material_lookup.get(mat_id, {})
+        entry = {
+            "id": mat_id,
+            "name": resolved.get("name"),
+            "icon": resolved.get("icon"),
+            "rarity": m.get("rarity"),
+        }
+        ascension_materials.append(entry)
+
+        bucket = categorize_material(mat_id)
+        if bucket:
+            buckets[bucket].append(entry)
+
+    # Per-ascension-phase Mora + material quantities (0 = base, 1-6 =
+    # each ascension). This is the actual cost table — separate from
+    # ascensionMaterials above, which only lists unique item *types*
+    # with no quantities.
+    promotes = []
+    for p in raw.get("upgrade", {}).get("promotes", []):
+        promotes.append({
+            "promoteLevel": p.get("promote_level"),
+            "unlockMaxLevel": p.get("unlock_max_level"),
+            "moraCost": p.get("coin_cost"),
+            "requiredPlayerLevel": p.get("required_player_level"),
+            "items": resolve_cost_items(p.get("cost_items"), material_lookup, "count"),
+        })
+
+    return {
+        "id": raw.get("id"),
+        "name": raw.get("name"),
+        "rarity": raw.get("rarity"),
+        "element": raw.get("element"),
+        "weapon_type": raw.get("weapon_type"),
+        "icon": raw.get("icon"),
+        "activeTalents": active_talents,
+        "passiveTalents": passive_talents,
+        "constellations": constellations,
+        "ascensionMaterials": ascension_materials,
+        "ascensionGems": buckets["ascensionGems"],
+        "localSpecialty": buckets["localSpecialty"],
+        "talentBooks": buckets["talentBooks"],
+        "enemyDrops": buckets["enemyDrops"],
+        "promotes": promotes,
+    }
+
+
+async def fetch_all_character_profiles(client, characters, material_lookup):
+    profiles = []
+    total = len(characters)
+    for i, c in enumerate(characters, 1):
+        char_id = c.id
+        try:
+            detail = await client.fetch_character_detail(char_id)
+            profiles.append(trim_character_profile(detail.model_dump(), material_lookup))
+            print(f"  [{i}/{total}] OK: {c.name}")
+        except Exception as e:
+            print(f"  [{i}/{total}] FAILED: {c.name} ({char_id}) - {e}")
+        await asyncio.sleep(DETAIL_FETCH_DELAY)
+    return profiles
+
+
+def write_character_profiles(profiles_dir, entries):
+    """
+    Writes one small JSON file per character (keyed by id, stable across
+    renames) instead of one giant blob. This keeps git diffs to just the
+    characters that actually changed on patch day, and lets the Build
+    tab fetch only the specific character it needs instead of loading
+    the entire roster's profile data upfront.
+
+    Also writes a lightweight index.js (id/name/rarity/element/icon
+    only) for the autocomplete search, so that doesn't need to load
+    every full profile either.
+    """
+    os.makedirs(profiles_dir, exist_ok=True)
+
+    # Remove stale per-character files from a previous run (e.g. a
+    # character that got merged/renamed) so the folder doesn't
+    # accumulate orphans over time.
+    existing_ids = {f"{e['id']}.json" for e in entries}
+    for fname in os.listdir(profiles_dir):
+        if fname.endswith(".json") and fname not in existing_ids:
+            os.remove(os.path.join(profiles_dir, fname))
+
+    index = []
+    for e in entries:
+        char_path = os.path.join(profiles_dir, f"{e['id']}.json")
+        with open(char_path, "w", encoding="utf-8") as f:
+            json.dump(e, f, ensure_ascii=False, indent=2)
+
+        index.append({
+            "id": e["id"],
+            "name": e["name"],
+            "rarity": e["rarity"],
+            "element": e["element"],
+            "icon": e.get("icon"),
+        })
+
+    index_path = os.path.join(profiles_dir, "index.js")
+    with open(index_path, "w", encoding="utf-8") as f:
+        f.write(f"const GENSHIN_CHARACTER_PROFILE_INDEX = {js_value(index)};\n")
+
+    return index_path
+
 
 def write_js_db(path, var_name, entries, footer):
     lines = [f"const {var_name} = ["]
@@ -119,9 +342,32 @@ def write_js_db(path, var_name, entries, footer):
     with open(path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
 
+
+def read_stored_version():
+    if not os.path.exists(VERSION_FILE):
+        return None
+    with open(VERSION_FILE, "r", encoding="utf-8") as f:
+        return f.read().strip()
+
+
+def write_stored_version(version):
+    with open(VERSION_FILE, "w", encoding="utf-8") as f:
+        f.write(version)
+
+
 async def main():
     async with ambr.AmbrAPI() as client:
-        print("Fetching data from Project Ambr...")
+        print("Checking Ambr data version...")
+        latest_version = await client.fetch_latest_version()
+        stored_version = read_stored_version()
+
+        if stored_version == latest_version:
+            print(f"No change (version {latest_version}). Skipping update.")
+            return
+
+        print(f"Version changed: {stored_version!r} -> {latest_version!r}. Running full sync...")
+
+        print("Fetching characters and weapons...")
         characters = await client.fetch_characters()
         weapons = await client.fetch_weapons()
         print(f"Characters fetched: {len(characters)}")
@@ -144,16 +390,34 @@ async def main():
             if not e["icon"]:
                 print(f"  ! No icon found for {e['name']}")
 
-        out_dir = os.path.join(os.getcwd(), "assets", "data")
+        print("Fetching materials catalog (lookup only, not shipped)...")
+        materials = await client.fetch_materials()
+        material_lookup = build_material_lookup(materials)
+        print(f"Loaded {len(material_lookup)} materials into lookup table")
+
+        print(f"Fetching character detail profiles (sequential, {DETAIL_FETCH_DELAY}s between calls)...")
+        profile_entries = await fetch_all_character_profiles(client, characters, material_lookup)
+        profile_entries.sort(key=lambda e: (e["name"] or "").lower())
+
+        project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        out_dir = os.path.join(project_root, "assets", "data")
         char_path = os.path.join(out_dir, "characters.js")
         weapon_path = os.path.join(out_dir, "weapons.js")
+        profiles_dir = os.path.join(out_dir, "character-profiles")
 
         write_js_db(char_path, "GENSHIN_CHARACTER_DB", char_entries, CHARACTERS_JS_FOOTER)
         write_js_db(weapon_path, "GENSHIN_WEAPON_DB", weapon_entries, WEAPONS_JS_FOOTER)
+        index_path = write_character_profiles(profiles_dir, profile_entries)
+
+        write_stored_version(latest_version)
 
         print("Saved:")
         print(char_path)
         print(weapon_path)
+        print(f"{profiles_dir}\\ ({len(profile_entries)} files)")
+        print(index_path)
+        print(VERSION_FILE)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
