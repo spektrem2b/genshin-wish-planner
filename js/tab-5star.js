@@ -759,6 +759,8 @@ let priorityPipeline = [];
                     rows.push({ type: loses > 0 ? 'lose-win' : 'win', itemType: item.type, name: item.name, icon: item.icon, element: item.element, label, timing, strategy: item.strategy, loses, rawCost, cost, sgRefund, remaining });
                 } else {
                     if (item.strategy === 'Hard Lock') {
+                        // Must-have target that can't be afforded — this really is a
+                        // failure. Record the deficit and fail the scenario.
                         totalSpent += cost;
                         failed = true;
                         const deficit = incomeCeiling - totalSpent;
@@ -767,7 +769,8 @@ let priorityPipeline = [];
                         rows.push({ type: 'skip', itemType: item.type, name: item.name, icon: item.icon, element: item.element, label, timing, strategy: item.strategy, reason: 'Not enough wishes — One Shot skipped', remaining: Math.max(0, currentPool) });
                         skipRemaining = true;
                     } else {
-                        rows.push({ type: 'skip', itemType: item.type, name: item.name, icon: item.icon, element: item.element, label, timing, strategy: item.strategy, reason: 'Not enough wishes — skipped', remaining: Math.max(0, currentPool) });
+                        // Optional target — by design, dropping it isn't a failure.
+                        rows.push({ type: 'skip', itemType: item.type, name: item.name, icon: item.icon, element: item.element, label, timing, strategy: item.strategy, reason: 'Not enough wishes — skipped (Optional)', remaining: Math.max(0, currentPool) });
                     }
                 }
             });
@@ -843,40 +846,63 @@ let priorityPipeline = [];
         if (ne >= 2) {
             const p = new Array(ne).fill(0);
             p[0] = enabledPipeline[0].type === 'weapon' ? 1 : 1;
-            okScenarios.push({ title: '🟡 OK-A — first target loses once, rest win', pattern: p });
+            okScenarios.push({ title: '🟡 OK-A — first target loses once, rest win', short: 'OK-A', pattern: p });
         }
 
         if (ne >= 2) {
             const p = new Array(ne).fill(0);
             p[ne - 1] = 1;
-            okScenarios.push({ title: '🟡 OK-B — last target loses once, rest win', pattern: p });
+            okScenarios.push({ title: '🟡 OK-B — last target loses once, rest win', short: 'OK-B', pattern: p });
         }
 
         if (ne >= 3) {
             const p = enabledPipeline.map((_, i) => i % 2 === 1 ? 1 : 0);
-            okScenarios.push({ title: '🟡 OK-C — alternating (every other loses once)', pattern: p });
+            okScenarios.push({ title: '🟡 OK-C — alternating (every other loses once)', short: 'OK-C', pattern: p });
         }
 
         const hasWeapon = enabledPipeline.some(item => item.type === 'weapon');
         if (hasWeapon && ne >= 2) {
             const p = enabledPipeline.map(item => item.type === 'weapon' ? 1 : 0);
-            okScenarios.push({ title: '🟠 OK-D — weapon(s) hit fate point (lose→guaranteed), chars win', pattern: p });
+            okScenarios.push({ title: '🟠 OK-D — weapon(s) hit fate point (lose→guaranteed), chars win', short: 'OK-D', pattern: p });
         }
 
         const allScenarios = [
-            { title: '🟢 BEST — everyone wins (55/45 chars, 75/25 weapons)', pattern: bestPattern },
+            { title: '🟢 BEST — everyone wins (55/45 chars, 75/25 weapons)', short: 'Best', pattern: bestPattern },
+            { title: '🔴 WORST — everyone loses (55/45 chars, 75/25 weapons)', short: 'Worst', pattern: worstPattern },
             ...okScenarios,
-            { title: '🔴 WORST — everyone loses (55/45 chars, 75/25 weapons)', pattern: worstPattern },
         ];
 
-        allScenarios.forEach(scen => {
+        // Run every scenario once, keep both the detail rows and a compact summary.
+        const results = allScenarios.map(scen => {
             const { rows, failed } = runScenario(scen.pattern);
-            const rowsHtml = rows.map(renderRow).join('');
-            const summaryClass = failed ? 'sum-fail' : 'sum-ok';
-            const summaryText = failed ? '❌ Requires more wishes' : '✅ Plan is viable';
+            let net = 0;
+            if (failed) {
+                // Use the LAST deficit row: the sim keeps running after a Hard Lock
+                // comes up short, so later items can look "fine" again even though
+                // the plan already failed. The last deficit is the true final shortfall.
+                for (let i = rows.length - 1; i >= 0; i--) {
+                    if (rows[i].type === 'deficit') { net = rows[i].deficit; break; }
+                }
+            } else {
+                for (let i = rows.length - 1; i >= 0; i--) {
+                    if (rows[i].remaining != null) { net = rows[i].remaining; break; }
+                }
+            }
+            return { ...scen, rows, failed, net };
+        });
+
+        const odds = computeScenarioOdds(enabledPipeline);
+
+        outputSpace.innerHTML += renderScenarioSummary(results, enabledPipeline, odds);
+
+        outputSpace.innerHTML += '<div class="scenario-grid">';
+        results.forEach(res => {
+            const rowsHtml = res.rows.map(renderRow).join('');
+            const summaryClass = res.failed ? 'sum-fail' : 'sum-ok';
+            const summaryText = res.failed ? '❌ Requires more wishes' : '✅ Plan is viable';
             outputSpace.innerHTML += `
                 <div class="scenario-block">
-                    <h4 class="scenario-title">${scen.title}</h4>
+                    <h4 class="scenario-title">${res.title}</h4>
                     <div class="scenario-log">
                         ${rowsHtml}
                         <div class="log-summary ${summaryClass}">${summaryText}</div>
@@ -884,6 +910,127 @@ let priorityPipeline = [];
                 </div>
             `;
         });
+        outputSpace.innerHTML += '</div>';
+    }
+
+    // Real per-target win probability the rest of the tool already assumes:
+    // characters resolve their 50/50 (or lose→guaranteed) at 55/45, weapons'
+    // Epitomized Path resolves at 75/25. This is the same constant already
+    // shown in the scenario labels ("Won 55/45", "Lost 75/25" etc).
+    function itemWinProb(item) {
+        return item.type === 'weapon' ? 0.75 : 0.55;
+    }
+
+    // Best  = probability of the single "everyone wins clean" branch.
+    // Worst = probability of the single "everyone loses their 50/50" branch.
+    // Mixed = everything in between (some win, some lose) — the detailed
+    // combinations of that live in the OK-A/B/C/D scenario cards and table
+    // below, so this stat just needs to say how likely "some mix" is overall.
+    function computeScenarioOdds(enabledPipeline) {
+        const ne = enabledPipeline.length;
+        if (ne === 0) return { bestPct: 100, mixedPct: 0, worstPct: 0 };
+
+        let best = 1, worst = 1;
+        enabledPipeline.forEach(item => {
+            const p = itemWinProb(item);
+            best *= p;
+            worst *= (1 - p);
+        });
+        const mixed = Math.max(0, 1 - best - worst);
+        return { bestPct: best * 100, mixedPct: mixed * 100, worstPct: worst * 100 };
+    }
+
+    function formatChance(pct, showOneIn) {
+        if (pct <= 0) return '0%';
+        if (pct >= 99.995) return '100%';
+        const str = pct >= 10 ? pct.toFixed(1) : pct.toFixed(2);
+        // "1 in N" only reads naturally for rare-ish events — above that it's
+        // just a confusing way to say "roughly half" or "roughly a third".
+        if (!showOneIn || pct >= 20) return `${str}%`;
+        const oneIn = Math.round(100 / pct);
+        return oneIn > 1 ? `${str}% (1 in ${oneIn})` : `${str}%`;
+    }
+
+    function renderScenarioSummary(results, enabledPipeline, odds) {
+        const best = results.reduce((a, b) => (b.net > a.net ? b : a), results[0]);
+        const worst = results.reduce((a, b) => (b.net < a.net ? b : a), results[0]);
+
+        const bestLabel = best.net >= 0 ? `${best.net} wishes left` : `${Math.abs(best.net)} wishes short`;
+        const worstLabel = worst.net >= 0 ? `${worst.net} wishes left` : `${Math.abs(worst.net)} wishes short`;
+
+        const dotClass = { 'Best': 'scen-dot-best', 'Worst': 'scen-dot-worst' };
+
+        const headerCells = enabledPipeline.map(item => {
+            const label = item.type === 'character' ? item.constellation : 'R' + (item.refinement || 1);
+            return `<th class="scen-item-cell">${item.name} <span class="scen-item-sub">${label}</span></th>`;
+        }).join('');
+
+        const bodyRows = results.map(r => {
+            const dot = dotClass[r.short] || (r.short.startsWith('OK') ? (r.short === 'OK-D' ? 'scen-dot-okd' : 'scen-dot-ok') : 'scen-dot-ok');
+            const itemCells = enabledPipeline.map((item, idx) => {
+                const row = r.rows[idx];
+                if (!row || row.type === 'skip') {
+                    return `<td class="scen-item-cell"><span class="scen-item-mark scen-item-na">—</span></td>`;
+                }
+                if (row.type === 'deficit') {
+                    return `<td class="scen-item-cell"><span class="scen-item-mark scen-item-short">⛔ Short</span></td>`;
+                }
+                const lost = row.loses > 0;
+                return `<td class="scen-item-cell">
+                    <span class="scen-item-mark ${lost ? 'scen-item-lose' : 'scen-item-win'}">${lost ? '❌' : '✅'} ${lost ? 'Lose' : 'Win'}</span>
+                </td>`;
+            }).join('');
+            const resultText = r.failed ? `${Math.abs(r.net)} wishes short` : `${r.net} wishes left`;
+            const resultClass = r.failed ? 'scen-result-fail' : 'scen-result-ok';
+            return `
+                <tr>
+                    <td class="scen-name-cell"><span class="scen-dot ${dot}"></span>${r.short}</td>
+                    ${itemCells}
+                    <td class="scen-result-cell ${resultClass}">${resultText}</td>
+                </tr>
+            `;
+        }).join('');
+
+        return `
+            <div class="scenario-summary-card">
+                <div class="scen-sum-stats">
+                    <div class="scen-sum-stat">
+                        <span class="scen-sum-stat-label">🟢 Best Case</span>
+                        <span class="scen-sum-stat-val" style="color:var(--success)">${formatChance(odds.bestPct, true)}</span>
+                    </div>
+                    <div class="scen-sum-stat">
+                        <span class="scen-sum-stat-label">🟡 Mixed Outcomes</span>
+                        <span class="scen-sum-stat-val" style="color:var(--warning, #d9a441)">${formatChance(odds.mixedPct, false)}</span>
+                    </div>
+                    <div class="scen-sum-stat">
+                        <span class="scen-sum-stat-label">🔴 Worst Case</span>
+                        <span class="scen-sum-stat-val" style="color:var(--danger)">${formatChance(odds.worstPct, true)}</span>
+                    </div>
+                    <div class="scen-sum-stat">
+                        <span class="scen-sum-stat-label">Best Outcome</span>
+                        <span class="scen-sum-stat-val" style="color:${best.net >= 0 ? 'var(--success)' : 'var(--danger)'}">${bestLabel}</span>
+                    </div>
+                    <div class="scen-sum-stat">
+                        <span class="scen-sum-stat-label">Worst Outcome</span>
+                        <span class="scen-sum-stat-val" style="color:${worst.net >= 0 ? 'var(--success)' : 'var(--danger)'}">${worstLabel}</span>
+                    </div>
+                </div>
+                <div class="scen-sum-divider"></div>
+                <div class="scen-sum-title">Scenario Summary</div>
+                <div class="scen-sum-table-wrap">
+                    <table class="scen-sum-table-full">
+                        <thead>
+                            <tr>
+                                <th class="scen-name-cell">Scenario</th>
+                                ${headerCells}
+                                <th class="scen-result-cell">Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>${bodyRows}</tbody>
+                    </table>
+                </div>
+            </div>
+        `;
     }
 
     const SAVE_KEY = 'genshin_planner_v1';

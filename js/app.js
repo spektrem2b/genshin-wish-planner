@@ -18,8 +18,7 @@ function setActiveRarityTab(tab) {
     const btnBuild = document.getElementById('tabBuildBtn');
     const btnOther = document.getElementById('tabOtherBtn');
     [[btn5, is5], [btn4, is4], [btnOdds, isOdds], [btnBuild, isBuild], [btnOther, isOther]].forEach(([btn, active]) => {
-        btn.style.background = active ? 'linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark))' : 'transparent';
-        btn.style.color = active ? 'white' : 'var(--text-muted)';
+        btn.classList.toggle('active', active);
     });
 
     if (isOdds && typeof activateOddsTab === 'function') activateOddsTab();

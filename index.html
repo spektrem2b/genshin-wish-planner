@@ -19,16 +19,32 @@
 </head>
 <body>
 
-<div class="container">
-    <h1>Genshin Wish Planner</h1>
+<div class="app-shell">
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h1>Genshin<br>Wish Planner</h1>
+        </div>
+        <div class="sidebar-nav">
+            <button type="button" id="tab5starBtn" class="nav-link active">
+                <span class="nav-link-icon">✦</span>5★ Planner
+            </button>
+            <button type="button" id="tab4starBtn" class="nav-link">
+                <span class="nav-link-icon">✦</span>4★ Planner
+            </button>
+            <button type="button" id="tabOddsBtn" class="nav-link">
+                <span class="nav-link-icon">🎲</span>Simulator
+            </button>
+            <button type="button" id="tabBuildBtn" class="nav-link">
+                <span class="nav-link-icon">🛠</span>Build
+            </button>
+            <button type="button" id="tabOtherBtn" class="nav-link">
+                <span class="nav-link-icon">⋯</span>Other
+            </button>
+        </div>
+    </nav>
 
-    <div class="rarity-tabs" style="display:flex; gap:10px; justify-content:center; margin: 0 0 24px;">
-        <button type="button" id="tab5starBtn" class="rarity-tab-btn active" style="flex:1; max-width:220px; padding:12px 20px; border-radius:10px; border:1px solid var(--border-color); background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark)); color:white; font-weight:600; cursor:pointer;">5★ Planner</button>
-        <button type="button" id="tab4starBtn" class="rarity-tab-btn" style="flex:1; max-width:220px; padding:12px 20px; border-radius:10px; border:1px solid var(--border-color); background:transparent; color:var(--text-muted); font-weight:600; cursor:pointer;">4★ Planner</button>
-        <button type="button" id="tabOddsBtn" class="rarity-tab-btn" style="flex:1; max-width:220px; padding:12px 20px; border-radius:10px; border:1px solid var(--border-color); background:transparent; color:var(--text-muted); font-weight:600; cursor:pointer;">Wish Simulator</button>
-        <button type="button" id="tabBuildBtn" class="rarity-tab-btn" style="flex:1; max-width:220px; padding:12px 20px; border-radius:10px; border:1px solid var(--border-color); background:transparent; color:var(--text-muted); font-weight:600; cursor:pointer;">Build</button>
-        <button type="button" id="tabOtherBtn" class="rarity-tab-btn" style="flex:1; max-width:220px; padding:12px 20px; border-radius:10px; border:1px solid var(--border-color); background:transparent; color:var(--text-muted); font-weight:600; cursor:pointer;">Other</button>
-    </div>
+    <main class="main-content">
+    <div class="container">
 
     <div id="failsafeBanner" class="failsafe-banner hidden"></div>
 
@@ -461,6 +477,9 @@
             <div id="codesPanel"></div>
         </div>
     </div>
+
+    </div>
+    </main>
 </div>
 
 <script src="assets/data/characters.js?v=2153099"></script>

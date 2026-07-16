@@ -18,6 +18,8 @@
             --danger: #ff4d5a;
         }
 
+        html, body { height: 100%; }
+
         body { 
             font-family: system-ui, -apple-system, sans-serif; 
             background: var(--bg-color);
@@ -25,14 +27,99 @@
             background-attachment: fixed;
             color: var(--text-main); 
             margin: 0; 
-            padding: 24px 22px; 
-            display: flex; 
-            justify-content: center; 
             line-height: 1.6; 
         }
-        
-        .container { width: 100%; max-width: 748px; }
-        
+
+        /* ---------- Desktop app shell: sidebar + main content ---------- */
+
+        .app-shell {
+            display: flex;
+            align-items: stretch;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            flex: 0 0 260px;
+            width: 260px;
+            position: sticky;
+            top: 0;
+            align-self: flex-start;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 28px 20px;
+            box-sizing: border-box;
+            border-right: 1px solid var(--border-color);
+            background: rgba(12, 11, 26, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .sidebar-header h1 {
+            text-align: left;
+            font-size: 1.4rem;
+            line-height: 1.25;
+            margin: 6px 4px;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            text-align: left;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.98rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .nav-link-icon { opacity: 0.85; width: 1.1em; text-align: center; }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-purple-dark));
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 4px 15px rgba(162, 85, 255, 0.3);
+        }
+
+        .main-content {
+            flex: 1 1 auto;
+            min-width: 0;
+            width: 100%;
+            padding: 36px 40px 60px 64px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* Each "page" (the tab content wrappers) defines its own max-width and
+           is centered by the flex parent above. .container is kept as a generic
+           page-width default so existing markup/JS needs no changes. */
+        .container {
+            width: 100%;
+            max-width: min(1500px, calc(100% - 16px));
+        }
+
         h1 { 
             text-align: center; 
             font-weight: 800; 
@@ -42,6 +129,36 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0px 4px 20px rgba(162, 85, 255, 0.2);
+        }
+
+        @media (max-width: 880px) {
+            .app-shell { flex-direction: column; }
+
+            .sidebar {
+                position: static;
+                width: auto;
+                height: auto;
+                flex-direction: row;
+                align-items: center;
+                flex-wrap: wrap;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding: 16px 18px;
+                gap: 14px;
+            }
+
+            .sidebar-header h1 { font-size: 1.15rem; margin: 0; }
+            .sidebar-header h1 br { display: none; }
+
+            .sidebar-nav {
+                flex-direction: row;
+                flex-wrap: wrap;
+                flex: 1;
+            }
+
+            .nav-link { flex: 1 1 auto; justify-content: center; padding: 10px 12px; }
+
+            .main-content { padding: 20px 16px 40px; }
         }
 
         .section-card { 
@@ -566,6 +683,7 @@
             padding: 20px 22px; 
             border-radius: 15px; 
             margin-bottom: 15px; 
+            max-width: 760px;
             cursor: grab; 
             transition: all 0.2s ease;
         }
@@ -756,12 +874,23 @@
 
 
         
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 17.6px;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .scenario-grid { grid-template-columns: 1fr; }
+        }
+
         .scenario-block { 
             background: var(--input-bg); 
             border-radius: 17.6px; 
-            padding: 26.4px; 
-            margin-bottom: 17.6px; 
+            padding: 22px; 
             border: 1px solid var(--border-color); 
+            min-width: 0;
             transition: transform 0.2s;
         }
         
@@ -771,14 +900,19 @@
         .scenario-log { display: flex; flex-direction: column; gap: 8.8px; }
 
         .log-row {
-            display: grid;
-            grid-template-columns: auto 1fr auto auto;
+            display: flex;
+            flex-wrap: wrap;
             align-items: center;
-            gap: 13.2px;
+            gap: 6px 13.2px;
             padding: 11px 15.4px;
             border-radius: 11px;
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .log-row > div:nth-child(2) {
+            flex: 1 1 140px;
+            min-width: 0;
         }
 
         .log-row.row-win { border-left: 3px solid var(--success); }
@@ -794,7 +928,7 @@
         .log-outcome.oc-deficit { color: var(--danger); }
         .log-outcome.oc-skip { color: var(--text-muted); }
 
-        .log-right { text-align: right; }
+        .log-right { text-align: right; margin-left: auto; }
         .log-pulls { font-size: 0.99rem; color: var(--text-main); font-weight: 600; white-space: nowrap; }
         .log-sg { font-size: 0.825rem; color: var(--accent-gold); margin-top: 2px; white-space: nowrap; opacity: 0.85; }
         .log-remaining { font-size: 0.88rem; margin-top: 2px; white-space: nowrap; }
@@ -811,6 +945,93 @@
         .log-summary.sum-ok { color: var(--success); }
         .log-summary.sum-fail { color: var(--danger); }
         
+        .scenario-summary-card {
+            background: var(--input-bg);
+            border-radius: 17.6px;
+            padding: 22px 26.4px;
+            margin-bottom: 22px;
+            border: 1px solid var(--border-color);
+        }
+
+        .scen-sum-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px 32px;
+        }
+
+        .scen-sum-stat {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            flex: 1 1 auto;
+            white-space: nowrap;
+        }
+
+        .scen-sum-stat-label { font-size: 0.88rem; color: var(--text-muted); font-weight: 500; }
+        .scen-sum-stat-val { font-size: 1.1rem; font-weight: 700; color: var(--text-main); }
+
+        .scen-sum-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 18px 0 14px;
+        }
+
+        .scen-sum-title { font-weight: 700; font-size: 0.99rem; color: var(--text-main); margin-bottom: 11px; }
+
+        .scen-sum-table-wrap { overflow-x: auto; }
+
+        .scen-sum-table-full { border-collapse: collapse; width: 100%; min-width: 560px; }
+
+        .scen-sum-table-full thead th {
+            text-align: left;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            padding: 0 10px 9px;
+            white-space: nowrap;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .scen-name-cell {
+            padding: 10px 10px;
+            white-space: nowrap;
+            font-weight: 600;
+            font-size: 0.935rem;
+            color: var(--text-main);
+        }
+
+        .scen-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
+        .scen-dot-best { background: var(--success); }
+        .scen-dot-ok { background: var(--warning); }
+        .scen-dot-okd { background: #ff9838; }
+        .scen-dot-worst { background: var(--danger); }
+
+        .scen-item-cell {
+            padding: 10px 10px;
+            white-space: nowrap;
+            font-size: 0.85rem;
+        }
+        .scen-item-sub { color: var(--text-muted); font-weight: 400; font-size: 0.78rem; }
+
+        .scen-item-mark { display: inline-flex; align-items: center; gap: 5px; font-weight: 600; }
+        .scen-item-mark.scen-item-win { color: var(--success); }
+        .scen-item-mark.scen-item-lose { color: var(--danger); }
+        .scen-item-mark.scen-item-short { color: var(--danger); font-weight: 700; }
+        .scen-item-mark.scen-item-na { color: var(--text-muted); font-weight: 400; }
+
+        .scen-sum-table-full tbody tr { border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .scen-sum-table-full tbody tr:last-child { border-bottom: none; }
+
+        .scen-result-cell {
+            padding: 10px 10px;
+            white-space: nowrap;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-align: right;
+        }
+        .scen-result-cell.scen-result-ok { color: var(--success); }
+        .scen-result-cell.scen-result-fail { color: var(--danger); }
+
         .failsafe-banner { background: rgba(255, 194, 51, 0.1); border: 1px solid var(--warning); color: var(--warning); padding: 15.4px; border-radius: 13.2px; margin-bottom: 26.4px; font-size: 0.99rem; font-weight: 500; text-align: center; }
         
         .custom-patch-row { display: flex; align-items: center; margin-bottom: 13.2px; gap: 17.6px; }
