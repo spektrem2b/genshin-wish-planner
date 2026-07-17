@@ -39,14 +39,14 @@
         }
 
         .sidebar {
-            flex: 0 0 260px;
-            width: 260px;
+            flex: 0 0 220px;
+            width: 220px;
             position: sticky;
             top: 0;
             align-self: flex-start;
             height: 100vh;
             overflow-y: auto;
-            padding: 28px 20px;
+            padding: 28px 18px;
             box-sizing: border-box;
             border-right: 1px solid var(--border-color);
             background: rgba(12, 11, 26, 0.55);
