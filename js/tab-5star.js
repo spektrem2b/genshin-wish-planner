@@ -895,12 +895,12 @@ let priorityPipeline = [];
 
         outputSpace.innerHTML += renderScenarioSummary(results, enabledPipeline, odds);
 
-        outputSpace.innerHTML += '<div class="scenario-grid">';
+        let gridHtml = '<div class="scenario-grid">';
         results.forEach(res => {
             const rowsHtml = res.rows.map(renderRow).join('');
             const summaryClass = res.failed ? 'sum-fail' : 'sum-ok';
             const summaryText = res.failed ? '❌ Requires more wishes' : '✅ Plan is viable';
-            outputSpace.innerHTML += `
+            gridHtml += `
                 <div class="scenario-block">
                     <h4 class="scenario-title">${res.title}</h4>
                     <div class="scenario-log">
@@ -910,7 +910,8 @@ let priorityPipeline = [];
                 </div>
             `;
         });
-        outputSpace.innerHTML += '</div>';
+        gridHtml += '</div>';
+        outputSpace.innerHTML += gridHtml;
     }
 
     // Real per-target win probability the rest of the tool already assumes:
@@ -959,15 +960,15 @@ let priorityPipeline = [];
         const worstLabel = worst.net >= 0 ? `${worst.net} wishes left` : `${Math.abs(worst.net)} wishes short`;
 
         const dotClass = { 'Best': 'scen-dot-best', 'Worst': 'scen-dot-worst' };
+        const scenDot = r => dotClass[r.short] || (r.short === 'OK-D' ? 'scen-dot-okd' : 'scen-dot-ok');
 
-        const headerCells = enabledPipeline.map(item => {
+        const headerCells = results.map(r => `
+            <th class="scen-item-cell"><span class="scen-dot ${scenDot(r)}"></span>${r.short}</th>
+        `).join('');
+
+        const bodyRows = enabledPipeline.map((item, idx) => {
             const label = item.type === 'character' ? item.constellation : 'R' + (item.refinement || 1);
-            return `<th class="scen-item-cell">${item.name} <span class="scen-item-sub">${label}</span></th>`;
-        }).join('');
-
-        const bodyRows = results.map(r => {
-            const dot = dotClass[r.short] || (r.short.startsWith('OK') ? (r.short === 'OK-D' ? 'scen-dot-okd' : 'scen-dot-ok') : 'scen-dot-ok');
-            const itemCells = enabledPipeline.map((item, idx) => {
+            const cells = results.map(r => {
                 const row = r.rows[idx];
                 if (!row || row.type === 'skip') {
                     return `<td class="scen-item-cell"><span class="scen-item-mark scen-item-na">—</span></td>`;
@@ -980,15 +981,18 @@ let priorityPipeline = [];
                     <span class="scen-item-mark ${lost ? 'scen-item-lose' : 'scen-item-win'}">${lost ? '❌' : '✅'} ${lost ? 'Lose' : 'Win'}</span>
                 </td>`;
             }).join('');
-            const resultText = r.failed ? `${Math.abs(r.net)} wishes short` : `${r.net} wishes left`;
-            const resultClass = r.failed ? 'scen-result-fail' : 'scen-result-ok';
             return `
                 <tr>
-                    <td class="scen-name-cell"><span class="scen-dot ${dot}"></span>${r.short}</td>
-                    ${itemCells}
-                    <td class="scen-result-cell ${resultClass}">${resultText}</td>
+                    <td class="scen-name-cell">${item.name} <span class="scen-item-sub">${label}</span></td>
+                    ${cells}
                 </tr>
             `;
+        }).join('');
+
+        const resultCells = results.map(r => {
+            const resultText = r.failed ? `${Math.abs(r.net)} wishes short` : `${r.net} wishes left`;
+            const resultClass = r.failed ? 'scen-result-fail' : 'scen-result-ok';
+            return `<td class="scen-result-cell ${resultClass}">${resultText}</td>`;
         }).join('');
 
         return `
@@ -1021,12 +1025,17 @@ let priorityPipeline = [];
                     <table class="scen-sum-table-full">
                         <thead>
                             <tr>
-                                <th class="scen-name-cell">Scenario</th>
+                                <th class="scen-name-cell">Target</th>
                                 ${headerCells}
-                                <th class="scen-result-cell">Result</th>
                             </tr>
                         </thead>
-                        <tbody>${bodyRows}</tbody>
+                        <tbody>
+                            ${bodyRows}
+                            <tr class="scen-result-row">
+                                <td class="scen-name-cell">Result</td>
+                                ${resultCells}
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -1092,7 +1101,10 @@ let priorityPipeline = [];
     }
 
     function applyState(s) {
-        priorityPipeline = s.pipeline || [];
+        priorityPipeline = (s.pipeline || []).map(item => ({
+            ...item,
+            name: String(item.name || '').trim().slice(0, 40),
+        }));
         currentWishesEl.value = s.wishes ?? '';
         currentStarglitterEl.value = s.starglitter ?? '';
         wishesPerPatchEl.value = s.wishesPerPatch ?? '80';

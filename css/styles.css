@@ -675,6 +675,25 @@
         .build-card:focus-within { z-index: 30; }
         .build-card.has-open-dropdown { z-index: 40; }
 
+        .priority-list-wrap {
+            max-width: 1300px;
+            margin-left: 0;
+            margin-right: auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 300px;
+            gap: 56px;
+            align-items: start;
+        }
+
+        .priority-actions {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (max-width: 900px) {
+            .priority-list-wrap { grid-template-columns: 1fr; }
+        }
+
         .priority-item { 
             display: flex; 
             align-items: center; 
@@ -683,7 +702,6 @@
             padding: 20px 22px; 
             border-radius: 15px; 
             margin-bottom: 15px; 
-            max-width: 760px;
             cursor: grab; 
             transition: all 0.2s ease;
         }
@@ -998,6 +1016,9 @@
             font-weight: 600;
             font-size: 0.935rem;
             color: var(--text-main);
+            max-width: 220px;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .scen-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
@@ -1006,10 +1027,15 @@
         .scen-dot-okd { background: #ff9838; }
         .scen-dot-worst { background: var(--danger); }
 
+        .scen-sum-table-full thead th.scen-item-cell {
+            text-align: center;
+        }
+
         .scen-item-cell {
             padding: 10px 10px;
             white-space: nowrap;
             font-size: 0.85rem;
+            text-align: center;
         }
         .scen-item-sub { color: var(--text-muted); font-weight: 400; font-size: 0.78rem; }
 
@@ -1027,10 +1053,13 @@
             white-space: nowrap;
             font-weight: 700;
             font-size: 0.9rem;
-            text-align: right;
+            text-align: center;
         }
         .scen-result-cell.scen-result-ok { color: var(--success); }
         .scen-result-cell.scen-result-fail { color: var(--danger); }
+
+        .scen-result-row { border-top: 2px solid var(--border-color); }
+        .scen-result-row .scen-name-cell { color: var(--text-muted); font-weight: 700; }
 
         .failsafe-banner { background: rgba(255, 194, 51, 0.1); border: 1px solid var(--warning); color: var(--warning); padding: 15.4px; border-radius: 13.2px; margin-bottom: 26.4px; font-size: 0.99rem; font-weight: 500; text-align: center; }
         

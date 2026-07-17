@@ -922,9 +922,12 @@ function searchGenshinCharacters(query, rarity = 5) {
     return pool.filter(c => c.name.toLowerCase().includes(lowerQuery));
 }
 
+const MAX_CUSTOM_NAME_LENGTH = 40;
+
 function makeCustomCharacter(name, rarity = 5) {
+    const safeName = String(name || '').trim().slice(0, MAX_CUSTOM_NAME_LENGTH);
     return {
-        name: name,
+        name: safeName,
         rarity: rarity,
         element: null,
         icon: 'assets/data/custom_icons/Lumine_Placeholder_custom.webp',
