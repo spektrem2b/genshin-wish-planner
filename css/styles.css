@@ -24,7 +24,6 @@
             font-family: system-ui, -apple-system, sans-serif; 
             background: var(--bg-color);
             background-image: radial-gradient(circle at top center, var(--bg-gradient-top) 0%, var(--bg-color) 80%);
-            background-attachment: fixed;
             color: var(--text-main); 
             margin: 0; 
             line-height: 1.6; 
@@ -49,9 +48,7 @@
             padding: 28px 18px;
             box-sizing: border-box;
             border-right: 1px solid var(--border-color);
-            background: rgba(12, 11, 26, 0.55);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(12, 11, 26, 0.92);
             display: flex;
             flex-direction: column;
             gap: 28px;
@@ -239,8 +236,6 @@
             padding: 35.2px; 
             margin-bottom: 26.4px; 
             box-shadow: 0 17.6px 44px rgba(0, 0, 0, 0.4); 
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
         }
 
         .section-title { 
@@ -347,6 +342,7 @@
         }
         .explanation a:hover { color: var(--accent-gold); }
 
+        /* TEMP DISABLED for perf test
         @keyframes fieldPulseHighlight {
             0%   { box-shadow: 0 0 0 0 rgba(162, 85, 255, 0.65); }
             50%  { box-shadow: 0 0 0 6px rgba(162, 85, 255, 0.15); }
@@ -355,6 +351,7 @@
         .field-pulse-highlight {
             animation: fieldPulseHighlight 0.9s ease-out 2;
         }
+        */
 
         /* Capture Radiance — themed after the in-game 5★ burst: a bright
            shimmer highlight sweeps across a static gold base color,
@@ -363,29 +360,25 @@
            -150% and 150%, so the wrap-around point sits well off-screen
            and is never actually visible. Icon is left as a plain static
            image — no glow, no motion. */
-        @keyframes radianceShimmer {
-            0%   { background-position: -150% 50%; }
-            100% { background-position: 150% 50%; }
-        }
+        /* Capture Radiance — themed after the in-game 5★ burst: a static
+           gold-to-purple gradient text. Previously animated the gradient
+           via background-position, but that's a paint-only property with
+           no GPU compositing path — with many "Capture Radiance" rows on
+           screen at once (pull log, scenario table), each ran its own
+           12s repaint loop in parallel, dominating Paint time. Static
+           gradient keeps the visual identity at zero ongoing repaint cost. */
         .radiance-text {
             background-image: linear-gradient(
                 90deg,
-                #f2c94c 0%,
-                #ffe8a3 6%,
-                #7ec8ff 22%,
-                #4f9fff 38%,
-                #c58bff 54%,
-                #8d5cff 70%,
-                #7ec8ff 86%,
-                #ffe8a3 94%,
-                #f2c94c 100%
+                #7ec8ff 0%,
+                #a78bfa 35%,
+                #e879c9 65%,
+                #c58bff 100%
             );
-            background-size: 500% 100%;
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             font-weight: 700;
-            animation: radianceShimmer 16s linear infinite;
         }
         .radiance-icon {
         }
@@ -818,44 +811,26 @@
             padding: 20px 22px; 
             border-radius: 15px; 
             margin-bottom: 15px; 
-            cursor: grab; 
-            transition: all 0.2s ease;
         }
-        
-        .priority-item:hover {
-            border-color: var(--accent-purple);
-            transform: translateY(-2px);
-            box-shadow: 0 8.8px 26.4px rgba(0, 0, 0, 0.2);
-        }
-        
-        .priority-item:active { cursor: grabbing; }
         
         .priority-item.disabled-item {
             opacity: 0.4;
             border-color: rgba(255,255,255,0.04);
-        }
-        
-        .priority-item.disabled-item:hover {
-            border-color: rgba(255,255,255,0.1);
-            transform: none;
-            box-shadow: none;
         }
 
         .toggle-btn {
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 1.6rem;
+            font-size: 1.76rem;
             padding: 6px 10px;
             color: var(--text-muted);
             border-radius: 8px;
-            transition: color 0.2s, background 0.2s;
             line-height: 1;
         }
-        .toggle-btn:hover { background: rgba(255,255,255,0.07); color: var(--text-main); }
         .toggle-btn.enabled { color: var(--success); }
         
-        .drag-handle { margin-right: 20px; color: var(--text-muted); font-size: 1.32rem; cursor: grab; }
+
         .item-details { flex-grow: 1; }
         .item-name { font-weight: 700; font-size: 1.35rem; color: white; display: flex; align-items: center; gap: 9px; }
         .item-name .el-icon { width: 22px; height: 22px; margin: 0; }
@@ -868,18 +843,17 @@
 
         .item-actions { display: flex; align-items: center; gap: 2px; flex: 0 0 auto; }
 
-        .reorder-btns { display: none; }
+        .reorder-btns { display: flex; gap: 4px; margin-right: 6px; }
         .reorder-btn {
             background: none;
             border: 1px solid var(--border-color);
             cursor: pointer;
-            font-size: 0.8rem;
-            padding: 6px 9px;
+            font-size: 0.88rem;
+            padding: 6.5px 10px;
             color: var(--text-muted);
             border-radius: 7px;
             line-height: 1;
         }
-        .reorder-btn:active { background: rgba(255,255,255,0.08); color: var(--text-main); }
 
         @media (max-width: 640px) {
             .priority-item {
@@ -888,18 +862,18 @@
                 text-align: center;
                 padding: 18px 18px 16px;
             }
-            .priority-item .drag-handle {
-                display: none;
-            }
             .reorder-btns {
-                display: flex;
-                gap: 4px;
-                margin-right: 6px;
+                order: 3;
+                margin: 14px 0 0;
+                padding-top: 12px;
+                border-top: 1px solid rgba(255, 255, 255, 0.06);
             }
             .priority-item .avatar-badge {
+                order: 1;
                 margin: 0 0 10px;
             }
             .item-details {
+                order: 2;
                 flex: 1 1 auto;
                 width: 100%;
                 min-width: 0;
@@ -912,11 +886,10 @@
                 justify-content: center;
             }
             .item-actions {
+                order: 4;
                 flex: 0 0 100%;
                 justify-content: center;
-                margin-top: 14px;
-                padding-top: 12px;
-                border-top: 1px solid rgba(255, 255, 255, 0.06);
+                margin-top: 10px;
                 gap: 6px;
             }
         }
@@ -1080,10 +1053,7 @@
             padding: 22px; 
             border: 1px solid var(--border-color); 
             min-width: 0;
-            transition: transform 0.2s;
         }
-        
-        .scenario-block:hover { border-color: rgba(255, 255, 255, 0.15); }
         
         .scenario-title { font-weight: 700; margin-top: 0; margin-bottom: 17.6px; font-size: 1.21rem; color: white; }
         .scenario-log { display: flex; flex-direction: column; gap: 8.8px; }
@@ -1192,8 +1162,7 @@
             background: none !important;
             -webkit-background-clip: initial !important;
             background-clip: initial !important;
-            color: var(--accent-gold) !important;
-            animation: none !important;
+            color: #a78bfa !important;
         }
         .scenario-summary-card.exporting-for-png .scen-export-btn {
             display: none;
@@ -1422,15 +1391,9 @@
             border: none; 
             color: var(--text-muted); 
             cursor: pointer; 
-            font-size: 1.65rem;
+            font-size: 1.815rem;
             padding: 8.8px;
             border-radius: 8.8px;
-            transition: all 0.2s ease;
-        }
-        
-        .delete-btn:hover {
-            color: var(--danger);
-            background: rgba(255, 77, 90, 0.1);
         }
 
         .edit-btn {
@@ -1438,13 +1401,7 @@
             border: none;
             color: var(--text-muted);
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1.21rem;
             padding: 8.8px;
             border-radius: 8.8px;
-            transition: all 0.2s ease;
-        }
-
-        .edit-btn:hover {
-            color: var(--accent-purple);
-            background: rgba(162, 85, 255, 0.1);
         }

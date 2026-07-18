@@ -1,6 +1,5 @@
 
 let priorityPipeline = [];
-    let draggedElementId = null;
 
     const currentWishesEl = document.getElementById('currentWishes');
     const currentStarglitterEl = document.getElementById('currentStarglitter');
@@ -38,7 +37,18 @@ let priorityPipeline = [];
         return `${bumpedMajor}.${bumpedMinor}`;
     }
 
-    const debouncedStartPatchUpdate = debounce((el) => {
+    // Local fallback so this file never depends on script load order —
+    // uses the shared debounce() from app.js if it's already loaded,
+    // otherwise defines its own equivalent right here.
+    const _debounce = typeof debounce === 'function' ? debounce : function (fn, wait = 150) {
+        let t;
+        return function (...args) {
+            clearTimeout(t);
+            t = setTimeout(() => fn.apply(this, args), wait);
+        };
+    };
+
+    const debouncedStartPatchUpdate = _debounce((el) => {
         renderPipeline();
         renderCustomIncomeRows();
         updateTargetPatchOptions();
@@ -61,7 +71,7 @@ let priorityPipeline = [];
         hint.textContent = wishes > 0 ? `→ ${wishes} wish${wishes !== 1 ? 'es' : ''} (+${sg % 5} leftover)` : '';
     }
 
-    const debouncedCalculateForecast = debounce(calculateForecast, 150);
+    const debouncedCalculateForecast = _debounce(calculateForecast, 150);
 
     currentStarglitterEl.addEventListener('input', () => { updateStarglitterHint(); debouncedCalculateForecast(); });
     updateStarglitterHint();
@@ -209,7 +219,7 @@ let priorityPipeline = [];
             `;
         }
         document.querySelectorAll('.custom-val-input').forEach(inp => {
-            inp.addEventListener('input', debounce(() => { calculateForecast(); saveState(); }, 150));
+            inp.addEventListener('input', _debounce(() => { calculateForecast(); saveState(); }, 150));
         });
     }
     renderCustomIncomeRows();
@@ -482,7 +492,6 @@ let priorityPipeline = [];
         priorityPipeline.forEach((item) => {
             const div = document.createElement('div');
             div.className = 'priority-item';
-            div.draggable = true;
             div.setAttribute('data-id', item.id);
             let strategyClass = item.strategy === 'Hard Lock' ? 'tag-hard-lock' : (item.strategy === 'One Shot' ? 'tag-one-shot' : 'tag-optional');
             const halfTag = item.bannerHalf === 'first' ? (item.applyPacing !== false ? '1st Half' : '1st Half, Instant') : '2nd Half';
@@ -491,36 +500,21 @@ let priorityPipeline = [];
             if (!isEnabled) div.classList.add('disabled-item');
             const iconHtml = avatarBadgeHtml(item.icon, elementIconPath(item.element), 52, 20);
             div.innerHTML = `
-                <div class="drag-handle">⋮⋮</div>
+                <div class="reorder-btns">
+                    <button class="reorder-btn" title="Move up" onclick="movePipelineItem('${item.id}', -1)">▲</button>
+                    <button class="reorder-btn" title="Move down" onclick="movePipelineItem('${item.id}', 1)">▼</button>
+                </div>
                 ${iconHtml}
                 <div class="item-details">
                     <div class="item-name">${item.name} <span class="item-tag ${strategyClass}">${item.strategy}</span></div>
                     <div class="item-meta">${meta}</div>
                 </div>
                 <div class="item-actions">
-                    <div class="reorder-btns">
-                        <button class="reorder-btn" title="Move up" onclick="movePipelineItem('${item.id}', -1)">▲</button>
-                        <button class="reorder-btn" title="Move down" onclick="movePipelineItem('${item.id}', 1)">▼</button>
-                    </div>
                     <button class="toggle-btn ${isEnabled ? 'enabled' : ''}" title="${isEnabled ? 'Disable' : 'Enable'}" onclick="togglePipelineItem('${item.id}')">${isEnabled ? '●' : '○'}</button>
                     <button class="edit-btn" onclick="editPipelineItem('${item.id}')">✏️</button>
                     <button class="delete-btn" onclick="removePipelineItem('${item.id}')">&times;</button>
                 </div>
             `;
-            div.addEventListener('dragstart', (e) => { draggedElementId = item.id; });
-            div.addEventListener('dragover', (e) => e.preventDefault());
-            div.addEventListener('drop', (e) => {
-                e.preventDefault();
-                const targetId = div.getAttribute('data-id');
-                if (draggedElementId !== targetId) {
-                    const dragIdx = priorityPipeline.findIndex(x => x.id === draggedElementId);
-                    const dropIdx = priorityPipeline.findIndex(x => x.id === targetId);
-                    const temp = priorityPipeline[dragIdx];
-                    priorityPipeline.splice(dragIdx, 1);
-                    priorityPipeline.splice(dropIdx, 0, temp);
-                    pipelineUpdated();
-                }
-            });
             container.appendChild(div);
         });
     }
@@ -1498,7 +1492,7 @@ let priorityPipeline = [];
 
     function pipelineUpdated() { renderPipeline(); calculateForecast(); saveState(); }
 
-    const debouncedSaveState = debounce(saveState, 300);
+    const debouncedSaveState = _debounce(saveState, 300);
     [currentWishesEl, wishesPerPatchEl, starglitterEl, charSoftPityEl, wepSoftPityEl, charPityEl, wepPityEl, totalPatchesEl].forEach(el =>
         el.addEventListener('input', debouncedSaveState)
     );

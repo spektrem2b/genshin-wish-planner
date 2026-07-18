@@ -1,5 +1,16 @@
 (function () {
 
+    // Local fallback so this file never depends on script load order —
+    // uses the shared debounce() from app.js if it's already loaded,
+    // otherwise defines its own equivalent right here.
+    const _debounce = typeof debounce === 'function' ? debounce : function (fn, wait = 150) {
+        let t;
+        return function (...args) {
+            clearTimeout(t);
+            t = setTimeout(() => fn.apply(this, args), wait);
+        };
+    };
+
     const SAVE_KEY = 'genshin_build_tab_v1';
     const KAMERA_SAVE_KEY = 'genshin_kamera_inventory_v1';
     const KAMERA_OVERRIDE_SAVE_KEY = 'genshin_kamera_manual_overrides_v1';
@@ -1274,7 +1285,7 @@
         `;
 
         panel.querySelectorAll('.kamera-override-input').forEach(input => {
-            input.addEventListener('input', debounce(() => {
+            input.addEventListener('input', _debounce(() => {
                 const key = input.dataset.overrideKey;
                 if (input.value === '') {
                     delete manualOverrides[key];
@@ -1396,7 +1407,7 @@
     // Debounced variant for use on hot paths like level/talent number inputs,
     // where every keystroke would otherwise re-stringify and write the whole
     // builds array to localStorage.
-    const saveStateDebounced = typeof debounce === 'function' ? debounce(saveState, 300) : saveState;
+    const saveStateDebounced = _debounce(saveState, 300);
 
     function loadState() {
         try {
