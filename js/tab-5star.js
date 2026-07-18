@@ -760,14 +760,18 @@ let priorityPipeline = [];
                 const cost = guaranteed ? charWin : charWin * (loses > 0 ? 2 : 1);
                 return Math.max(1, cost - pitySaved);
             } else {
+                // Post-expansion, a weapon entry is always exactly one
+                // copy/pull, same as characters. A guaranteed win only
+                // comes from a pre-existing guarantee (item.guaranteed
+                // === 'yes', first copy only) — base pity cost, no
+                // doubling. Every other copy is its own independent
+                // Epitomized Path roll (75/25), loss or no loss.
                 const pitySaved = isFirstWep ? Math.min(parseInt(wepPityEl.value) || 0, wepWin - 1) : 0;
                 if (item.strategy === 'One Shot') return Math.max(1, wepWin - pitySaved);
 
-                const loseCount = Math.min(loses, 1);
-                const firstCopyCost = (item.guaranteed === 'yes') ? wepWin : wepWin * (loseCount + 1);
-                const firstCopy = firstCopyCost - pitySaved;
-                const restCopyCost = loseCount > 0 ? wepWin * (loseCount + 1) : wepWin;
-                return firstCopy + (copies - 1) * restCopyCost;
+                const guaranteed = item.guaranteed === 'yes';
+                const cost = guaranteed ? wepWin : wepWin * (loses > 0 ? 2 : 1);
+                return Math.max(1, cost - pitySaved);
             }
         }
 
@@ -861,7 +865,7 @@ let priorityPipeline = [];
                     ${rowIcon}
                     <div>
                         <div class="log-name">${row.name} <span style="color:var(--text-muted);font-weight:400;font-size:0.85rem;">${row.label}</span></div>
-                        <div class="log-name-sub">${row.timing} · ${row.loses > 0 ? '<img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="Guaranteed">Guaranteed' : (row.itemType === 'weapon' ? 'Won 75/25' : 'Won 55/45')} · ${row.strategy}</div>
+                        <div class="log-name-sub">${row.timing} · ${row.loses > 0 ? (row.itemType === 'weapon' ? '<img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="Epitomized">Epitomized' : '<img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="Guaranteed">Guaranteed') : (row.itemType === 'weapon' ? 'Won 75/25' : 'Won 55/45')} · ${row.strategy}</div>
                     </div>
                     <div class="log-outcome oc-deficit">DEFICIT</div>
                     <div class="log-right">
@@ -877,14 +881,16 @@ let priorityPipeline = [];
             const isWep = row.itemType === 'weapon';
             const radianceIconHtml = `<img class="radiance-icon" src="assets/data/custom_icons/Item_Intertwined_Fate.webp" alt="Capture Radiance" title="Capture Radiance — guaranteed win after 2 consecutive losses" style="width:15px;height:15px;vertical-align:-2px;margin-right:4px;">`;
             const guaranteedIconHtml = `<img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="Guaranteed" title="Lost the featured 50/50, then obtained it on the guaranteed next pull">`;
+            const epitomizedIconHtml = `<img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="Epitomized" title="Missed the featured weapon, gained a Fate Point — the next 5★ weapon is guaranteed to be your chosen one via Epitomized Path">`;
             let ocLabel;
             if (row.capturedRadiance) {
                 ocLabel = `${radianceIconHtml}<span class="radiance-text">Capture Radiance</span>`;
             } else if (row.loses > 0) {
                 // Not a real loss — the featured item still ends up in your
                 // inventory, just via the guaranteed-next-pull mechanic
-                // after losing the coin flip once.
-                ocLabel = `${guaranteedIconHtml}Guaranteed`;
+                // (character 50/50) or the Fate Point system (weapon
+                // Epitomized Path) after missing it once.
+                ocLabel = isWep ? `${epitomizedIconHtml}Epitomized` : `${guaranteedIconHtml}Guaranteed`;
             } else {
                 ocLabel = isWep ? 'Won 75/25' : 'Won 55/45';
 
@@ -925,7 +931,7 @@ let priorityPipeline = [];
         const groups = enabledPipeline.map(item => {
             const idxs = [];
             ep.forEach((e, i) => {
-                if (item.type === 'character' ? e._sourceId === item.id : e === item) idxs.push(i);
+                if (e._sourceId === item.id) idxs.push(i);
             });
             return { item, idxs };
         }).filter(g => g.idxs.length > 0); // drop targets already at goal (0 copies needed)
@@ -934,24 +940,34 @@ let priorityPipeline = [];
 
         // Worst Case story: Hard Lock and One Shot targets are things you're
         // always actually pulling for, so they genuinely can lose. Optional
-        // targets are discretionary — a player already having bad luck on
-        // their real priorities would rationally skip an Optional pull
-        // rather than gamble away wishes needed for what's actually locked
-        // in. So Optional items get a skip sentinel (-1) here instead of a
-        // forced loss (1): they're left alone entirely, not attempted.
-        // Marking EVERY copy of a Hard Lock/One Shot target as "attempted
-        // loss" is intentional here too — Capture Radiance below can still
-        // force a win on the banner-wide 3-in-a-row streak, but each copy
-        // is otherwise its own independent 50/50, loss or no loss.
-        const worstPattern = resolvePattern(
-            ep.map(item => {
-                if (item.type === 'character' && item.strategy !== 'Hard Lock' && item.strategy !== 'One Shot') {
-                    return -1; // skip sentinel — Optional, not attempted in Worst Case
-                }
-                return 1;
-            }),
-            ep
-        );
+        // targets are discretionary — but "discretionary" only means they
+        // get sacrificed when the budget is actually tight enough that
+        // attempting them would starve a Hard Lock/One Shot target. With
+        // a comfortable wish surplus, an Optional target should still show
+        // as attempted (win/guaranteed/epitomized) like everything else —
+        // there's no reason to force-skip it just because it's optional.
+        // So: try the "everyone attempts, everyone loses" story first; only
+        // fall back to force-skipping Optional targets (skip sentinel -1)
+        // if that full-attempt story actually fails a Hard Lock/One Shot
+        // target for real. Marking EVERY copy of a Hard Lock/One Shot
+        // target as "attempted loss" is intentional either way — Capture
+        // Radiance below can still force a win on the banner-wide
+        // 3-in-a-row streak, but each copy is otherwise its own
+        // independent 50/50 (or 75/25 Epitomized roll for weapons), loss
+        // or no loss.
+        const worstPatternAllAttempt = resolvePattern(ep.map(() => 1), ep);
+        const worstTrial = runScenario(worstPatternAllAttempt);
+        const worstPattern = !worstTrial.failed
+            ? worstPatternAllAttempt
+            : resolvePattern(
+                ep.map(item => {
+                    if (item.strategy !== 'Hard Lock' && item.strategy !== 'One Shot') {
+                        return -1; // skip sentinel — Optional, not attempted in Worst Case
+                    }
+                    return 1;
+                }),
+                ep
+            );
 
         const okScenarios = [];
 
@@ -1049,7 +1065,7 @@ let priorityPipeline = [];
             return { ...scen, rows, failed, net };
         });
 
-        const odds = computeScenarioOdds(ep);
+        const odds = computeScenarioOdds(ep, worstPattern);
 
         outputSpace.innerHTML += renderScenarioSummary(results, ep, odds);
 
@@ -1091,35 +1107,53 @@ let priorityPipeline = [];
     // Hard Lock, One Shot, or Optional — the game's pity system doesn't
     // know or care about your planning labels, only whether a pull
     // actually happened.
-    // Splits a multi-copy character target (e.g. "Tsaritsa C2" with 2 copies
-    // needed) into one entry per copy — "Tsaritsa C1", "Tsaritsa C2" — each
-    // getting its own genuine 50/50 roll and its own Capture Radiance
-    // eligibility, instead of one shared win/lose flag standing in for the
-    // whole target. Weapon copies stay bundled: Epitomized Path's fate-point
-    // system and Capture Radiance are character-only mechanics, so splitting
-    // weapon copies wouldn't add accuracy.
+    // Splits a multi-copy target (character OR weapon) into one entry per
+    // copy — "Tsaritsa C1", "Tsaritsa C2" or "Tsaritsa Weapon R1", "...R2"
+    // — each getting its own genuine roll (55/45 for characters, 75/25 for
+    // weapons' Epitomized Path) instead of one shared win/lose flag
+    // standing in for the whole target. Capture Radiance still only
+    // applies to character-type slots (handled separately below); weapon
+    // copies each carry their own independent fate-point roll via
+    // item.guaranteed on copies after the first, same cascade rule as
+    // characters.
     function expandPipeline(pipeline) {
         const expanded = [];
         pipeline.forEach(item => {
-            if (item.type !== 'character') { expanded.push(item); return; }
+            if (item.type !== 'character' && item.type !== 'weapon') { expanded.push(item); return; }
             const copies = item.copies !== undefined ? item.copies : 1;
             if (copies <= 0) return; // already at goal — nothing to pull
-            const goalC = parseInt((item.constellation || 'C0').replace('C', '')) || 0;
-            const startConst = item.currentConst !== undefined ? item.currentConst : (goalC - copies);
-            for (let i = 0; i < copies; i++) {
-                expanded.push({
-                    ...item,
-                    copies: 1,
-                    _sourceId: item.id,
-                    _copyIndex: i,
-                    _totalCopies: copies,
-                    constellation: 'C' + (startConst + i + 1),
-                    // A pre-existing guarantee (player already lost a 50/50
-                    // before starting this plan) only ever applies to the
-                    // very first copy of a target — later copies get their
-                    // guarantee (if any) from the cascade rule below instead.
-                    guaranteed: i === 0 ? item.guaranteed : 'no'
-                });
+            if (item.type === 'character') {
+                const goalC = parseInt((item.constellation || 'C0').replace('C', '')) || 0;
+                const startConst = item.currentConst !== undefined ? item.currentConst : (goalC - copies);
+                for (let i = 0; i < copies; i++) {
+                    expanded.push({
+                        ...item,
+                        copies: 1,
+                        _sourceId: item.id,
+                        _copyIndex: i,
+                        _totalCopies: copies,
+                        constellation: 'C' + (startConst + i + 1),
+                        // A pre-existing guarantee (player already lost a 50/50
+                        // before starting this plan) only ever applies to the
+                        // very first copy of a target — later copies get their
+                        // guarantee (if any) from the cascade rule below instead.
+                        guaranteed: i === 0 ? item.guaranteed : 'no'
+                    });
+                }
+            } else {
+                const goalR = parseInt(item.refinement) || 1;
+                const startR = item.currentRefine !== undefined ? item.currentRefine : (goalR - copies);
+                for (let i = 0; i < copies; i++) {
+                    expanded.push({
+                        ...item,
+                        copies: 1,
+                        _sourceId: item.id,
+                        _copyIndex: i,
+                        _totalCopies: copies,
+                        refinement: startR + i + 1,
+                        guaranteed: i === 0 ? item.guaranteed : 'no'
+                    });
+                }
             }
         });
         return expanded;
@@ -1171,12 +1205,18 @@ let priorityPipeline = [];
         return item.type === 'weapon' ? 0.75 : 0.55;
     }
 
-    // Best  = probability of the single "everyone wins clean" branch.
-    // Worst = probability of the single "everyone loses their 50/50" branch.
-    // Mixed = everything in between (some win, some lose) — the detailed
-    // combinations of that live in the OK-A/B/C/D scenario cards and table
-    // below, so this stat just needs to say how likely "some mix" is overall.
-    function computeScenarioOdds(ep) {
+    // Worst-case probability must follow the actual worst-case pattern used
+    // in the scenario table itself (passed in as worstPattern) — whether
+    // that pattern force-skips Optional targets or attempts everyone for
+    // real depends on budget, decided once upstream in calculateForecast.
+    // - Hard Lock / One Shot copies (and Optional copies when attempted)
+    //   can genuinely lose: probability (1 - p).
+    // - Optional items actually skipped in this story contribute
+    //   probability 1 (certainty), not (1-p), since no coin flip happens.
+    // - A forced win (banner-wide Capture Radiance) also contributes
+    //   probability p (its normal win chance), not (1-p), since it
+    //   isn't a real flip.
+    function computeScenarioOdds(ep, worstPattern) {
         const nep = ep.length;
         if (nep === 0) return { bestPct: 100, mixedPct: 0, worstPct: 0 };
 
@@ -1189,22 +1229,6 @@ let priorityPipeline = [];
             best *= itemWinProb(item);
         });
 
-        // Worst-case probability must follow the actual Capture-Radiance-
-        // capped, Optional-skipping pattern used in the scenario cards
-        // themselves:
-        // - Hard Lock / One Shot copies can genuinely lose: probability (1 - p).
-        // - Optional items are skipped entirely in this story: no coin flip
-        //   happens, so they contribute probability 1 (certainty), not (1-p).
-        // - A forced win (banner-wide Capture Radiance) also contributes
-        //   probability p (its normal win chance), not (1-p), since it
-        //   isn't a real flip.
-        const worstRawPattern = ep.map(item => {
-            if (item.type === 'character' && item.strategy !== 'Hard Lock' && item.strategy !== 'One Shot') {
-                return -1;
-            }
-            return 1;
-        });
-        const worstPattern = resolvePattern(worstRawPattern, ep);
         let worst = 1;
         ep.forEach((item, i) => {
             const p = itemWinProb(item);
@@ -1249,7 +1273,8 @@ let priorityPipeline = [];
             const cells = results.map(r => {
                 const row = r.rows[idx];
                 if (!row || row.type === 'skip') {
-                    return `<td class="scen-item-cell"><span class="scen-item-mark scen-item-na">—</span></td>`;
+                    const skipText = item.strategy === 'Optional' ? 'Skipped' : '—';
+                    return `<td class="scen-item-cell"><span class="scen-item-mark scen-item-na">${skipText}</span></td>`;
                 }
                 if (row.type === 'deficit') {
                     return `<td class="scen-item-cell"><span class="scen-item-mark scen-item-short">⛔ Short</span></td>`;
@@ -1264,9 +1289,10 @@ let priorityPipeline = [];
                     </td>`;
                 }
                 if (guaranteed) {
+                    const isWepItem = item.type === 'weapon';
                     return `<td class="scen-item-cell">
-                        <span class="scen-item-mark scen-item-guaranteed" title="Lost the featured 50/50, then obtained it on the guaranteed next pull">
-                            <img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="Guaranteed">Guaranteed
+                        <span class="scen-item-mark scen-item-guaranteed" title="${isWepItem ? 'Missed the featured weapon, gained a Fate Point — obtained via Epitomized Path on the next 5★ weapon pull' : 'Lost the featured 50/50, then obtained it on the guaranteed next pull'}">
+                            <img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="${isWepItem ? 'Epitomized' : 'Guaranteed'}">${isWepItem ? 'Epitomized' : 'Guaranteed'}
                         </span>
                     </td>`;
                 }
@@ -1275,15 +1301,16 @@ let priorityPipeline = [];
                 </td>`;
             }).join('');
 
-            // Consecutive copies of the same character target (same
-            // _sourceId, produced back-to-back by expandPipeline) are
-            // grouped under one name+patch header row — only the
-            // constellation label repeats on the follow-up rows, with a
-            // touch of extra spacing above the group to separate it from
-            // the previous target.
+            // Consecutive copies of the same target (same _sourceId,
+            // produced back-to-back by expandPipeline — characters by
+            // constellation, weapons by refinement) are grouped under one
+            // name+patch header row — only the constellation/refinement
+            // label repeats on the follow-up rows, with a touch of extra
+            // spacing above the group to separate it from the previous
+            // target.
             const prevItem = idx > 0 ? ep[idx - 1] : null;
-            const isGroupContinuation = item.type === 'character' && prevItem &&
-                prevItem.type === 'character' && prevItem._sourceId !== undefined &&
+            const isGroupContinuation = prevItem && item.type === prevItem.type &&
+                prevItem._sourceId !== undefined &&
                 item._sourceId === prevItem._sourceId;
 
             const nameCell = isGroupContinuation
@@ -1349,8 +1376,9 @@ let priorityPipeline = [];
                 </div>
                 <div class="scen-legend">
                     <span class="scen-legend-title">Legend</span>
-                    <span class="scen-legend-item"><span class="scen-item-mark scen-item-win">✅ Win</span><span class="scen-legend-desc">Won the featured 50/50.</span></span>
-                    <span class="scen-legend-item"><span class="scen-item-mark scen-item-guaranteed"><img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="Guaranteed">Guaranteed</span><span class="scen-legend-desc">Obtained on guarantee after losing a 50/50.</span></span>
+                    <span class="scen-legend-item"><span class="scen-item-mark scen-item-win">✅ Win</span><span class="scen-legend-desc">Won the 50/50.</span></span>
+                    <span class="scen-legend-item"><span class="scen-item-mark scen-item-guaranteed"><img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="Guaranteed">Guaranteed</span><span class="scen-legend-desc">Won on guarantee after a loss.</span></span>
+                    ${ep.some(item => item.type === 'weapon') ? `<span class="scen-legend-item"><span class="scen-item-mark scen-item-guaranteed"><img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="Epitomized">Epitomized</span><span class="scen-legend-desc">Won via Fate Points after a miss.</span></span>` : ''}
                     <span class="scen-legend-item"><span class="scen-item-mark scen-item-radiance" style="display:inline-flex;align-items:center;gap:5px;"><img class="radiance-icon" src="assets/data/custom_icons/Item_Intertwined_Fate.webp" alt="Radiance" style="width:14px;height:14px;"><span class="radiance-text">Radiance</span></span><span class="scen-legend-desc">Capturing Radiance activated.</span></span>
                     <span class="scen-legend-item"><span class="scen-item-mark scen-item-short">⛔ Short</span><span class="scen-legend-desc">Ran out of wishes.</span></span>
                     <button type="button" class="scen-export-btn" onclick="exportScenarioSummaryPNG(this)">⬇ Export as PNG</button>
