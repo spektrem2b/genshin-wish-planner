@@ -871,6 +871,7 @@ let priorityPipeline = [];
                 ocLabel = `${guaranteedIconHtml}Guaranteed`;
             } else {
                 ocLabel = isWep ? 'Won 75/25' : 'Won 55/45';
+
             }
             const sgHtml = (row.sgRefund > 0) ? `<div class="log-sg">~${row.sgRefund} wishes back via Starglitter</div>` : '';
             const remClass = row.remaining > 50 ? 'rem-ok' : row.remaining > 0 ? 'rem-low' : 'rem-deficit';
@@ -1058,7 +1059,7 @@ let priorityPipeline = [];
     // Real per-target win probability the rest of the tool already assumes:
     // characters resolve their 50/50 (or lose→guaranteed) at 55/45, weapons'
     // Epitomized Path resolves at 75/25. This is the same constant already
-    // shown in the scenario labels ("Won 55/45", "Guaranteed" etc).
+    // shown in the scenario labels ("Won 55/45", "Lost 75/25", "Guaranteed" etc).
     // Capture Radiance: on the character (limited) banner, you cannot lose
     // your 50/50 three times in a row — after 2 consecutive losses, the
     // next character 50/50 is a guaranteed win. This does NOT apply to
