@@ -254,6 +254,7 @@ document.querySelectorAll('input[name="assetType"]').forEach((radio) => {
     }
     clearSelectedAsset();
     hideAssetList();
+    updateStrategyAvailability();
   });
 });
 let selectedAsset = null;
@@ -457,11 +458,38 @@ function updateCopiesExplanation() {
     const el = document.getElementById("wepCopiesExplanation");
     if (el) el.innerText = needed === 0 ? "Goal already met \u2014 0 pulls needed." : `Need ${needed} more cop${needed === 1 ? "y" : "ies"} to go from R${current < 1 ? "(none)" : current} to R${goal}.`;
   }
+  updateStrategyAvailability();
 }
 ["charConst", "charCurrentConst", "weaponRefinement", "weaponCurrentRefine"].forEach((id) => {
   const el = document.getElementById(id);
   if (el) el.addEventListener("change", updateCopiesExplanation);
 });
+function updateStrategyAvailability() {
+  const strategySelect = document.getElementById("strategyRule");
+  if (!strategySelect) return;
+  const typeEl = document.querySelector('input[name="assetType"]:checked');
+  const type = typeEl ? typeEl.value : "character";
+  let goal, current;
+  if (type === "character") {
+    goal = parseInt(document.getElementById("charConst")?.value);
+    current = parseInt(document.getElementById("charCurrentConst")?.value);
+  } else {
+    goal = parseInt(document.getElementById("weaponRefinement")?.value);
+    current = parseInt(document.getElementById("weaponCurrentRefine")?.value);
+  }
+  const copiesToAcquire = Math.max(0, (isNaN(goal) ? 1 : goal) - (isNaN(current) ? 0 : current));
+  const restrictOneShot = copiesToAcquire > 1;
+  let selectedWasDisabled = false;
+  Array.from(strategySelect.options).forEach((opt) => {
+    const label = opt.textContent.trim();
+    opt.disabled = restrictOneShot && label === "One Shot";
+    if (opt.disabled && opt.selected) selectedWasDisabled = true;
+  });
+  if (selectedWasDisabled) {
+    const hardLockOpt = Array.from(strategySelect.options).find((o) => o.textContent.trim() === "Hard Lock");
+    if (hardLockOpt) strategySelect.value = hardLockOpt.value;
+  }
+}
 function renderPipeline() {
   const container = document.getElementById("priorityContainer");
   container.innerHTML = "";
@@ -560,6 +588,7 @@ function editPipelineItem(id) {
 }
 document.getElementById("openCreatorBtn").addEventListener("click", () => {
   updateTargetPatchOptions();
+  updateStrategyAvailability();
   document.getElementById("sec-creator").classList.remove("hidden");
   document.getElementById("openCreatorBtn").classList.add("hidden");
   document.getElementById("sec-creator").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -700,27 +729,37 @@ function calculateForecast() {
     const refund = Math.floor(rawCost * sgRate);
     return rawCost - refund;
   }
-  function getRawCost(item, loses, isFirstChar, isFirstWep) {
+  function getRawCost(item, loses, isFirstChar, isFirstWep, enteringGuaranteed) {
     const copies = item.copies !== void 0 ? item.copies : 1;
     if (copies <= 0) return 0;
     const charWin = parseInt(charSoftPityEl.value) || 76;
     const wepWin = parseInt(wepSoftPityEl.value) || 65;
     if (item.type === "character") {
       const pitySaved = isFirstChar ? Math.min(parseInt(charPityEl.value) || 0, charWin - 1) : 0;
-      if (item.strategy === "One Shot") return Math.max(1, charWin - pitySaved);
-      const guaranteed = item.guaranteed === "yes";
-      const cost = guaranteed ? charWin : charWin * (loses > 0 ? 2 : 1);
+      if (enteringGuaranteed) return Math.max(1, charWin - pitySaved);
+      if (item.strategy === "One Shot" || item.strategy === "Optional") {
+        return Math.max(1, charWin - pitySaved);
+      }
+      const cost = charWin * (loses > 0 ? 2 : 1);
       return Math.max(1, cost - pitySaved);
     } else {
       const pitySaved = isFirstWep ? Math.min(parseInt(wepPityEl.value) || 0, wepWin - 1) : 0;
       if (item.strategy === "One Shot") return Math.max(1, wepWin - pitySaved);
-      const guaranteed = item.guaranteed === "yes";
-      const cost = guaranteed ? wepWin : wepWin * (loses > 0 ? 2 : 1);
+      if (enteringGuaranteed) return Math.max(1, wepWin - pitySaved);
+      if (item.strategy === "Optional") {
+        return Math.max(1, wepWin - pitySaved);
+      }
+      const cost = wepWin * (loses > 0 ? 2 : 1);
       return Math.max(1, cost - pitySaved);
     }
   }
-  function getOutcome(item, loses) {
+  function getOutcome(item, loses, enteringGuaranteed) {
     const label = item.type === "character" ? item.constellation : "R" + (item.refinement || 1);
+    if (item.type === "character") {
+      if (enteringGuaranteed) return `guaranteed ${label}`;
+      if (item.strategy === "Hard Lock") return loses > 0 ? `lose\u2192win ${label}` : `win ${label}`;
+      return loses > 0 ? `lose ${label}` : `win ${label}`;
+    }
     if (item.strategy === "One Shot") return loses > 0 ? "lose (stop)" : `win ${label}`;
     return loses > 0 ? `lose\u2192win ${label}` : `win ${label}`;
   }
@@ -731,6 +770,7 @@ function calculateForecast() {
     let failed = false;
     let isFirstChar = true;
     let isFirstWep = true;
+    let charGuarantee = false;
     const radianceIndices = losePattern.radianceIndices || /* @__PURE__ */ new Set();
     const enabledItems = expandPipeline(priorityPipeline.filter((x) => x.enabled !== false));
     enabledItems.forEach((item, idx) => {
@@ -750,7 +790,8 @@ function calculateForecast() {
         rows.push({ idx, type: "skip", itemType: item.type, name: item.name, icon: item.icon, element: item.element, label, timing, strategy: item.strategy, reason: "Skipped \u2014 Optional, deprioritized to protect Hard Lock targets", remaining: Math.max(0, currentPool) });
         return;
       }
-      const rawCost = getRawCost(item, loses, isFirstChar, isFirstWep);
+      const enteringGuaranteed = item.type === "character" ? item.guaranteed === "yes" || charGuarantee : item.guaranteed === "yes";
+      const rawCost = getRawCost(item, loses, isFirstChar, isFirstWep, enteringGuaranteed);
       if (item.type === "character") isFirstChar = false;
       else isFirstWep = false;
       const cost = effectiveCost(rawCost);
@@ -758,13 +799,30 @@ function calculateForecast() {
       if (currentPool >= cost) {
         totalSpent += cost;
         const remaining = currentPool - cost;
-        rows.push({ idx, type: loses > 0 ? "lose-win" : "win", itemType: item.type, name: item.name, icon: item.icon, element: item.element, label, timing, strategy: item.strategy, loses, capturedRadiance, rawCost, cost, sgRefund, remaining });
+        let rowType;
+        if (item.type === "character") {
+          if (enteringGuaranteed) {
+            rowType = "lose-win";
+          } else if (loses > 0) {
+            rowType = item.strategy === "Hard Lock" ? "lose-win" : "lose";
+          } else {
+            rowType = "win";
+          }
+          charGuarantee = rowType === "lose";
+        } else {
+          if (item.strategy === "Optional" && loses > 0 && !enteringGuaranteed) {
+            rowType = "lose";
+          } else {
+            rowType = loses > 0 ? "lose-win" : "win";
+          }
+        }
+        rows.push({ idx, type: rowType, itemType: item.type, name: item.name, icon: item.icon, element: item.element, label, timing, strategy: item.strategy, loses, capturedRadiance, rawCost, cost, sgRefund, remaining, enteringGuaranteed });
       } else {
         if (item.strategy === "Hard Lock") {
           totalSpent += cost;
           failed = true;
           const deficit = incomeCeiling - totalSpent;
-          rows.push({ idx, type: "deficit", itemType: item.type, name: item.name, icon: item.icon, element: item.element, label, timing, strategy: item.strategy, loses, rawCost, cost, sgRefund, deficit });
+          rows.push({ idx, type: "deficit", itemType: item.type, name: item.name, icon: item.icon, element: item.element, label, timing, strategy: item.strategy, loses, rawCost, cost, sgRefund, deficit, enteringGuaranteed });
         } else if (item.strategy === "One Shot") {
           rows.push({ idx, type: "skip", itemType: item.type, name: item.name, icon: item.icon, element: item.element, label, timing, strategy: item.strategy, reason: "Not enough wishes \u2014 One Shot skipped", remaining: Math.max(0, currentPool) });
           skipRemaining = true;
@@ -812,7 +870,7 @@ function calculateForecast() {
                 </div>`;
     }
     if (row.type === "deficit") {
-      const outcomeText = row.loses > 0 ? row.itemType === "weapon" ? '<img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="Epitomized">Epitomized' : '<img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="Guaranteed">Guaranteed' : row.itemType === "weapon" ? "Won 75/25" : "Won 55/45";
+      const outcomeText = row.loses > 0 ? row.itemType === "weapon" ? '<img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="Epitomized">Epitomized' : `<img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="Guaranteed">${row.enteringGuaranteed ? "Guaranteed (W)" : "Guaranteed (L/W)"}` : row.itemType === "weapon" ? "Won 75/25" : "Won 55/45";
       return `<div class="log-row row-deficit">
                     ${rowIcon}
                     <div>
@@ -828,6 +886,24 @@ function calculateForecast() {
                     </div>
                 </div>`;
     }
+    if (row.type === "lose") {
+      const remClassLose = row.remaining > 50 ? "rem-ok" : row.remaining > 0 ? "rem-low" : "rem-deficit";
+      const loseReason = row.itemType === "weapon" ? "Not obtained \u2014 Optional, not chased" : "Not obtained \u2014 guarantee carries forward";
+      return `<div class="log-row row-lose">
+                    ${rowIcon}
+                    <div>
+                        <div class="log-name">${row.name} <span style="color:var(--text-muted);font-weight:400;font-size:0.85rem;">${row.label}</span></div>
+                        ${metaLine(row.timing, `${loseReason} \xB7 ${row.strategy}`, row.strategy)}
+                    </div>
+                    <div class="log-outcome oc-lose" style="color:var(--text-muted);">NOT OBTAINED</div>
+                    <div class="log-right">
+                        <div class="log-pulls">${row.rawCost} pulls</div>
+                        ${row.cost < row.rawCost ? `<div class="log-net">${row.cost} net</div>` : ""}
+                        <div class="log-remaining ${remClassLose}">${row.remaining} left</div>
+                        ${sgHtmlFor(row.sgRefund)}
+                    </div>
+                </div>`;
+    }
     const rowClass = row.type === "lose-win" ? "row-lose-win" : "row-win";
     const ocClass = row.type === "lose-win" ? "oc-guaranteed" : row.capturedRadiance ? "oc-radiance" : "oc-win";
     const isWep = row.itemType === "weapon";
@@ -837,8 +913,14 @@ function calculateForecast() {
     let ocLabel;
     if (row.capturedRadiance) {
       ocLabel = `${radianceIconHtml}<span class="radiance-text">Capture Radiance</span>`;
-    } else if (row.loses > 0) {
-      ocLabel = isWep ? `${epitomizedIconHtml}Epitomized` : `${guaranteedIconHtml}Guaranteed`;
+    } else if (row.loses > 0 || row.enteringGuaranteed) {
+      if (isWep) {
+        ocLabel = row.enteringGuaranteed ? `${guaranteedIconHtml}Guaranteed` : `${epitomizedIconHtml}Epitomized`;
+      } else if (row.enteringGuaranteed) {
+        ocLabel = `${guaranteedIconHtml}Guaranteed (W)`;
+      } else {
+        ocLabel = `${guaranteedIconHtml}Guaranteed (L/W)`;
+      }
     } else {
       ocLabel = isWep ? "Won 75/25" : "Won 55/45";
     }
@@ -876,21 +958,6 @@ function calculateForecast() {
     let resolved = resolvePattern(raw, ep);
     for (let guard = 0; guard < nep + 1; guard++) {
       const trial = runScenario(resolved);
-      if (trial.failed) {
-        const failIdx = trial.rows.findIndex((r) => r.type === "deficit");
-        if (failIdx === -1) break;
-        let pick = null;
-        for (let i = 0; i < failIdx; i++) {
-          const r = trial.rows[i];
-          if (r.strategy === "Optional" && (r.type === "win" || r.type === "lose-win") && r.idx != null) {
-            if (!pick || r.cost > pick.cost) pick = r;
-          }
-        }
-        if (!pick) break;
-        raw[pick.idx] = -1;
-        resolved = resolvePattern(raw, ep);
-        continue;
-      }
       let changed = false;
       trial.rows.forEach((r) => {
         if (r.type === "skip" && r.idx != null && raw[r.idx] !== -1) {
@@ -898,6 +965,22 @@ function calculateForecast() {
           changed = true;
         }
       });
+      if (trial.failed) {
+        const failIdx = trial.rows.findIndex((r) => r.type === "deficit");
+        if (failIdx !== -1) {
+          let pick = null;
+          for (let i = 0; i < failIdx; i++) {
+            const r = trial.rows[i];
+            if (r.strategy === "Optional" && (r.type === "win" || r.type === "lose-win" || r.type === "lose") && r.idx != null) {
+              if (!pick || r.cost > pick.cost) pick = r;
+            }
+          }
+          if (pick) {
+            raw[pick.idx] = -1;
+            changed = true;
+          }
+        }
+      }
       if (!changed) break;
       resolved = resolvePattern(raw, ep);
     }
@@ -1054,29 +1137,38 @@ function expandPipeline(pipeline) {
 function resolvePattern(rawPattern, expandedPipeline) {
   return applyCaptureRadiance(rawPattern, expandedPipeline);
 }
+function itemWinProb(item) {
+  return item.type === "weapon" ? 0.75 : 0.55;
+}
 function applyCaptureRadiance(pattern, pipeline) {
   const result = [...pattern];
   const radianceIndices = /* @__PURE__ */ new Set();
   let consecutiveCharLosses = 0;
+  let charGuarantee = false;
   for (let i = 0; i < pipeline.length; i++) {
     const item = pipeline[i];
     if (item.type !== "character") continue;
     if (result[i] === -1) continue;
+    const enteringGuaranteed = item.guaranteed === "yes" || charGuarantee;
+    if (enteringGuaranteed) {
+      charGuarantee = false;
+      continue;
+    }
     if (consecutiveCharLosses >= 2) {
       result[i] = 0;
       radianceIndices.add(i);
       consecutiveCharLosses = 0;
+      charGuarantee = false;
     } else if (result[i] > 0) {
       consecutiveCharLosses++;
+      charGuarantee = item.strategy !== "Hard Lock";
     } else {
       consecutiveCharLosses = 0;
+      charGuarantee = false;
     }
   }
   result.radianceIndices = radianceIndices;
   return result;
-}
-function itemWinProb(item) {
-  return item.type === "weapon" ? 0.75 : 0.55;
 }
 function computeScenarioOdds(ep, worstPattern) {
   const nep = ep.length;
@@ -1128,7 +1220,15 @@ function renderScenarioSummary(results, ep, odds) {
       if (row.type === "deficit") {
         return `<td class="scen-item-cell${hideCls}"><span class="scen-item-mark scen-item-short">\u26D4 Short</span></td>`;
       }
-      const guaranteed = row.loses > 0;
+      if (row.type === "lose") {
+        const onceLoseTitle = item.type === "weapon" ? "Missed the featured weapon \u2014 Optional doesn't chase the Epitomized Path, so the copy was not obtained this patch" : "Lost the featured 50/50 \u2014 this strategy doesn't chase the guarantee, so the copy was not obtained and the guarantee carries forward to the next character patch";
+        return `<td class="scen-item-cell${hideCls}">
+                        <span class="scen-item-mark scen-item-once-lose" style="color:var(--danger)" title="${onceLoseTitle}">
+                            \u274C Once
+                        </span>
+                    </td>`;
+      }
+      const guaranteed = row.loses > 0 || row.enteringGuaranteed;
       if (row.capturedRadiance) {
         return `<td class="scen-item-cell${hideCls}">
                         <span class="scen-item-mark scen-item-radiance" style="display:inline-flex;align-items:center;gap:5px;" title="Capture Radiance \u2014 guaranteed win after 2 consecutive losses">
@@ -1139,14 +1239,23 @@ function renderScenarioSummary(results, ep, odds) {
       }
       if (guaranteed) {
         const isWepItem = item.type === "weapon";
+        let guaranteedText, guaranteedTitle;
+        if (isWepItem) {
+          guaranteedText = row.enteringGuaranteed ? "Guaranteed" : "Epitomized";
+          guaranteedTitle = row.enteringGuaranteed ? "Entered the patch already guaranteed via a pre-existing Fate Point \u2014 no roll this patch" : "Missed the featured weapon, gained a Fate Point \u2014 obtained via Epitomized Path on the next 5\u2605 weapon pull";
+        } else {
+          guaranteedText = row.enteringGuaranteed ? "Guaranteed (W)" : "Guaranteed (L/W)";
+          guaranteedTitle = row.enteringGuaranteed ? "Entered the patch already guaranteed \u2014 no roll this patch" : "Lost the 50/50 this patch, then won on the guaranteed pull";
+        }
         return `<td class="scen-item-cell${hideCls}">
-                        <span class="scen-item-mark scen-item-guaranteed" title="${isWepItem ? "Missed the featured weapon, gained a Fate Point \u2014 obtained via Epitomized Path on the next 5\u2605 weapon pull" : "Lost the featured 50/50, then obtained it on the guaranteed next pull"}">
-                            <img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="${isWepItem ? "Epitomized" : "Guaranteed"}">${isWepItem ? "Epitomized" : "Guaranteed"}
+                        <span class="scen-item-mark scen-item-guaranteed" title="${guaranteedTitle}">
+                            <img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="${isWepItem ? guaranteedText : "Guaranteed"}">${guaranteedText}
                         </span>
                     </td>`;
       }
+      const isSingleAttemptStrategy = row.strategy === "One Shot" || row.strategy === "Optional";
       return `<td class="scen-item-cell${hideCls}">
-                    <span class="scen-item-mark scen-item-win">\u2705 Win</span>
+                    <span class="scen-item-mark scen-item-win">\u2705 ${isSingleAttemptStrategy ? "Once" : "Win"}</span>
                 </td>`;
     }).join("");
     const prevItem = idx > 0 ? ep[idx - 1] : null;
@@ -1214,7 +1323,9 @@ function renderScenarioSummary(results, ep, odds) {
                 <div class="scen-legend">
                     <span class="scen-legend-title">Legend</span>
                     <span class="scen-legend-item"><span class="scen-item-mark scen-item-win">\u2705 Win</span><span class="scen-legend-desc">Won the 50/50.</span></span>
-                    <span class="scen-legend-item"><span class="scen-item-mark scen-item-guaranteed"><img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="Guaranteed">Guaranteed</span><span class="scen-legend-desc">Won on guarantee after a loss.</span></span>
+                    <span class="scen-legend-item"><span class="scen-item-mark scen-item-guaranteed"><img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="Guaranteed">Guaranteed (W)</span><span class="scen-legend-desc">Entered the patch already guaranteed \u2014 no roll this patch.</span></span>
+                    <span class="scen-legend-item"><span class="scen-item-mark scen-item-guaranteed"><img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="Guaranteed">Guaranteed (L/W)</span><span class="scen-legend-desc">Lost the 50/50 this patch, then won on the guaranteed pull.</span></span>
+                    <span class="scen-legend-item"><span class="scen-item-mark scen-item-once-lose" style="color:var(--danger)">\u274C Once</span><span class="scen-legend-desc">One Shot/Optional \u2014 lost, not chased. Characters carry the guarantee forward; weapons don't.</span></span>
                     ${ep.some((item) => item.type === "weapon") ? `<span class="scen-legend-item"><span class="scen-item-mark scen-item-guaranteed"><img class="guaranteed-icon" src="assets/data/custom_icons/lost_5050.png" alt="Epitomized">Epitomized</span><span class="scen-legend-desc">Won via Fate Points after a miss.</span></span>` : ""}
                     <span class="scen-legend-item"><span class="scen-item-mark scen-item-radiance" style="display:inline-flex;align-items:center;gap:5px;"><img class="radiance-icon" src="assets/data/custom_icons/Item_Intertwined_Fate.webp" alt="Radiance" style="width:14px;height:14px;"><span class="radiance-text">Radiance</span></span><span class="scen-legend-desc">Capturing Radiance activated.</span></span>
                     <span class="scen-legend-item"><span class="scen-item-mark scen-item-short">\u26D4 Short</span><span class="scen-legend-desc">Ran out of wishes.</span></span>
