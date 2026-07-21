@@ -1,13 +1,13 @@
 const GENSHIN_LEVEL_XP = {
-  1: { toNext: 1000, totalExp: 0 },
-  2: { toNext: 1325, totalExp: 1000 },
+  1: { toNext: 1e3, totalExp: 0 },
+  2: { toNext: 1325, totalExp: 1e3 },
   3: { toNext: 1700, totalExp: 2325 },
   4: { toNext: 2150, totalExp: 4025 },
   5: { toNext: 2625, totalExp: 6175 },
   6: { toNext: 3150, totalExp: 8800 },
   7: { toNext: 3725, totalExp: 11950 },
   8: { toNext: 4350, totalExp: 15675 },
-  9: { toNext: 5000, totalExp: 20025 },
+  9: { toNext: 5e3, totalExp: 20025 },
   10: { toNext: 5700, totalExp: 25025 },
   11: { toNext: 6450, totalExp: 30725 },
   12: { toNext: 7225, totalExp: 37175 },
@@ -20,7 +20,7 @@ const GENSHIN_LEVEL_XP = {
   19: { toNext: 13775, totalExp: 106400 },
   20: { toNext: 14875, totalExp: 120175 },
   21: { toNext: 16800, totalExp: 135050 },
-  22: { toNext: 18000, totalExp: 151850 },
+  22: { toNext: 18e3, totalExp: 151850 },
   23: { toNext: 19250, totalExp: 169850 },
   24: { toNext: 20550, totalExp: 189100 },
   25: { toNext: 21875, totalExp: 209650 },
@@ -57,7 +57,7 @@ const GENSHIN_LEVEL_XP = {
   56: { toNext: 89650, totalExp: 1756500 },
   57: { toNext: 92400, totalExp: 1846150 },
   58: { toNext: 95175, totalExp: 1938550 },
-  59: { toNext: 98000, totalExp: 2033725 },
+  59: { toNext: 98e3, totalExp: 2033725 },
   60: { toNext: 100875, totalExp: 2131725 },
   61: { toNext: 108950, totalExp: 2232600 },
   62: { toNext: 112050, totalExp: 2341550 },
@@ -88,16 +88,14 @@ const GENSHIN_LEVEL_XP = {
   87: { toNext: 434425, totalExp: 6893400 },
   88: { toNext: 487625, totalExp: 7327825 },
   89: { toNext: 547200, totalExp: 7815450 },
-  90: { toNext: null, totalExp: 8362650 },
+  90: { toNext: null, totalExp: 8362650 }
 };
-
 function GENSHIN_LEVEL_XP_COST(fromLevel, toLevel) {
   const from = GENSHIN_LEVEL_XP[fromLevel];
   const to = GENSHIN_LEVEL_XP[toLevel];
   if (!from || !to) return null;
   return Math.max(0, to.totalExp - from.totalExp);
 }
-
 const GENSHIN_WEAPON_LEVEL_XP = {
   1: { toNext: 600, totalExp: 0 },
   2: { toNext: 950, totalExp: 600 },
@@ -149,7 +147,7 @@ const GENSHIN_WEAPON_LEVEL_XP = {
   48: { toNext: 71400, totalExp: 1227150 },
   49: { toNext: 73950, totalExp: 1298550 },
   50: { toNext: 76500, totalExp: 1372500 },
-  51: { toNext: 83075, totalExp: 1449000 },
+  51: { toNext: 83075, totalExp: 1449e3 },
   52: { toNext: 85850, totalExp: 1532075 },
   53: { toNext: 88650, totalExp: 1617925 },
   54: { toNext: 91550, totalExp: 1706575 },
@@ -175,7 +173,7 @@ const GENSHIN_WEAPON_LEVEL_XP = {
   74: { toNext: 173550, totalExp: 4245900 },
   75: { toNext: 177650, totalExp: 4419450 },
   76: { toNext: 181800, totalExp: 4597100 },
-  77: { toNext: 186000, totalExp: 4778900 },
+  77: { toNext: 186e3, totalExp: 4778900 },
   78: { toNext: 190250, totalExp: 4964900 },
   79: { toNext: 194525, totalExp: 5155150 },
   80: { toNext: 198875, totalExp: 5349675 },
@@ -188,13 +186,11 @@ const GENSHIN_WEAPON_LEVEL_XP = {
   87: { toNext: 471375, totalExp: 7470350 },
   88: { toNext: 529050, totalExp: 7941725 },
   89: { toNext: 593675, totalExp: 8470775 },
-  90: { toNext: null, totalExp: 9064450 },
+  90: { toNext: null, totalExp: 9064450 }
 };
-
 function GENSHIN_WEAPON_LEVEL_XP_COST(fromLevel, toLevel) {
   const from = GENSHIN_WEAPON_LEVEL_XP[fromLevel];
   const to = GENSHIN_WEAPON_LEVEL_XP[toLevel];
   if (!from || !to) return null;
   return Math.max(0, to.totalExp - from.totalExp);
 }
-
