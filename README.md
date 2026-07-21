@@ -4,16 +4,6 @@ A browser-based planning tool for Genshin Impact's wish system — plan your pul
 
 No build step, no backend — static HTML/CSS/JS.
 
-## Running locally
-
-```bash
-python -m http.server 8000
-# or
-npx http-server -p 8000
-```
-
-Then open `http://localhost:8000`.
-
 ## Features
 
 - Priority-ordered pull planning (Hard Lock / One Shot / Optional targets)

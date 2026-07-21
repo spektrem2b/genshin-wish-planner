@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://genshin-wish-calculator.pages.dev/sitemap.xml
+Sitemap: https://spektrem2b.github.io/genshin-wish-calculator/sitemap.xml
