@@ -11,6 +11,7 @@ const JS_ORDER = [
   "tab-4star.js",
   "tab-other.js",
   "tab-build.js",
+  "character-info-tab.js",
   "app.js"
 ];
 const STATIC_PAGES = [
