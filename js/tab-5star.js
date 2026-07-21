@@ -874,20 +874,31 @@ function calculateForecast() {
   function solveWithReservation(rawPattern) {
     const raw = rawPattern.slice();
     let resolved = resolvePattern(raw, ep);
-    for (let guard = 0; guard < nep; guard++) {
+    for (let guard = 0; guard < nep + 1; guard++) {
       const trial = runScenario(resolved);
-      if (!trial.failed) break;
-      const failIdx = trial.rows.findIndex((r) => r.type === "deficit");
-      if (failIdx === -1) break;
-      let pick = null;
-      for (let i = 0; i < failIdx; i++) {
-        const r = trial.rows[i];
-        if (r.strategy === "Optional" && (r.type === "win" || r.type === "lose-win") && r.idx != null) {
-          if (!pick || r.cost > pick.cost) pick = r;
+      if (trial.failed) {
+        const failIdx = trial.rows.findIndex((r) => r.type === "deficit");
+        if (failIdx === -1) break;
+        let pick = null;
+        for (let i = 0; i < failIdx; i++) {
+          const r = trial.rows[i];
+          if (r.strategy === "Optional" && (r.type === "win" || r.type === "lose-win") && r.idx != null) {
+            if (!pick || r.cost > pick.cost) pick = r;
+          }
         }
+        if (!pick) break;
+        raw[pick.idx] = -1;
+        resolved = resolvePattern(raw, ep);
+        continue;
       }
-      if (!pick) break;
-      raw[pick.idx] = -1;
+      let changed = false;
+      trial.rows.forEach((r) => {
+        if (r.type === "skip" && r.idx != null && raw[r.idx] !== -1) {
+          raw[r.idx] = -1;
+          changed = true;
+        }
+      });
+      if (!changed) break;
       resolved = resolvePattern(raw, ep);
     }
     return resolved;
