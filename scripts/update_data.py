@@ -214,7 +214,7 @@ SHARED_ASSETS_DIR = os.path.join(DATA_DIR, "shared-assets", "materials")
 # ever reads a stale-shaped database. Set to 3 (old pipeline topped out
 # at 2) specifically so migrating from old_update_data.py's output
 # always forces a full rebuild by design, not by coincidence.
-DATA_SCHEMA_VERSION = 3
+DATA_SCHEMA_VERSION = 4
 
 CHARACTER_CURVE_LEVELS = ["1", "90", "95", "100"]
 WEAPON_CURVE_LEVELS = ["1", "90"]
@@ -622,6 +622,11 @@ async def build_talents_doc(char_id, talents_raw, skills_dir, material_lookup, l
         results.append({
             "name": t.get("name"),
             "type": label,
+            # Restored: ambr-py's Talent model has always had this
+            # top-level `description` (the kit's own overview text,
+            # distinct from each level's scaling description below) —
+            # it just wasn't being copied into talents.json before.
+            "description": t.get("description"),
             "icon": icon_rel,
             "cooldown": t.get("cooldown"),
             "cost": t.get("cost"),
@@ -708,6 +713,27 @@ async def build_character_profile(detail, material_lookup, localizer):
         "birthday": detail.get("birthday"),
         "release": detail.get("release"),
         "icon": avatar_rel,
+        # --- Restored below: all of this was already coming back from
+        # Ambr the whole time, just nested under detail["info"] (model
+        # alias "fetter") and detail["upgrade"]["base_stats"] (model
+        # alias "prop") rather than flat — build_character_profile()
+        # just never read those keys. Added as new keys only; nothing
+        # above this line changed, so existing frontend code reading
+        # the original new-schema keys is unaffected. ---
+        "title": (detail.get("info") or {}).get("title"),
+        "description": (detail.get("info") or {}).get("detail"),
+        "constellationName": (detail.get("info") or {}).get("constellation"),
+        "native": (detail.get("info") or {}).get("native"),
+        "cv": (detail.get("info") or {}).get("cv"),
+        "specialStat": detail.get("special_stat"),
+        "baseStats": [
+            {
+                "propType": s.get("prop_type"),
+                "initValue": s.get("init_value"),
+                "growthType": s.get("growth_type"),
+            }
+            for s in ((detail.get("upgrade") or {}).get("base_stats") or [])
+        ],
     }
     dump_json(os.path.join(char_dir, "info.json"), info)
 
@@ -805,6 +831,16 @@ async def build_weapon_profile(detail, weapon_curve, material_lookup, localizer)
         "substat_type": substat.get("prop_type") if substat else None,
         "substat_lvl1": substat.get("init_value") if substat else None,
         "substat_lvl90": substat_lvl90,
+        # Restored: present upstream the whole time at
+        # detail["upgrade"]["awaken_cost"] (WeaponUpgrade.awaken_cost) —
+        # just never surfaced into info.json before. NOTE: ambr-py's own
+        # docstring hedges on what this actually represents ("A list of
+        # Mora costs for each refinement level (?)") — a *list*, not the
+        # single ascension-unlock cost the old pipeline's `awakenCost`
+        # was documented as. Passed through as-is; confirm the real
+        # shape against a test-run weapon before wiring frontend code to
+        # a specific index/meaning here.
+        "awakenCost": (detail.get("upgrade") or {}).get("awaken_cost"),
     }
     dump_json(os.path.join(weapon_dir, "info.json"), info)
 
