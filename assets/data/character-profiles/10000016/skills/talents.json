@@ -2,6 +2,7 @@
   {
     "name": "Tempered Sword",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 4 consecutive strikes.\n\nCharged Attack\nDrains Stamina over time to perform continuous slashes.\nAt the end of the sequence, performs a more powerful slash.\n\nPlunging Attack\nPlunges from mid-air to strike the ground, damaging opponents along the path and dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000016/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Searing Onslaught",
     "type": "skill",
+    "description": "Performs a forward slash that deals Pyro DMG.\n\nThis skill can be consecutively used 3 times.\nEnters CD if not cast again within a short period.\n\nThe slashes represent the values that Diluc holds dear: one for justice, one for courage, and one for duty.",
     "icon": "character-profiles/10000016/skills/01_skill.png",
     "cooldown": 10.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Dawn",
     "type": "burst",
+    "description": "Releases intense flames to knock back nearby opponents, dealing Pyro DMG. The flames then converge into the weapon, summoning a Phoenix that flies forward and deals massive Pyro DMG to all opponents in its path. The Phoenix explodes upon reaching its destination, causing a large amount of AoE Pyro DMG.\nThe searing flames that run down his blade cause it to be infused with Pyro.\n\nThe only reason to walk in the darkness is to light it up. Behold, that fleeing light in the dead of night is the herald of the coming dawn.",
     "icon": "character-profiles/10000016/skills/02_burst.png",
     "cooldown": 12.0,
     "cost": 40,
@@ -2744,6 +2747,7 @@
   {
     "name": "Relentless",
     "type": "passive",
+    "description": "Diluc's Charged Attack Stamina Cost is decreased by 50%, and its duration is increased by 3s.",
     "icon": "character-profiles/10000016/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Blessing of Phoenix",
     "type": "passive",
+    "description": "The Pyro Infusion provided by Dawn lasts for 4s longer. Additionally, Diluc gains 20% Pyro DMG Bonus during the duration of this effect.",
     "icon": "character-profiles/10000016/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Tradition of the Dawn Knight",
     "type": "passive",
+    "description": "Refunds 15% of the ore used when crafting Claymore-type weapons.",
     "icon": "character-profiles/10000016/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,

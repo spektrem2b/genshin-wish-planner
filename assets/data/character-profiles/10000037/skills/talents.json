@@ -2,6 +2,7 @@
   {
     "name": "Liutian Archery",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 6 consecutive shots with a bow.\n\nCharged Attack\nPerforms a more precise Aimed Shot with increased DMG.\nWhile aiming, an icy aura will accumulate on the arrowhead before the arrow is fired. Has different effects based on how long the energy has been charged:\n·Charge Level 1: Fires off an icy arrow that deals Cryo DMG.\n·Charge Level 2: Fires off a Frostflake Arrow that deals Cryo DMG. The Frostflake Arrow blooms after hitting its target, dealing AoE Cryo DMG.\n\nPlunging Attack\nFires off a shower of arrows in mid-air before falling and striking the ground, dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000021/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Trail of the Qilin",
     "type": "skill",
+    "description": "Leaving a single Ice Lotus behind, Ganyu dashes backward, shunning all impurity and dealing AoE Cryo DMG.\n\nIce Lotus\n·Continuously taunts surrounding opponents, attracting them to attack it.\n·Endurance scales based on Ganyu's Max HP.\n·Blooms profusely when destroyed or once its duration ends, dealing AoE Cryo DMG.\n\n\"You saw me, you say? You must be mistaken. I was working overtime then.\"",
     "icon": "character-profiles/10000037/skills/01_skill.png",
     "cooldown": 10.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Celestial Shower",
     "type": "burst",
+    "description": "Coalesces atmospheric frost and snow to summon a Sacred Cryo Pearl that exorcises evil.\nDuring its ability duration, the Sacred Cryo Pearl will continuously rain down shards of ice, striking opponents within an AoE and dealing Cryo DMG.\n\nGanyu can bring down sweet rains as a matter of course. But against demons and heretics, they become bitter, freezing snow.",
     "icon": "character-profiles/10000037/skills/02_burst.png",
     "cooldown": 15.0,
     "cost": 60,
@@ -2744,6 +2747,7 @@
   {
     "name": "Undivided Heart",
     "type": "passive",
+    "description": "After firing a Frostflake Arrow, the CRIT Rate of subsequent Frostflake Arrows and their resulting bloom effects is increased by 20% for 5s.",
     "icon": "character-profiles/10000037/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Harmony Between Heaven and Earth",
     "type": "passive",
+    "description": "Celestial Shower grants a 20% Cryo DMG Bonus to active party members in the AoE.",
     "icon": "character-profiles/10000037/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Preserved for the Hunt",
     "type": "passive",
+    "description": "Refunds 15% of the ore used when crafting Bow-type weapons.",
     "icon": "character-profiles/10000037/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,

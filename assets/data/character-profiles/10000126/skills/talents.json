@@ -2,6 +2,7 @@
   {
     "name": "Golden Blade's Petaled Touch",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 4 rapid strikes.\n\nCharged Attack\nConsumes a certain amount of Stamina to unleash 2 rapid sword strikes.\n\nPlunging Attack\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000002/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Heaven and Earth Made Manifest",
     "type": "skill",
+    "description": "Summoning a shadow of her former powers, she switches to the Lunar Phase Shift mode.\nIn this mode, Zibai's Normal Attacks and Charged Attacks will deal Geo DMG that cannot be overridden by other infusions, and she can accrue special Phase Shift Radiance through different methods. Zibai can consume Phase Shift Radiance to unleash the special Elemental Skill Spirit Steed's Stride.\n\nMoonsign: Ascendant Gleam\nWhile in the Lunar Phase Shift mode, when Zibai performs Normal Attacks, the fourth attack will deal an additional instance of Geo DMG, which is considered Lunar-Crystallize Reaction DMG.",
     "icon": "character-profiles/10000126/skills/01_skill.png",
     "cooldown": 18.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Tri-Sphere Eminence",
     "type": "burst",
+    "description": "Zibai operates the Jadelight Canopy, dealing two instances of Geo DMG, with the second damage instance being considered Lunar-Crystallize Reaction DMG.\nWhen cast, if Zibai is in the Lunar Phase Shift, the duration of the current Lunar Phase Shift will extend by an additional 1.7s.",
     "icon": "character-profiles/10000126/skills/02_burst.png",
     "cooldown": 15.0,
     "cost": 60,
@@ -2744,6 +2747,7 @@
   {
     "name": "The Selenic Adeptus Descends",
     "type": "passive",
+    "description": "When casting the Elemental Skill Heaven and Earth Made Manifest, or when nearby party members trigger Moondrift Harmony, Zibai gains the Selenic Descent effect for 4s: The DMG dealt by the 2nd hit of Spirit Steed's Stride is increased by 60% of Zibai's DEF.",
     "icon": "character-profiles/10000126/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Layered Peaks Pierce the Clouds",
     "type": "passive",
+    "description": "Other Geo party members increase Zibai's DEF by 15% each. Hydro party members increase her Elemental Mastery by 60 each.",
     "icon": "character-profiles/10000126/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Moonsign Benediction: The Coursing Sun and Moon",
     "type": "passive",
+    "description": "When a party member triggers a Hydro Crystallize reaction, it will be converted into the Lunar-Crystallize reaction, with every 100 DEF that Zibai has increasing Lunar-Crystallize's Base DMG by 0.7%, up to a maximum of 14%.\n\nAdditionally, when Zibai is in the party, the party's Moonsign will increase by 1 level.",
     "icon": "character-profiles/10000126/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,
@@ -2768,6 +2774,7 @@
   {
     "name": "Moonlit Flower Forest",
     "type": "passive",
+    "description": "At night (18:00 – 06:00), when not in combat, restore 1 Elemental Energy to Zibai every 2 seconds.\nThis effect does not work in Domains, Trounce Domains, or the Spiral Abyss.",
     "icon": "character-profiles/10000126/skills/06_passive_4.png",
     "cooldown": null,
     "cost": null,

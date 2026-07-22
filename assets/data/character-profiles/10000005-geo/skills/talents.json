@@ -2,6 +2,7 @@
   {
     "name": "Foreign Rockblade",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 5 rapid strikes.\n\nCharged Attack\nConsumes a certain amount of Stamina to unleash 2 rapid sword strikes.\n\nPlunging Attack\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000002/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Starfell Sword",
     "type": "skill",
+    "description": "You disgorge a meteorite from the depths of the earth, dealing AoE Geo DMG.\nThe meteorite is considered a Geo Construct, and can be climbed or used to block attacks.\n\nHold\nThis skill's positioning may be adjusted.\n\nYou spoke with Paimon about the final destination of falling stars.",
     "icon": "character-profiles/10000005-geo/skills/01_skill.png",
     "cooldown": 8.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Wake of Earth",
     "type": "burst",
+    "description": "Energizing the Geo deep underground, you set off expanding shockwaves.\nLaunches surrounding opponents back and deals AoE Geo DMG.\nA stone wall is erected at the edges of the shockwave.\nThe stone wall is considered a Geo Construct, and may be used to block attacks.\n\nYou and Paimon studied the pulse of the mountains.",
     "icon": "character-profiles/10000005-geo/skills/02_burst.png",
     "cooldown": 15.0,
     "cost": 60,
@@ -2744,6 +2747,7 @@
   {
     "name": "Shattered Darkrock",
     "type": "passive",
+    "description": "Reduces Starfell Sword's CD by 2s.",
     "icon": "character-profiles/10000005-geo/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Frenzied Rockslide",
     "type": "passive",
+    "description": "The final hit of a Normal Attack combo triggers a collapse, dealing 60% of ATK as AoE Geo DMG.",
     "icon": "character-profiles/10000005-geo/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Foreign Adamantine",
     "type": "passive",
+    "description": "Draw new strength from journeys past. For every element you have resonated with, you gain additional buffs.\n\nAdditionally, when nearby party members become protected by a shield, when the shield is replaced for any reason, or when Geo Constructs are created, the Traveler will receive 1 stack of Blade of Archaic Petra, max 3 stacks. Up to 1 stack may be obtained every second in this way. After obtaining 3 stacks of Blade of Archaic Petra, performing a Charged Attack will consume all stacks of Blade of Archaic Petra and transform into the special Charged Attack: Rockfell.\n\nCharged Attack: Rockfell\n· Each Charged Attack hit deals increased Geo DMG. Increase in DMG is equal to 120% of Traveler's ATK.\n· For 15s after hitting an opponent, nearby party members will have their shield strength temporarily increased by 20%.\n· Charged Attack: Rockfell can be triggered up to once every 15s.",
     "icon": "character-profiles/10000005-geo/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,

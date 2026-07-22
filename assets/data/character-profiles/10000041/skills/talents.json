@@ -2,6 +2,7 @@
   {
     "name": "Ripple of Fate",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 4 water splash attacks that deal Hydro DMG.\n\nCharged Attack\nConsumes a certain amount of Stamina to deal AoE Hydro DMG after a short casting time.\n\nPlunging Attack\nGathering the might of Hydro, Mona plunges towards the ground from mid-air, damaging all opponents in her path. Deals AoE Hydro DMG upon impact with the ground.",
     "icon": "character-profiles/10000006/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Mirror Reflection of Doom",
     "type": "skill",
+    "description": "Creates an illusory Phantom of Fate from coalesced waterspouts.\n\nPhantom\nHas the following special properties:\n·Continuously taunts nearby opponents, attracting their fire.\n·Continuously deals Hydro DMG to nearby opponents.\n·When its duration expires, the Phantom explodes, dealing AoE Hydro DMG.\n\nHold\nUtilizes water currents to move backwards swiftly before conjuring a Phantom.\n\nOnly one Phantom created by Mirror Reflection of Doom can exist at any time.\n\nSkilled astrologers have always dreamed of using a phantom facsimile of themselves to ward off imminent ill fate, but Mona must be the first to make such a mockery of it in all of Teyvat.",
     "icon": "character-profiles/10000041/skills/01_skill.png",
     "cooldown": 12.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Illusory Torrent",
     "type": "alt_sprint",
+    "description": "Alternate Sprint\nMona cloaks herself within the water's flow, consuming Stamina to move rapidly.\n\nWhen under the effect of Illusory Torrent, Mona can move at high speed on water.\nApplies the Wet status to nearby opponents when she reappears.\n\nThis is something that Mona can do, but her teacher cannot. Well, but it's not as if her teacher would pursue any matter concerning Hydro Visions anyway...",
     "icon": "character-profiles/10000041/skills/02_alt_sprint.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -1888,6 +1891,7 @@
   {
     "name": "Stellaris Phantasm",
     "type": "burst",
+    "description": "Mona summons the sparkling waves and creates a reflection of the starry sky, applying the Illusory Bubble status to opponents in a large AoE.\n\nIllusory Bubble\nTraps opponents inside a pocket of destiny and also makes them Wet. Renders weaker opponents immobile.\nWhen an opponent affected by Illusory Bubble sustains DMG, it has the following effects:\n·Applies an Omen to the opponent, which gives a DMG Bonus, also increasing the DMG of the attack that causes it.\n·Removes the Illusory Bubble, dealing Hydro DMG in the process.\n\nOmen\nDuring its duration, increases DMG taken by opponents.\n\nIt was from the time that gods first traced the lights in the heavens with their eyes that the notion of \"fate\" was born.",
     "icon": "character-profiles/10000041/skills/03_burst.png",
     "cooldown": 15.0,
     "cost": 60,
@@ -2802,6 +2806,7 @@
   {
     "name": "\"Come 'n' Get Me, Hag!\"",
     "type": "passive",
+    "description": "After she has used Illusory Torrent for 2s, if there are any opponents nearby, Mona will automatically create a Phantom.\nA Phantom created in this manner lasts for 2s, and its explosion DMG is equal to 50% of Mirror Reflection of Doom.",
     "icon": "character-profiles/10000041/skills/04_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2810,6 +2815,7 @@
   {
     "name": "Waterborne Destiny",
     "type": "passive",
+    "description": "Increases Mona's Hydro DMG Bonus by a degree equivalent to 20% of her Energy Recharge rate.",
     "icon": "character-profiles/10000041/skills/05_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2818,6 +2824,7 @@
   {
     "name": "Principium of Astrology",
     "type": "passive",
+    "description": "When Mona crafts Weapon Ascension Materials, she has a 25% chance to refund a portion of the crafting materials used.",
     "icon": "character-profiles/10000041/skills/06_passive_3.png",
     "cooldown": null,
     "cost": null,
@@ -2826,6 +2833,7 @@
   {
     "name": "Witch's Eve Rite: Genesis of Starsigns",
     "type": "passive",
+    "description": "After completing Witch's Homework: Of Untested Insight, Mona will become a Hexerei character. When the party includes at least 2 Hexerei characters, you will gain the Hexerei: Secret Rite effect, which enhances Hexerei characters.\n\nHexerei: Secret Rite\nWhen Mona's Normal Attacks or Charged Attacks hit an opponent, she gains 1 stack of Astral Glow of Mercury, for 8s. Max 3 stacks. This effect can grant at most one stack every 0.1s. When other party members trigger a Vaporize reaction on an enemy, all Astral Glow of Mercury stacks are consumed. Each stack consumed increases the damage of that Vaporize reaction by 5%.\nAdditionally, when Mona's Normal Attacks or Charged Attacks hit an opponent, the enemy's Omen duration is extended by 2s. This effect can trigger at most once every 0.5s, and can extend the Omen by up to 8s through this method.",
     "icon": "character-profiles/10000041/skills/07_passive_4.png",
     "cooldown": null,
     "cost": null,

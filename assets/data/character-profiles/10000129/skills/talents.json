@@ -2,6 +2,7 @@
   {
     "name": "Spear of Favonius — Broken Oath",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 5 consecutive strikes.\n\nCharged Attack\nConsumes a certain amount of Stamina to perform a forward thrust.\n\nPlunging Attack\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000023/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Unforeseen Strike",
     "type": "skill",
+    "description": "As he searches for weaknesses, Lohen switches to Masterstroke mode. While in this state:\n· Lohen can actively accumulate Joy, using it to unleash the special Elemental Skill Etched Into Bone and Soul.\n· Nearby party members can accumulate Will to Win for Lohen, increasing the DMG dealt by Etched Into Bone and Soul.\nLohen can unleash Etched Into Bone and Soul up to 3 times while in Masterstroke mode, after which, he will no longer be able to accumulate Joy.\n\n\"Chivalry? Hah, what better way to bait the trap? When an enemy dreams of an honorable victory, they inevitably fail to suspect the 'pleasant surprise' that awaits them.\"",
     "icon": "character-profiles/10000129/skills/01_skill.png",
     "cooldown": 18.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Manifest Judgment",
     "type": "burst",
+    "description": "Performs a swift series of forward strikes, consuming all Will to Win and dealing Cryo DMG. This DMG will be increased based on the amount of Will to Win consumed. If Lohen is in Masterstroke mode when this is performed, the duration of Masterstroke will be extended by 1.65s.\n\n\"So quick to cave? What a pity, I was just starting to enjoy myself...\"",
     "icon": "character-profiles/10000129/skills/02_burst.png",
     "cooldown": 15.0,
     "cost": 60,
@@ -2744,6 +2747,7 @@
   {
     "name": "Moratorium on Questioning",
     "type": "passive",
+    "description": "When nearby party members accumulate Will to Win for Lohen by dealing DMG while he is in Masterstroke mode, if that DMG is not less than 3,000% of Lohen's Base ATK, it will accumulate an extra 60 Will to Win.",
     "icon": "character-profiles/10000129/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Flippant Masterpiece",
     "type": "passive",
+    "description": "While in Masterstroke mode, for 8s after another nearby party member triggers a Cryo Reaction, that character's ATK is increased by 15%, while Lohen's ATK is increased by 15%.",
     "icon": "character-profiles/10000129/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "When the Mood Strikes",
     "type": "passive",
+    "description": "Lohen gains \"High Spirits\" for 9s after he unleashes the Elemental Skill Unforeseen Strike: Increases the Skill Level of Unforeseen Strike by 1.\nWhen unleashing an Elemental Skill, if the Level of any other party member's Normal Attack, Elemental Skill, or Elemental Burst is not lower than Lohen's Elemental Skill Level, the duration of this instance of High Spirits will be increased by an additional 6s.\nHigh Spirits can be gained once every 18s.",
     "icon": "character-profiles/10000129/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,
@@ -2768,6 +2774,7 @@
   {
     "name": "Witch's Eve Rite: Unhealing Thorn",
     "type": "passive",
+    "description": "After completing Witch's Homework: Of Various Foes, Lohen becomes a Hexerei character. When the party includes at least 2 Hexerei characters, you gain the Hexerei: Secret Rite effect, which enhances Hexerei characters.\n\nHexerei: Secret Rite\nWhen the special Elemental Skill Etched Into Bone and Soul hits an opponent or the Elemental Burst Manifest Judgment is unleashed, if Lohen's Will to Win is at 50% or more of its max limit, his Normal Attack and Charged Attack DMG will be increased by 40% for 6s.",
     "icon": "character-profiles/10000129/skills/06_passive_4.png",
     "cooldown": null,
     "cost": null,

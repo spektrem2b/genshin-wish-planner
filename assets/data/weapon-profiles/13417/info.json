@@ -9,5 +9,11 @@
   "base_atk_lvl90": 564.8,
   "substat_type": "FIGHT_PROP_ELEMENT_MASTERY",
   "substat_lvl1": 24.0,
-  "substat_lvl90": 110.256
+  "substat_lvl90": 110.256,
+  "awakenCost": [
+    1000,
+    2000,
+    4000,
+    8000
+  ]
 }

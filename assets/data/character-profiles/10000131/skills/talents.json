@@ -2,6 +2,7 @@
   {
     "name": "Allegoria",
     "type": "normal_attack",
+    "description": "Normal Attack\nProclaims a decree in the primordial tongue and performs up to 3 attacks that deal Pyro DMG.\n\nCharged Attack\nConsumes a certain amount of Stamina to deal AoE Pyro DMG to opponents in front of her after a short casting time.\n\nPlunging Attack\nNicole plunges towards the ground from mid-air, damaging all opponents in her path. Also deals AoE Pyro DMG upon impact with the ground.",
     "icon": "character-profiles/10000006/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Revelation: Uncreated Light",
     "type": "skill",
+    "description": "Recreates a fleeting glimpse of an age long past, when the angels acted on the authority of the heavens, bestowing the Grace of Kenosis effect on nearby party members. This increases their ATK and deals AoE Pyro DMG, as well as creates a Shield of Blazing Light.\nThe Shield of Blazing Light's DMG Absorption is based on Nicole's ATK, and it will absorb Pyro DMG at 250% effectiveness.",
     "icon": "character-profiles/10000131/skills/01_skill.png",
     "cooldown": 16.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Revelation: Ladder of Divine Ascent",
     "type": "burst",
+    "description": "As Nicole weaves the path of anchored fate with golden threads of light, she deals AoE Pyro DMG and switches to Silent Contemplation mode.\nIn this mode, when nearby active party members hit an opponent, an Arcane Projection is summoned to perform a Coordinated Attack against the opponent, dealing AoE Elemental DMG of the character's corresponding Elemental Type. This DMG scales based on the corresponding character's ATK and will be considered as having been dealt by them.\nThis effect can occur once every 3s, and can be triggered up to 4 times each time Nicole switches to Silent Contemplation mode.\n\nIt is worth noting that Hexerei characters' Arcane Projections appear to differ somehow in appearance from the others...",
     "icon": "character-profiles/10000131/skills/02_burst.png",
     "cooldown": 15.0,
     "cost": 60,
@@ -2744,6 +2747,7 @@
   {
     "name": "Methexis",
     "type": "passive",
+    "description": "For 20s after unleashing the Elemental Skill Revelation: Uncreated Light, Nicole will continuously \"observe\" the other current active party members. After the observed character has remained on the field for 3s, their Grace of Kenosis is upgraded to Guidance of Theosis, increasing their ATK by an additional 300. If the observed character is a Hexerei character, Grace of Kenosis is upgraded to Guidance of Theosis straight away.\nWhen characters other than Nicole who have Guidance of Theosis leave the field, their effect reverts to Grace of Kenosis.",
     "icon": "character-profiles/10000131/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Philokalia",
     "type": "passive",
+    "description": "When Elemental DMG from nearby active party members hits an opponent, Nicole's own Grace of Kenosis effect is upgraded to Guidance of Theosis for 8s.",
     "icon": "character-profiles/10000131/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Nepsis",
     "type": "passive",
+    "description": "When you are in Teyvat and not in combat, Nicole's Charged Attack becomes \"Emissarial Guidance\" if you have already obtained the current region's Treasure Compass. Emissarial Guidance: Calls upon nearby Seelie to show the way, triggering an effect similar to the region's Treasure Compass.\nThis effect has a cooldown time of 5 seconds and does not work in Domains, Trounce Domains, and the Spiral Abyss.",
     "icon": "character-profiles/10000131/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,
@@ -2768,6 +2774,7 @@
   {
     "name": "Witch's Eve Rite: Light in the Darkness",
     "type": "passive",
+    "description": "After completing Witch's Homework: The Role of a Guide...?, Nicole becomes a Hexerei character. When the party includes at least 2 Hexerei characters, you gain the Hexerei: Secret Rite effect, which enhances Hexerei characters.\n\nHexerei: Secret Rite\nIncreases the DMG dealt by Hexerei characters' Arcane Projections by 300% of Nicole's ATK.",
     "icon": "character-profiles/10000131/skills/06_passive_4.png",
     "cooldown": null,
     "cost": null,

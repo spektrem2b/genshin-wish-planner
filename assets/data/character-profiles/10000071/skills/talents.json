@@ -2,6 +2,7 @@
   {
     "name": "Invoker's Spear",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 4 consecutive spear strikes.\n\nCharged Attack\nConsumes a certain amount of Stamina to lunge forward, dealing damage to opponents along the way.\n\nPlunging Attack\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000023/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Secret Rite: Chasmic Soulfarer",
     "type": "skill",
+    "description": "Performs a swift thrust, dealing Electro DMG to opponents along the path.\n\nWhen Cyno is under the Pactsworn Pathclearer state triggered by Sacred Rite: Wolf's Swiftness, he will instead unleash a Mortuary Rite that deals thunderous AoE Electro DMG and extends the duration of Pactsworn Pathclearer.\n\n\"This judgment brooks no choice. There is no rejection or acceptance here... We have both long been bound up in this conviction.\"",
     "icon": "character-profiles/10000071/skills/01_skill.png",
     "cooldown": 7.5,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Sacred Rite: Wolf's Swiftness",
     "type": "burst",
+    "description": "Calls upon a divine spirit to indwell him, morphing into the Pactsworn Pathclearer.\n\nPactsworn Pathclearer\nCyno's Normal, Charged, and Plunging Attacks will be converted to Electro DMG that cannot be overridden.\n·Cyno's Elemental Mastery and resistance to interruption will increase, and he gains immunity to Electro-Charged DMG.\n\nThis effect will be canceled when Cyno leaves the field and lasts a maximum of 18s.\n\nThe secret rituals passed down within the ancient nation are as a final judgment to the General Mahamatra.\nWhether now or in the past, whether great storm or serpent, none shall shake the majesty of the law.",
     "icon": "character-profiles/10000071/skills/02_burst.png",
     "cooldown": 20.0,
     "cost": 80,
@@ -2744,6 +2747,7 @@
   {
     "name": "Featherfall Judgment",
     "type": "passive",
+    "description": "When Cyno is in the Pactsworn Pathclearer state activated by Sacred Rite: Wolf's Swiftness, Cyno will enter the Endseer stance at intervals. If he activates Secret Rite: Chasmic Soulfarer while affected by this stance, he will activate the Judication effect, increasing the DMG of this Secret Rite: Chasmic Soulfarer by 35%, and firing off 3 Duststalker Bolts that deal 100% of Cyno's ATK as Electro DMG.\nDuststalker Bolt DMG is considered Elemental Skill DMG.",
     "icon": "character-profiles/10000071/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Authority Over the Nine Bows",
     "type": "passive",
+    "description": "Cyno's DMG values will be increased based on his Elemental Mastery as follows:\n· Pactsworn Pathclearer's Normal Attack DMG is increased by 150% of his Elemental Mastery.\n· Duststalker Bolt DMG from his Ascension Talent Featherfall Judgment is increased by 250% of his Elemental Mastery.",
     "icon": "character-profiles/10000071/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "The Gift of Silence",
     "type": "passive",
+    "description": "Gains 25% more rewards when dispatched on a Sumeru Expedition for 20 hours.",
     "icon": "character-profiles/10000071/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,
@@ -2768,6 +2774,7 @@
   {
     "name": "A Star With Which to Start the Journey",
     "type": "passive",
+    "description": "If Cyno unleashes the Elemental Skill Secret Rite: Chasmic Soulfarer while not in the Pactsworn Pathclearer state, he will enter Pactsworn Pathclearer for 6s.\nAdditionally, when in a Polestar Field, Cyno will enter the Radiance: Stellar-Conduct state.",
     "icon": "character-profiles/10000071/skills/06_passive_4.png",
     "cooldown": null,
     "cost": null,
