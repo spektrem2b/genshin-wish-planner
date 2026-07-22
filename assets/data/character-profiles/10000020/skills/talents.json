@@ -2,6 +2,7 @@
   {
     "name": "Steel Fang",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 4 consecutive strikes.\n\nCharged Attack\nDrains Stamina over time to perform continuous spinning attacks against all nearby opponents.\nAt the end of the sequence, performs a more powerful slash. \n\nPlunging Attack\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000016/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Claw and Thunder",
     "type": "skill",
+    "description": "#Hunts his prey using the techniques taught to him by his master and his lupical.\n\n{LAYOUT_MOBILE#Tap}{LAYOUT_PC#Press}{LAYOUT_PS#Press}\nSwings the Thunder Wolf Claw, dealing Electro DMG to opponents in front of Razor.\nUpon striking an opponent, Razor will gain an Electro Sigil, which increases his Energy Recharge rate.\nRazor can have up to 3 Electro Sigils simultaneously, and gaining a new Electro Sigil refreshes their duration.\n\nHold\nGathers Electro energy to unleash a lightning storm over a small AoE, causing massive Electro DMG, and clears all of Razor's Electro Sigils.\nEach Electro Sigil cleared in this manner will be converted into Energy for Razor.\n\nIn the moment when lightning strikes, you can sometimes glimpse the look of a predator sizing up his prey deep within Razor's eyes.",
     "icon": "character-profiles/10000020/skills/01_skill.png",
     "cooldown": 6.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Lightning Fang",
     "type": "burst",
+    "description": "Summons the Wolf Within, which deals Electro DMG to all nearby opponents. This clears all of Razor's Electro Sigils, which will be converted into Elemental Energy for him.\nThe Wolf Within will fight alongside Razor for the skill's duration.\n\nThe Wolf Within\n·Strikes alongside Razor's normal attacks, dealing Electro DMG.\n·Raises Razor's ATK SPD and Electro RES.\n·Causes Razor to be immune to DMG inflicted by the Electro-Charged status.\n·Disables Razor's Charged Attacks.\n·Increases Razor's resistance to interruption.\n\nThese effects end when Razor leaves the battlefield.\nWhen Razor leaves the field, a maximum of 10 Energy will be returned to him based off the duration remaining on this skill.\n\nThe wolf has awoken. The hunt is on.",
     "icon": "character-profiles/10000020/skills/02_burst.png",
     "cooldown": 20.0,
     "cost": 80,
@@ -2744,6 +2747,7 @@
   {
     "name": "Awakening",
     "type": "passive",
+    "description": "Decreases Claw and Thunder's CD by 18%.\nUsing Lightning Fang resets the CD of Claw and Thunder.",
     "icon": "character-profiles/10000020/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Hunger",
     "type": "passive",
+    "description": "When Razor's Energy is below 50%, increases Energy Recharge by 30%.",
     "icon": "character-profiles/10000020/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Wolvensprint",
     "type": "passive",
+    "description": "Decreases sprinting Stamina consumption for your own party members by 20%.\nNot stackable with Passive Talents that provide the exact same effects.",
     "icon": "character-profiles/10000015/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,
@@ -2768,6 +2774,7 @@
   {
     "name": "Witch's Eve Rite: Surge of Lightning",
     "type": "passive",
+    "description": "After completing Witch's Homework: Of the Little Wolf Pack, Razor will become a Hexerei character. When the party includes at least 2 Hexerei characters, you will gain the Hexerei: Secret Rite effect, which enhances Hexerei characters.\nAdditionally, Razor's Elemental Burst Lightning Fang is enhanced: The Wolf Within's DMG dealt is increased by 70% of Razor's ATK.\n\nHexerei: Secret Rite\nWhile the Wolf Within summoned by Razor's Elemental Burst Lightning Fang is active, if the Electro Sigils from Razor's Elemental Skill Claw and Thunder overflow, the Wolf Within will call down a lightning strike on nearby enemies, dealing AoE Electro DMG equal to 150% of Razor's ATK and restoring 7 Energy to Razor. This effect can be triggered once every 1s.",
     "icon": "character-profiles/10000020/skills/06_passive_4.png",
     "cooldown": null,
     "cost": null,

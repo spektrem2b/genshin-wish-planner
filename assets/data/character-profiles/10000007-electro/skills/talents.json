@@ -2,6 +2,7 @@
   {
     "name": "Foreign Thundershock",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 5 rapid strikes.\n\nCharged Attack\nConsumes a certain amount of Stamina to unleash 2 rapid sword strikes.\n\nPlunging Attack\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000002/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Lightning Blade",
     "type": "skill",
+    "description": "Unleashes three swift thunder shadows that deal Electro DMG to opponents and leave an Abundance Amulet behind after hitting an opponent.\n2 Abundance Amulets can be created initially. Using this skill will reset any Abundance Amulets that were generated.\n\nAbundance Amulets\nWhen a character is near an Abundance Amulet, they will absorb it and obtain the following effects:\n·Restores Elemental Energy\n·Increases Energy Recharge during the Abundance Amulet's duration.\n\nYou and Paimon discuss the paths by which electricity might flow.",
     "icon": "character-profiles/10000005-electro/skills/01_skill.png",
     "cooldown": 13.5,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Bellowing Thunder",
     "type": "burst",
+    "description": "You call upon the protection of lightning, knocking nearby opponents back and dealing Electro DMG to them.\n\nLightning Shroud\nWhen your active character's Normal or Charged Attacks hit opponents, they will call Falling Thunder forth, dealing Electro DMG.\nWhen Falling Thunder hits opponents, it will regenerate Energy for that character.\nOne instance of Falling Thunder can be generated every 0.5s.\n\nYou and Paimon studied the light that flashes through the clouds.",
     "icon": "character-profiles/10000005-electro/skills/02_burst.png",
     "cooldown": 20.0,
     "cost": 80,
@@ -2744,6 +2747,7 @@
   {
     "name": "Thunderflash",
     "type": "passive",
+    "description": "When another nearby character in the party obtains an Abundance Amulet created by Lightning Blade, Lightning Blade's CD is decreased by 1.5s.",
     "icon": "character-profiles/10000005-electro/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Resounding Roar",
     "type": "passive",
+    "description": "Increases the Energy Recharge effect granted by Lightning Blade's Abundance Amulet by 10% of the Traveler's Energy Recharge.",
     "icon": "character-profiles/10000005-electro/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Foreign Thundertrail",
     "type": "passive",
+    "description": "Draw new strength from journeys past. For every element you have resonated with, you gain additional buffs.\n\nIn addition, when nearby party members unleash an Elemental Burst, Traveler will receive 1 stack of Blade of Resounding Thunder, max 3 stacks. After obtaining 3 stacks of Blade of Resounding Thunder, performing a Charged Attack will consume all stacks of Blade of Resounding Thunder and transform into the special Charged Attack: Detonate.\n\nCharged Attack: Detonate\n· Each Charged Attack hit deals increased Electro DMG. Increase in DMG is equal to 100% of Traveler's ATK. \n· 3s after hitting the enemy, 1 additional lightning strike will be triggered, dealing Electro DMG equal to 200% of Traveler's ATK. 1 Abundance Amulet will also be created. This DMG is considered Charged Attack DMG.\n· Charged Attack: Detonate can be triggered up to once every 15s.",
     "icon": "character-profiles/10000005-electro/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,

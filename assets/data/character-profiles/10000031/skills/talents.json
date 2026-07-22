@@ -2,6 +2,7 @@
   {
     "name": "Bolts of Downfall",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 5 consecutive shots with a bow.\n\nCharged Attack\nPerforms a more precise Aimed Shot with increased DMG.\nWhile aiming, the dark lightning spirits of Immernachtreich shall heed the call of their Prinzessin and indwell the enchanted arrowhead. When fully indwelt, the Rachsüchtig Blitz shall deal immense Electro DMG.\n\nPlunging Attack\nFires off a shower of arrows in mid-air before falling and striking the ground, dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000021/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Nightrider",
     "type": "skill",
+    "description": "#Summons Oz. The night raven forged of darkness and lightning descends upon the land, dealing Electro DMG in a small AoE.\nFor the ability's duration, Oz will continuously attack nearby opponents with Freikugel.\n\nHold to adjust the location Oz will be summoned to.\n{LAYOUT_MOBILE#Tap}{LAYOUT_PC#Press}{LAYOUT_PS#Press} again any time during the ability's duration to once again summon him to Fischl's side.\n\n\"My time is most precious, and I shall not waste it on the likes of you... Go, Oz, fall upon them, and bring down upon them your Rachsüchtig Blitz, that which tears open the long night.\"\n—Flowers for Princess Fischl (IV): Farewell Frau Welt",
     "icon": "character-profiles/10000031/skills/01_skill.png",
     "cooldown": 25.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Midnight Phantasmagoria",
     "type": "burst",
+    "description": "Summons Oz to spread his twin wings of twilight and defend Fischl.\nHas the following properties during the ability's duration:\n·Fischl takes on Oz's form, greatly increasing her Movement Speed.\n·Strikes nearby opponents with lightning, dealing Electro DMG to opponents she comes into contact with. Each opponent can only be struck once.\n·Once this ability's effects end, Oz will remain on the battlefield and attack his Prinzessin's foes. If Oz is already on the field, then this will reset the duration of his presence.\n\n\"...In the hordes of beasts that follow the cursed blood, only Prince Nachtraben, who bore witness to the extinction of a thousand worlds, knows her true greatness. Thus the night wings he spreads are his eternal promise to protect Her Royal Highness.\"\n—Flowers for Princess Fischl (I): End Time Zersetzung",
     "icon": "character-profiles/10000031/skills/02_burst.png",
     "cooldown": 15.0,
     "cost": 60,
@@ -2744,6 +2747,7 @@
   {
     "name": "Stellar Predator",
     "type": "passive",
+    "description": "When Fischl hits Oz with a fully-charged Aimed Shot, Oz brings down Thundering Retribution, dealing AoE Electro DMG equal to 152.7% of the arrow's DMG.",
     "icon": "character-profiles/10000031/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Undone Be Thy Sinful Hex",
     "type": "passive",
+    "description": "If your current active character triggers an Electro-related Elemental Reaction when Oz is on the field, the opponent shall be stricken with Thundering Retribution that deals Electro DMG equal to 80% of Fischl's ATK.",
     "icon": "character-profiles/10000031/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Mein Hausgarten",
     "type": "passive",
+    "description": "When dispatched on an expedition in Mondstadt, time consumed is reduced by 25%.",
     "icon": "character-profiles/10000031/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,
@@ -2768,6 +2774,7 @@
   {
     "name": "Witch's Eve Rite: Phantasmal Nocturne",
     "type": "passive",
+    "description": "After completing Witch's Homework: Of the Unexpected, Fischl will become a Hexerei character. When the party includes at least 2 Hexerei characters, you will gain the Hexerei: Secret Rite effect, which enhances Hexerei characters.\n\nHexerei: Secret Rite\nHark, Prince Nachtraben, Ozvaldo Hrafnavins, he who has witnessed the fall of countless worlds. Sing now the starry septet for your sovereign, for this is the moment of deepest sin, when the gathered souls at the end of causality shatter the darkness of fate.\nAdditionally, when Oz is on the field, party members will gain additional buff effects:\n· After a nearby party member triggers an Overloaded reaction, Fischl and other nearby active party members have their ATK increased by 22.5% for 10s.\n· After a nearby party member triggers an Electro-Charged or Lunar-Charged reaction, Fischl and other nearby active party members have their Elemental Mastery increased by 90 for 10s.",
     "icon": "character-profiles/10000031/skills/06_passive_4.png",
     "cooldown": null,
     "cost": null,

@@ -2,6 +2,7 @@
   {
     "name": "Khanda Barrier-Buster",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 4 consecutive shots with a bow.\n\nCharged Attack\nPerforms a more precise Aimed Shot with increased DMG.\nWhile aiming, the power of Dendro will accumulate on the arrowhead before the arrow is fired. Has different effects based on how long the energy has been charged:\n·Charge Level 1: Fires off an arrow carrying the power of flora that deals Dendro DMG.\n·Charge Level 2: Fires off a Wreath Arrow that deals Dendro DMG. Upon hit, the Wreath Arrow will create 4 Clusterbloom Arrows that will track nearby opponents automatically and deal Dendro DMG.\n\nPlunging Attack\nFires off a shower of arrows in mid-air before falling and striking the ground, dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000021/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Vijnana-Phala Mine",
     "type": "skill",
+    "description": "Tighnari throws a Vijnana Stormheart ahead that deals AoE Dendro DMG, creating a Vijnana-Khanda Field that creates mysterious illusions that taunt opponents and draw their fire.\nAdditionally, Tighnari gains the Vijnana Suffusion effect, which will decrease the Wreath Arrow's charging time by 2.4s. This effect will dissipate once the skill duration ends or after Tighnari has fired 3 Wreath Arrows.\n\n\"If seeds wither apart from the soil, they will remain a single seed. But if returned to the soil, they shall multiply ten-million fold.\"",
     "icon": "character-profiles/10000069/skills/01_skill.png",
     "cooldown": 12.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Fashioner's Tanglevine Shaft",
     "type": "burst",
+    "description": "Combines the power of all seeds to fire 6 Tanglevine Shafts that can track opponents and deal Dendro DMG.\nAfter they hit, the Tanglevine Shafts will create a secondary wave of Tanglevine Shafts that can also track nearby opponents and deal Dendro DMG on hit.\n\n\"Do not seek to escape so easily. The vines grow and regrow ever on. Things might get dicey if you don't clear every last one of them out.\"",
     "icon": "character-profiles/10000069/skills/02_burst.png",
     "cooldown": 12.0,
     "cost": 40,
@@ -2744,6 +2747,7 @@
   {
     "name": "Keen Sight",
     "type": "passive",
+    "description": "After Tighnari fires a Wreath Arrow, his Elemental Mastery is increased by 50 for 4s.",
     "icon": "character-profiles/10000069/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Scholarly Blade",
     "type": "passive",
+    "description": "For every point of Elemental Mastery Tighnari possesses, his Charged Attack and Fashioner's Tanglevine Shaft DMG are increased by 0.06%.\nThe maximum DMG Bonus obtainable this way is 60%.",
     "icon": "character-profiles/10000069/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Encyclopedic Knowledge",
     "type": "passive",
+    "description": "Displays the location of nearby resources unique to Sumeru on the mini-map.",
     "icon": "character-profiles/10000069/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,

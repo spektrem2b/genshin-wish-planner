@@ -2,6 +2,7 @@
   {
     "name": "Rite of Dispelling Winds",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 3 attacks, dealing Anemo DMG.\n\nCharged Attack\nConsumes a certain amount of Stamina and fires off a shot, dealing AoE Anemo DMG.\n\nPlunging Attack\nPlunges towards the ground from mid-air, damaging all opponents along the path. Deals AoE Anemo DMG upon impact with the ground.",
     "icon": "character-profiles/10000006/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Airborne Disease Prevention",
     "type": "skill",
+    "description": "It's time for the real bash bros to step up! Ifa calls Cacucu in as backup.\nAfter using this skill, Ifa gains 80 Nightsoul points and enters the Nightsoul's Blessing state. In the Nightsoul's Blessing state, Ifa will hover with Cacucu's help. When he uses Normal Attacks in this state, he will use different kinds of Supporting Fire depending on whether you Tap or Hold, firing Tonicshots that are capable of healing all party members.\n\nAdditionally, Holding the Elemental Skill Airborne Disease Prevention while Ifa is in Nightsoul's Blessing will cause him to use a Nightsoul-aligned Plunging Attack. Letting go of the skill button will interrupt this Plunging Attack to maintain his hover. If Ifa lands due to this Plunging Attack, his Nightsoul's Blessing state will end.",
     "icon": "character-profiles/10000113/skills/01_skill.png",
     "cooldown": 7.5,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Compound Sedation Field",
     "type": "burst",
+    "description": "Fires a Therapeutic Sedative at a (temporarily aggressive) opponent. The sedative will explode on impact, creating a restraining wind current that pulls nearby objects and opponents in while dealing Nightsoul-aligned AoE Anemo DMG.\nWhen the Therapeutic Sedative hits an opponent affected by Hydro/Pyro/Cryo/Electro, it will apply a Sedation Mark to them.",
     "icon": "character-profiles/10000113/skills/02_burst.png",
     "cooldown": 15.0,
     "cost": 60,
@@ -2744,6 +2747,7 @@
   {
     "name": "Field Medic's Vision",
     "type": "passive",
+    "description": "When Ifa is in the Nightsoul's Blessing state, every 1 Nightsoul point out of the total in his entire party will grant him 1 Rescue Essentials point. Rescue Essentials will increase the Swirl, Electro-Charged, and Lunar-Charged DMG dealt by nearby party members.",
     "icon": "character-profiles/10000113/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Mutual Aid Agreement",
     "type": "passive",
+    "description": "When nearby party members trigger Nightsoul Bursts, Ifa's Elemental Mastery increases by 80 for 10s.",
     "icon": "character-profiles/10000113/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Night Realm's Gift: Focused Emergency Rescue",
     "type": "passive",
+    "description": "After his Nightsoul points are exhausted, Ifa will switch to consuming Phlogiston to maintain his Nightsoul's Blessing.\nWhile in an area with Phlogiston Mechanics within Natlan, he can use Nightsoul Transmission: Ifa. When the active character is a certain height in the air, the following will occur when switching to Ifa: Ifa will enter the Nightsoul's Blessing state and gain 32 Nightsoul points. Nightsoul Transmission can be triggered once every 10s by your own team.",
     "icon": "character-profiles/10000113/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,
@@ -2768,6 +2774,7 @@
   {
     "name": "Tactical Warm Compress Bandaging",
     "type": "passive",
+    "description": "While in an area with Phlogiston Mechanics within Natlan, when the current active party member or indwelt saurian has less than 40% HP, Ifa will consume 10 Phlogiston and restore 40% of their HP. This effect can trigger once every 10s, and does not take effect in Domains, Trounce Domains, or the Spiral Abyss.",
     "icon": "character-profiles/10000113/skills/06_passive_4.png",
     "cooldown": null,
     "cost": null,

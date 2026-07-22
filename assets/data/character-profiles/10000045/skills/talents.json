@@ -2,6 +2,7 @@
   {
     "name": "Spear of the Church",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 5 consecutive spear strikes.\n\nCharged Attack\nConsumes a certain amount of Stamina to lunge forward, dealing damage to opponents along the way.\n\nPlunging Attack\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000023/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Ravaging Confession",
     "type": "skill",
+    "description": "Rosaria swiftly shifts her position to appear behind her opponent, then stabs and slashes them with her polearm, dealing Cryo DMG.\nThis ability cannot be used to travel behind opponents of a larger build.\n\nThose who confess to Sister Rosaria will be granted no absolution. All sinners shall be met with the piercing cold of punishment proportionate to the weight of their sins.",
     "icon": "character-profiles/10000045/skills/01_skill.png",
     "cooldown": 6.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Rites of Termination",
     "type": "burst",
+    "description": "Rosaria's unique take on this prayer ritual: First, she swings her weapon to slash surrounding opponents; then, she summons a frigid Ice Lance that strikes the ground. Both actions deal Cryo DMG.\nWhile active, the Ice Lance periodically releases a blast of cold air, dealing Cryo DMG to surrounding opponents.\n\nJudgment is such a tedious ordeal — much easier to skip that phase and get straight to the last rites. Rosaria was never very devoted to the Anemo God anyway, which makes performing them all too easy.",
     "icon": "character-profiles/10000045/skills/02_burst.png",
     "cooldown": 15.0,
     "cost": 60,
@@ -2744,6 +2747,7 @@
   {
     "name": "Regina Probationum",
     "type": "passive",
+    "description": "When Rosaria strikes an opponent from behind using Ravaging Confession, Rosaria's CRIT Rate increases by 12% for 5s.",
     "icon": "character-profiles/10000045/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Shadow Samaritan",
     "type": "passive",
+    "description": "Casting Rites of Termination increases CRIT Rate of all nearby party members (except Rosaria herself) by 15% of Rosaria's CRIT Rate for 10s.\nCRIT Rate Bonus gained this way cannot exceed 15%.",
     "icon": "character-profiles/10000045/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Night Walk",
     "type": "passive",
+    "description": "At night (18:00 – 06:00), your party members gain the Swift Stride effect: Movement SPD increased by 10%.\nDoes not take effect in Domains, Trounce Domains, or Spiral Abyss. Swift Stride does not stack.",
     "icon": "character-profiles/10000045/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,

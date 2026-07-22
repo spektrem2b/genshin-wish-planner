@@ -9,5 +9,11 @@
   "base_atk_lvl90": 354.4,
   "substat_type": "FIGHT_PROP_CHARGE_EFFICIENCY",
   "substat_lvl1": 0.113333,
-  "substat_lvl90": 0.5207
+  "substat_lvl90": 0.5207,
+  "awakenCost": [
+    500,
+    1000,
+    2000,
+    4000
+  ]
 }

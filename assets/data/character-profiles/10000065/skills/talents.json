@@ -2,6 +2,7 @@
   {
     "name": "Shinobu's Shadowsword",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 4 rapid strikes.\n\nCharged Attack\nConsumes a certain amount of Stamina to unleash 2 rapid sword strikes.\n\nPlunging Attack\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000002/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Sanctifying Ring",
     "type": "skill",
+    "description": "Creates a Grass Ring of Sanctification at the cost of part of her HP, dealing Electro DMG to nearby opponents.\n\nGrass Ring of Sanctification\nFollows your current active character around. Deals Electro DMG to nearby opponents every 1.5s and restores HP for active character(s) within the ring's AoE based on Kuki Shinobu's Max HP.\n\nThe HP consumption from using this skill can only bring her to 20% HP.\n\n\"Band the Naku Weed into a loop around your waist, and it shall exorcise evil.\"",
     "icon": "character-profiles/10000065/skills/01_skill.png",
     "cooldown": 15.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Gyoei Narukami Kariyama Rite",
     "type": "burst",
+    "description": "Stabs an evil-excoriating blade into the ground, creating a field that cleanses the area of all that is foul, dealing continuous Electro DMG to opponents within its AoE based on Shinobu's Max HP.\nIf Shinobu's HP is less than or equal to 50% when this skill is used, the field will last longer.\n\nThis was originally a technique used in weeding and in ritual prayers for the yearly harvest, but Shinobu has not forgotten it, though her career as a shrine maiden may have ended.",
     "icon": "character-profiles/10000065/skills/02_burst.png",
     "cooldown": 15.0,
     "cost": 60,
@@ -2744,6 +2747,7 @@
   {
     "name": "Breaking Free",
     "type": "passive",
+    "description": "When Shinobu's HP is not higher than 50%, her Healing Bonus is increased by 15%.",
     "icon": "character-profiles/10000065/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Heart's Repose",
     "type": "passive",
+    "description": "Sanctifying Ring's abilities will be boosted based on Shinobu's Elemental Mastery:\n·Healing amount will be increased by 75% of Elemental Mastery.\n·DMG dealt is increased by 25% of Elemental Mastery.",
     "icon": "character-profiles/10000065/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Protracted Prayers",
     "type": "passive",
+    "description": "Gains 25% more rewards when dispatched on an Inazuma Expedition for 20 hours.",
     "icon": "character-profiles/10000065/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,

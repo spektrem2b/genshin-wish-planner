@@ -2,6 +2,7 @@
   {
     "name": "As Water Seeks Equilibrium",
     "type": "normal_attack",
+    "description": "Normal Attack\nWith light flourishes, Neuvillette commands the tides to unleash a maximum of 3 attacks, dealing Hydro DMG.\n\nCharged Attack Empowerment: Legal Evaluation\nWhile charging up, Neuvillette will gather the power of water, forming it into a Seal of Arbitration. In this state, Neuvillette can move and change facing, and also absorb any Sourcewater Droplets in a certain AoE.\nEvery Droplet he absorbs will increase the formation speed of the Seal, and will heal Neuvillette.\nWhen the charging is stopped, if the Symbol has yet to be formed, then a Charged Attack will be unleashed. If it has been formed, then a Charged Attack: Equitable Judgment will be unleashed.\n\nCharged Attack\nConsumes a fixed amount of Stamina to attack opponents with a rupturing blast of water, dealing AoE Hydro DMG.\n\nCharged Attack: Equitable Judgment\nUnleashes surging torrents, dealing continuous AoE Hydro DMG to all opponents in a straight-line area in front of him.\nEquitable Judgment will not consume any Stamina and lasts 3s.\nIf Neuvillette's HP is above 50%, he will continuously lose HP while using this attack.\n\nPlunging Attack\nGathering the might of Hydro, Neuvillette plunges towards the ground from mid-air, damaging all opponents in his path. Deals AoE Hydro DMG upon impact with the ground.",
     "icon": "character-profiles/10000006/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "O Tears, I Shall Repay",
     "type": "skill",
+    "description": "Summons a Raging Waterfall that will deal AoE Hydro DMG to opponents in front of Neuvillette based on his Max HP. After hitting an opponent, this skill will generate 3 Sourcewater Droplets near that opponent.\n\nArkhe: Pneuma\nAt certain intervals, when the Raging Waterfall descends, a Spiritbreath Thorn will descend that will pierce opponents, dealing Pneuma-aligned Hydro DMG.\n\n\"The law can restrict all manner of crimes, but it cannot extirpate evil itself.",
     "icon": "character-profiles/10000087/skills/01_skill.png",
     "cooldown": 12.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "O Tides, I Have Returned",
     "type": "burst",
+    "description": "Unleashes waves that will deal AoE Hydro DMG based on Neuvillette's Max HP. After a short interval, 2 waterfalls will descend and deal Hydro DMG in a somewhat smaller AoE, and will generate 6 Sourcewater Droplets within an area in front.\n\n\"The law is only established after its publication, and above that, the laws of nature have governed all species and eras since ancient times.",
     "icon": "character-profiles/10000087/skills/02_burst.png",
     "cooldown": 18.0,
     "cost": 70,
@@ -2744,6 +2747,7 @@
   {
     "name": "Heir to the Ancient Sea's Authority",
     "type": "passive",
+    "description": "When a party member triggers a Vaporize, Frozen, Electro-Charged, Lunar-Charged, Bloom, Lunar-Bloom, Hydro Swirl, Hydro Crystallize or a Lunar-Crystallize reaction on opponents, 1 stack of Past Draconic Glories will be granted to Neuvillette for 30s. Max 3 stacks. Past Draconic Glories causes Charged Attack: Equitable Judgment to deal 110%/125%/160% of its original DMG.\nThe stacks of Past Draconic Glories created by each kind of Elemental Reaction exist independently.",
     "icon": "character-profiles/10000087/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Discipline of the Supreme Arbitration",
     "type": "passive",
+    "description": "For each 1% of Neuvillette's current HP greater than 30% of Max HP, he will gain 0.6% Hydro DMG Bonus. A maximum bonus of 30% can be obtained this way.",
     "icon": "character-profiles/10000087/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Gather Like the Tide",
     "type": "passive",
+    "description": "Increases underwater Sprint SPD for your own party members by 15%.\nNot stackable with Passive Talents that provide the exact same effects.",
     "icon": "character-profiles/10000087/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,

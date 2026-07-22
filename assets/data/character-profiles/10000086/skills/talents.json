@@ -2,6 +2,7 @@
   {
     "name": "Forceful Fists of Frost",
     "type": "normal_attack",
+    "description": "Normal Attack\nCoalescing frost about his fist, Wriothesley will unleash powerful Repelling Fists, performing up to 5 rapid attacks that deal Cryo DMG.\nApart from this, Normal Attack combo count will not reset for a short time after using Icefang Rush or sprinting.\n\nCharged Attack\nConsumes a fixed amount of Stamina to leap and unleash a Vaulting Fist, dealing AoE Cryo DMG.\n\nPlunging Attack\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE Cryo DMG upon impact.",
     "icon": "character-profiles/10000006/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Icefang Rush",
     "type": "skill",
+    "description": "Adjusting his breathing, rhythm, and pace, Wriothesley sprints forward a short distance, entering the Chilling Penalty state and unleashing more powerful attacks than before.\n\nChilling Penalty\n·Increases Wriothesley's interruption resistance\n·When his HP is above 50%, it will enhance the Repelling Fists of Normal Attack: Forceful Fists of Frost and increase its DMG. When such an attack hits, it will consume a fixed amount of Wriothesley's HP. HP can be lost this way once every 0.1s.\nThis effect will be canceled should Wriothesley leave the field.\n\n\"Past convictions are past. It is our future choices that we must grasp.\"\n\"Defy your fate, or else this glutton be, to pay your fate's due, by the crime and thee.\"",
     "icon": "character-profiles/10000086/skills/01_skill.png",
     "cooldown": 16.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Darkgold Wolfbite",
     "type": "burst",
+    "description": "Activating his boxing gloves, Wriothesley strikes out with an icy straight, then uses Icicle Impact to cause multiple instances of AoE Cryo DMG in a frontal area.\n\nArkhe: Ousia\nAfter Icicle Impact ends, a Surging Blade will descend upon the opponent's position, dealing Ousia-aligned Cryo DMG.\n\nThere are some things that even the Duke of the Fortress of Meropide can do little about — for example, complicated paperwork, the trivialities of a supervisor, or even... little kids pasting a whole host of cute but difficult-to-remove stickers on his boxing gloves.",
     "icon": "character-profiles/10000086/skills/02_burst.png",
     "cooldown": 15.0,
     "cost": 60,
@@ -2744,6 +2747,7 @@
   {
     "name": "There Shall Be a Plea for Justice",
     "type": "passive",
+    "description": "When Wriothesley's HP is less than 60%, he will obtain a Gracious Rebuke. The next Charged Attack of his Normal Attack: Forceful Fists of Frost will be enhanced to become Rebuke: Vaulting Fist. It will not consume Stamina, will deal 50% increased DMG, and after hitting will restore HP for Wriothesley equal to 30% of his Max HP.\nYou can gain a Gracious Rebuke this way once every 5s.",
     "icon": "character-profiles/10000086/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "There Shall Be a Reckoning for Sin",
     "type": "passive",
+    "description": "When Wriothesley's current HP increases or decreases, if he is in the Chilling Penalty state conferred by Icefang Rush, Chilling Penalty will gain one stack of Prosecution Edict. Max 5 stacks. Each stack will increase Wriothesley's ATK by 6%.",
     "icon": "character-profiles/10000086/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "The Duke's Grace",
     "type": "passive",
+    "description": "When Wriothesley crafts Weapon Ascension Materials, he has a 10% chance to receive double the product.",
     "icon": "character-profiles/10000002/skills/06_passive_3.png",
     "cooldown": null,
     "cost": null,
@@ -2768,6 +2774,7 @@
   {
     "name": "There Shall Be an Unveiling for Injustice",
     "type": "passive",
+    "description": "Radiance: Stellar-Conduct: The Ascension Talent \"There Shall Be a Plea for Justice\" is changed to the following:\nWhen Wriothesley's HP is less than 60%, he will obtain a \"Gracious Rebuke: Unveiling.\" This enhances the next Charged Attack of his Normal Attack: Forceful Fists of Frost into Luster: Vaulting Fist, which will not consume Stamina and restores 30% Max HP to Wriothesley upon hit. Wriothesley can gain HP in this way once every 2s.\nAdditionally, the third and fifth strikes of Repelling Fist enhanced by Chilling Penalty will deal 60% and 80% of their original Cryo DMG respectively, while Luster: Vaulting Fist will deal 100% of its original AoE Cryo DMG. The aforementioned DMG is considered as Stellar-Conduct DMG, and Wriothesley deals 30% increased Stellar-Conduct DMG.\nAdditionally, when inside a Polestar Field, Wriothesley will enter the Radiance: Stellar-Conduct state.",
     "icon": "character-profiles/10000086/skills/06_passive_4.png",
     "cooldown": null,
     "cost": null,

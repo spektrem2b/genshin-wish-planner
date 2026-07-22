@@ -2,6 +2,7 @@
   {
     "name": "Favonius Bladework - Edel",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 5 consecutive strikes.\n\nCharged Attack\nDrains Stamina over time to perform continuous slashes.\nAt the end of the sequence, performs a more powerful slash.\n\nPlunging Attack\nPlunges from mid-air to strike the ground, damaging opponents along the path and dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000016/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Icetide Vortex",
     "type": "skill",
+    "description": "#Sharp frost, swift blade.\n\n{LAYOUT_MOBILE#Tap}{LAYOUT_PC#Press}{LAYOUT_PS#Press}\nSlashes swiftly, dealing Cryo DMG.\nWhen it hits an opponent, Eula gains a stack of Grimheart that stacks up to 2 times. These stacks can only be gained once every 0.3s.\n\nGrimheart\nIncreases Eula's resistance to interruption and DEF.\n\nHold\nWielding her sword, Eula consumes all the stacks of Grimheart and lashes forward, dealing AoE Cryo DMG to opponents in front of her.\nIf Grimheart stacks are consumed, surrounding opponents will have their Physical RES and Cryo RES decreased.\nEach consumed stack of Grimheart will be converted into an Icewhirl Brand that deals Cryo DMG to nearby opponents.\n\n\"So the waves roiled, swallowing the crown of the nobles. And ever after did each drop amidst the icy waves reflect a golden crown, each and every droplet of the spray shining with its light.\"",
     "icon": "character-profiles/10000051/skills/01_skill.png",
     "cooldown": 4.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Glacial Illumination",
     "type": "burst",
+    "description": "Brandishes her greatsword, dealing Cryo DMG to nearby opponents and creating a Lightfall Sword that follows her around for a duration of up to 7s.\nWhile present, the Lightfall Sword increases Eula's resistance to interruption. When Eula's own Normal Attack, Elemental Skill, and Elemental Burst deal DMG to opponents, they will charge the Lightfall Sword, which can gain an energy stack once every 0.1s.\nOnce its duration ends, the Lightfall Sword will descend and explode violently, dealing Physical DMG to nearby opponents.\nThis DMG scales on the number of energy stacks the Lightfall Sword has accumulated.\nIf Eula leaves the field, the Lightfall Sword will explode immediately.\n\nIt is easy to sink. But even so, she desires to freeze this oncoming tide.",
     "icon": "character-profiles/10000051/skills/02_burst.png",
     "cooldown": 20.0,
     "cost": 80,
@@ -2744,6 +2747,7 @@
   {
     "name": "Roiling Rime",
     "type": "passive",
+    "description": "If 2 stacks of Grimheart are consumed upon unleashing the Holding Mode of Icetide Vortex, a Shattered Lightfall Sword will be created that will explode immediately, dealing 50% of the basic Physical DMG dealt by a Lightfall Sword created by Glacial Illumination.",
     "icon": "character-profiles/10000051/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Wellspring of War-Lust",
     "type": "passive",
+    "description": "When Glacial Illumination is cast, the CD of Icetide Vortex is reset and Eula gains 1 stack of Grimheart.",
     "icon": "character-profiles/10000051/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Aristocratic Introspection",
     "type": "passive",
+    "description": "When Eula crafts Character Talent Materials, she has a 10% chance to receive double the product.",
     "icon": "character-profiles/10000051/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,

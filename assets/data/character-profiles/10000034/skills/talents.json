@@ -2,6 +2,7 @@
   {
     "name": "Favonius Bladework - Maid",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 4 consecutive strikes.\n\nCharged Attack\nDrains Stamina over time to perform continuous spinning attacks against all nearby opponents.\nAt the end of the sequence, performs a more powerful slash. \n\nPlunging Attack\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000016/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Breastplate",
     "type": "skill",
+    "description": "Summons protective stone armor, dealing Geo DMG to surrounding opponents and creating a shield. The shield's DMG Absorption scales based on Noelle's DEF.\nThe shield has the following properties:\n·When Noelle's Normal and Charged Attacks hit a target, they have a certain chance to regenerate HP for all characters.\n·Possesses 150% DMG Absorption efficiency against all Elemental and Physical DMG.\n\nThe amount of HP healed when regeneration is triggered scales based on Noelle's DEF.\n\nNoelle is both a dutiful maid and a valiant knight.",
     "icon": "character-profiles/10000034/skills/01_skill.png",
     "cooldown": 24.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Sweeping Time",
     "type": "burst",
+    "description": "Gathering the strength of stone around her weapon, Noelle strikes the opponents surrounding her within a large AoE, dealing Geo DMG.\nAfterwards, Noelle gains the following effects:\n·Larger attack AoE.\n·Converts attack DMG to Geo DMG that cannot be overridden by any other elemental infusion.\n·Increased ATK that scales based on her DEF.\n\nSometimes, it's not just dust that needs sweeping...",
     "icon": "character-profiles/10000034/skills/02_burst.png",
     "cooldown": 15.0,
     "cost": 60,
@@ -2744,6 +2747,7 @@
   {
     "name": "Devotion",
     "type": "passive",
+    "description": "When Noelle is in the party but not on the field, this ability triggers automatically when your active character's HP falls below 30%:\nCreates a shield for your active character that lasts for 20s and absorbs DMG equal to 400% of Noelle's DEF.\nThe shield has a 150% DMG Absorption effectiveness against all Elemental and Physical DMG.\nThis effect can only occur once every 60s.",
     "icon": "character-profiles/10000034/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Nice and Clean",
     "type": "passive",
+    "description": "Noelle will decrease the CD of Breastplate by 1s for every 4 Normal or Charged Attack hits she scores on opponents.\nOne hit may be counted every 0.1s.",
     "icon": "character-profiles/10000034/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Maid's Knighthood",
     "type": "passive",
+    "description": "When a Perfect Cooking is achieved on a DEF-boosting dish, Noelle has a 12% chance to obtain double the product.",
     "icon": "character-profiles/10000034/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,

@@ -2,6 +2,7 @@
   {
     "name": "Cloud-Grazing Strike",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 5 consecutive spear strikes.\n\nCharged Attack\nConsumes a certain amount of Stamina to lunge forward, dealing damage to opponents along the way.\n\nPlunging Attack\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000023/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Opening Flourish",
     "type": "skill",
+    "description": "#Ms. Yun may just be acting out fights on stage, but her skills with the spear are real enough to defend against her foes.\n\n{LAYOUT_MOBILE#Tap}{LAYOUT_PC#Press}{LAYOUT_PS#Press}\nFlourishes her polearm in a cloud-grasping stance, dealing Geo DMG.\n\nHold\nTakes up the Opening Flourish stance and charges up, forming a shield. DMG Absorption is based on Yun Jin's Max HP and has 150% effectiveness against all Elemental DMG and Physical DMG. The shield lasts until she finishes unleashing her Elemental Skill.\nWhen the skill is released, when its duration ends, or when the shield breaks, Yun Jin will unleash the charged energy as an attack, dealing Geo DMG.\nBased on the time spent charging, it will either unleash an attack at Charge Level 1 or Level 2.\n\nOne glorious moment on-stage, a decade of preparation behind it.",
     "icon": "character-profiles/10000064/skills/01_skill.png",
     "cooldown": 9.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Cliffbreaker's Banner",
     "type": "burst",
+    "description": "Deals AoE Geo DMG and grants all nearby party members a Flying Cloud Flag Formation.\n\nFlying Cloud Flag Formation\nWhen Normal Attack DMG is dealt to opponents, Bonus DMG will be dealt based on Yun Jin's current DEF.\n\nThe effects of this skill will be cleared after a set duration or after being triggered a specific number of times.\nWhen one Normal Attack hits multiple opponents, the effect is triggered multiple times according to the number of opponents hit. The number of times that the effect is triggered is counted independently for each member of the party with Flying Cloud Flag Formation.\n\nAs the drums resound, as swords and halberds weave and clash, the doyenne is transformed into a mighty general.\nAs the instruments on stage strum in unison, lo, see how she vanquishes these demons!",
     "icon": "character-profiles/10000064/skills/02_burst.png",
     "cooldown": 15.0,
     "cost": 60,
@@ -2744,6 +2747,7 @@
   {
     "name": "True to Oneself",
     "type": "passive",
+    "description": "Using Opening Flourish at the precise moment when Yun Jin is attacked will unleash its Level 2 Charged (Hold) form.",
     "icon": "character-profiles/10000064/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Breaking Conventions",
     "type": "passive",
+    "description": "The Normal Attack DMG Bonus granted by Flying Cloud Flag Formation is further increased by 2.5%/5%/7.5%/11.5% of Yun Jin's DEF when the party contains characters of 1/2/3/4 Elemental Types, respectively.",
     "icon": "character-profiles/10000064/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Light Nourishment",
     "type": "passive",
+    "description": "When Perfect Cooking is achieved on Food with Adventure-related effects, there is a 12% chance to obtain double the product.",
     "icon": "character-profiles/10000064/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,

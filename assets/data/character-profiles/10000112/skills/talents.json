@@ -2,6 +2,7 @@
   {
     "name": "Kitchen Skills",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 3 consecutive spear strikes.\n\nCharged Attack\nConsumes a certain amount of Stamina to perform an upward thrust.\n\nPlunging Attack\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000023/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Low-Temperature Cooking",
     "type": "skill",
+    "description": "Behold the true meaning of \"cooking\"! Escoffier will demonstrate different cooking techniques when you Tap or Hold this skill, but rest assured, each of them is Fontaine's pride and joy.\n\nTap\nActivates her All-Spectrum Multi-Use Cooking Mek in its Cold Storage mode and deals AoE Cryo DMG to nearby opponents.\n\nCooking Mek: Cold Storage Mode\nFollows the current active character and fires Frosty Parfaits at nearby opponents at intervals, dealing Cryo DMG.\n\nArkhe: Ousia\nAt intervals, Escoffier will summon a Surging Blade when activating her Cooking Mek in Cold Storage mode, dealing Ousia-aligned AoE Cryo DMG.\n\nHold\nActivates her All-Spectrum Multi-Use Cooking Mek's Off-the-Cuff Cookery Mode.",
     "icon": "character-profiles/10000112/skills/01_skill.png",
     "cooldown": 15.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Scoring Cuts",
     "type": "burst",
+    "description": "Displaying her exceptional knife skills, Escoffier deals AoE Cryo DMG and restores HP to all nearby party members based on her ATK.",
     "icon": "character-profiles/10000112/skills/02_burst.png",
     "cooldown": 15.0,
     "cost": 60,
@@ -2744,6 +2747,7 @@
   {
     "name": "Better to Salivate Than Medicate",
     "type": "passive",
+    "description": "After using the Elemental Burst Scoring Cuts, Escoffier will obtain the Rehab Diet effect for 9s: Restores HP for nearby active characters every 1s based on 138.24% of Escoffier's ATK.",
     "icon": "character-profiles/10000112/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Inspiration-Immersed Seasoning",
     "type": "passive",
+    "description": "When there are 1/2/3/4 Hydro or Cryo characters in the party, Escoffier will decrease the Hydro RES and Cryo RES of any opponents hit by her Elemental Skill, Low-Temperature Cooking, or her Elemental Burst, Scoring Cuts, by 5%/10%/15%/55% for 12s.",
     "icon": "character-profiles/10000112/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Constant Off-the-Cuff Cookery",
     "type": "passive",
+    "description": "#When using the Hold form of her Elemental Skill Low-Temperature Cooking, Escoffier will activate her All-Spectrum Multi-Use Cooking Mek in its Off-the-Cuff Cookery mode.\n\nCooking Mek: Off-the-Cuff Cookery Mode\n· Places the Cooking Mek on the field. The Cooking Mek can absorb elemental attacks. When the absorbed elemental energy hits a certain limit, Escoffier can convert the ingredients placed within it into wonderful food.\n· Escoffier needs time to purchase new ingredients, so she can only make a certain number of dishes like this each week. The number of dishes Escoffier can make resets every Monday at 4:00 AM {TIMEZONE}.",
     "icon": "character-profiles/10000112/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,

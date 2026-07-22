@@ -2,6 +2,7 @@
   {
     "name": "Foreign Stream",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 5 rapid strikes.\n\nCharged Attack\nConsumes a certain amount of Stamina to unleash 2 rapid sword strikes.\n\nPlunging Attack\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000002/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Aquacrest Saber",
     "type": "skill",
+    "description": "Unleashes a torrent that can cleanse the world.\n\nPress\nSends a Torrent Surge forward that will deal Hydro DMG to opponents it comes into contact with.\n\nHold\nEnter Aiming Mode and constantly fire off Dewdrops in the direction in which you are aiming, dealing Hydro DMG to opponents they hit.\nWhen the skill ends, it will send a Torrent Surge forward that will deal Hydro DMG to opponents it comes into contact with.\nSuffusion: When using the Hold configuration of this skill, if the Traveler's HP is higher than 50%, the DMG dealt by Dewdrops will increase based on the Traveler's Max HP, and the Traveler will lose a fixed amount of HP every second.\n\nArkhe: Pneuma\nAt certain intervals, after using Torrent Surge, this skill will unleash a Spiritbreath Thorn that pierces opponents, dealing Pneuma-aligned Hydro DMG.\n\nYou studied the ripples in the water with Paimon.",
     "icon": "character-profiles/10000005-hydro/skills/01_skill.png",
     "cooldown": 10.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Rising Waters",
     "type": "burst",
+    "description": "Unleashes a slow-moving floating bubble that deals continuous Hydro DMG to nearby opponents.\n\nYou studied the ebb and flow of the tides with Paimon.",
     "icon": "character-profiles/10000005-hydro/skills/02_burst.png",
     "cooldown": 20.0,
     "cost": 80,
@@ -2744,6 +2747,7 @@
   {
     "name": "Spotless Waters",
     "type": "passive",
+    "description": "After the Dewdrop fired by the Hold Mode of the Aquacrest Saber hits an opponent, a Sourcewater Droplet will be generated near to the Traveler. If the Traveler picks it up, they will restore 7% HP.\n1 Droplet can be created this way every second, and each use of Aquacrest Saber can create 4 Droplets at most.",
     "icon": "character-profiles/10000005-hydro/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Clear Waters",
     "type": "passive",
+    "description": "If HP has been consumed via Suffusion while using the Hold Mode Aquacrest Saber, the Torrent Surge at the skill's end will deal Bonus DMG equal to 45% of the total HP the Traveler has consumed in this skill use via Suffusion.\nThe maximum DMG Bonus that can be gained this way is 5,000.",
     "icon": "character-profiles/10000005-hydro/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Foreign Aqualis",
     "type": "passive",
+    "description": "Draw new strength from journeys past. For every element you have resonated with, you gain additional buffs.\n\nAdditionally, when nearby party members' current HP increases or decreases by 5%, Traveler will receive 1 stack of Blade of Many Waters. You can gain 1 stack of Blade of Many Waters this way once every 4s, max 3 stacks. After obtaining 3 stacks of Blade of Many Waters, performing a Charged Attack will consume all stacks of Blade of Many Waters and transform into the special Charged Attack: Tidebound.\n\nCharged Attack: Tidebound\n· Each Charged Attack hit deals increased Hydro DMG. Increase in DMG is equal to 150% of Traveler's ATK,\n· When Traveler's HP is no less than 50%, 10% of Traveler's Max HP will be consumed to increase DMG inflicted by each Charged Attack hit by 100% of Traveler's ATK.\n· When Traveler's HP is lower than 50%, one instance of healing equal to 25% of Traveler's Max HP will be restored upon hitting an enemy.\n· Charged Attack: Tidebound can be triggered up to once every 15s.",
     "icon": "character-profiles/10000005-hydro/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,

@@ -2,6 +2,7 @@
   {
     "name": "Formule Phenomenale: Self-Evident Proposition",
     "type": "normal_attack",
+    "description": "Normal Attack\nGenerates threads that control her weapon using formulae, performing up to 3 consecutive strikes.\n\nCharged Attack\nSummons the Facilitatrice Automatisee Generaliste Interactive et Omnitache, or \"Fagio,\" and switches it to Decoding mode: Unleashes a sweeping fire attack on enemies in front, as well as periodically fires condensed beams, dealing AoE Cryo DMG.\nRadiance: Stellar-Conduct: The condensed beams will instead deal AoE Cryo DMG that is considered Stellar-Conduct DMG.\nWhile in Decoding mode, Fagio's Decoding Power will continuously increase. Firing condensed beams will also further increase its Decoding Power.\nWhen Fagio's Decoding Power reaches the maximum of 100 points, it switches to Power Overdrive mode, in which it fires at opponents with longer intervals, dealing Cryo DMG. It will be unable to switch to Decoding mode at this time.\nWhen not in Decoding mode, Fagio's Decoding Power gradually decreases. When Sandrone is off-field, she will focus on maintaining Fagio, causing its Decoding Power to decrease at 300% the original rate.\nFagio exits Power Overdrive mode when its Decoding Power has decreased to under 50.\n\nPlunging Attack\nPlunges from midair to strike the ground below, dealing DMG to opponents along their path and causing AoE DMG on landing.",
     "icon": "character-profiles/10000016/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Formule Phenomenale: Differential Analysis",
     "type": "skill",
+    "description": "With her impeccable, ladylike poise, Sandrone boards the Tea Party Tactical Assault Hovermech and hovers forward for 6s. During this time, Sandrone can control the travel direction of the craft. Pressing Sprint consumes 10 Stamina and launches her into an elegant high-speed hover mode, in which she will move even faster at the cost of 15 Stamina per second.\n\nWhen Sandrone starts hovering, if there are opponents nearby, she will also summon a Prismatic Resonance Cannon and fire 2 Prism Shots at any opponents who have yet to cool down, dealing Cryo DMG.\nRadiance: Stellar-Conduct: The second Prism Shot will instead deal Cryo DMG that is considered Stellar-Conduct DMG.\n\nWhen on the Tea Party Tactical Assault Hovermech, Sandrone will also elegantly and quietly repair Fagio, causing Decoding Power to swiftly decrease.",
     "icon": "character-profiles/10000133/skills/01_skill.png",
     "cooldown": 4.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Formule Phenomenale: Q.E.D.",
     "type": "burst",
+    "description": "In line with established ladylike behavior, Sandrone summons a large number of Prismatic Resonance Cannons for a frontal bombardment before firing on her foes with a Convective Inhibition Ray, dealing AoE Cryo DMG.\nRadiance: Stellar-Conduct: The Convective Inhibition Ray instead deals AoE Cryo DMG that is considered Stellar-Conduct DMG.",
     "icon": "character-profiles/10000133/skills/02_burst.png",
     "cooldown": 15.0,
     "cost": 60,
@@ -2744,6 +2747,7 @@
   {
     "name": "Eternal Speculation Engine",
     "type": "passive",
+    "description": "Radiance: Stellar-Conduct: When using the Elemental Skill Formule Phenomenale: Differential Analysis, if Fagio's Decoding Power is greater than 50, the second Prism Shot fired by Fagio at nearby opponents will deal 400% of its original DMG as Fagio's Decoding Power is decreased.\nAdditionally, for every 10 points of Decoding Power Fagio loses, it gains 1 stack of Refined Tactics for 60s (max 10 stacks). When Sandrone uses the Elemental Burst Formule Phenomenale: Q.E.D. while in the Radiance: Stellar-Conduct state, all stacks of Refined Tactics are cleared, causing the Convective Inhibition Ray to deal 100% + (number of stacks cleared) × 10% of its original DMG.",
     "icon": "character-profiles/10000133/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "A Lady's Code of Conduct",
     "type": "passive",
+    "description": "Increases Sandrone's Elemental Mastery based on her ATK. Every 100 ATK will increase her Elemental Mastery by 8. The maximum increase she can gain this way is 160.",
     "icon": "character-profiles/10000133/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Light of Rationalisme",
     "type": "passive",
+    "description": "When party members trigger Superconduct, it will be changed to Stellar-Conduct, and party members' Base Stellar-Conduct DMG will be increased based on Sandrone's ATK: Every 100 ATK she has increases the Base Stellar-Conduct DMG by 0.7%. The maximum increase that can be gained this way is 14%.\nAdditionally, when Sandrone is within a Polestar Field, she will enter the Radiance: Stellar-Conduct state.",
     "icon": "character-profiles/10000133/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,
@@ -2768,6 +2774,7 @@
   {
     "name": "A Caucus Prelude and a Long Tale",
     "type": "passive",
+    "description": "When Sandrone is in the party, you will gain additional snack rewards after turning in your Daily Commissions with Katheryne.",
     "icon": "character-profiles/10000133/skills/06_passive_4.png",
     "cooldown": null,
     "cost": null,

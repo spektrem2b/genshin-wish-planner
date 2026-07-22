@@ -2,6 +2,7 @@
   {
     "name": "Spiritvessel Snapshot",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 3 consecutive shots with a bow.\n\nCharged Attack\nPerforms a more precise Aimed Shot with increased DMG.\nWhile aiming, Electro energy will accumulate on the arrowhead. A fully charged arrow will deal Electro DMG.\n\nPlunging Attack\nFires off a shower of arrows in mid-air before falling and striking the ground, dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000021/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Night's Sling",
     "type": "skill",
+    "description": "Ororon manifests an ancient mystical technique from the Masters of the Night-Wind as a Spirit Orb of midnight shade and throws it at his foe, dealing Nightsoul-aligned Electro DMG.\nWhen other opponents are nearby, the Spirit Orb will bounce between them, dealing Nightsoul-aligned Electro DMG. Each time Night's Sling is used, each opponent can only be selected as a target once.\nAfter 3 bounces, or if there are no eligible targets left, the Orb will disappear.\n\n\"People always wish to foretell the future, but that might be because they have yet to discover that which they must do... Sorry, I'm saying complicated things again, aren't I...\"",
     "icon": "character-profiles/10000105/skills/01_skill.png",
     "cooldown": 15.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Special Jump",
     "type": "DISAGREEMENT(icon=burst,pos=alt_sprint)",
+    "description": "If this character is in Natlan, Hold to consume Phlogiston and execute a Rocket Double Jump. When Phlogiston is completely depleted, it will consume Stamina to execute the Double Jump instead.",
     "icon": "character-profiles/10000105/skills/02_unknown.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -1838,6 +1841,7 @@
   {
     "name": "Dark Voices Echo",
     "type": "burst",
+    "description": "Ororon works an ancient ritual, dealing Nightsoul-aligned AoE Electro DMG, summoning forth a Supersonic Oculus.\n\nSupersonic Oculus\n·Continuously taunts nearby opponents and attracts attacks from them.\n·Continuously rotates and fires off sonic waves that deal Nightsoul-aligned Electro DMG.\n\nThose with sharp enough senses can hear the minute voices with which all things speak. That way, they will never lose their way — not even on long, lightless nights.",
     "icon": "character-profiles/10000105/skills/03_burst.png",
     "cooldown": 15.0,
     "cost": 60,
@@ -2752,6 +2756,7 @@
   {
     "name": "Nightshade Synesthesia",
     "type": "passive",
+    "description": "After a nearby party member triggers Nightsoul Burst, Ororon will gain 40 Nightsoul points. Within 15s after using his Elemental Skill, when other party members' Hydro or Electro attacks hit opponents, Ororon will gain 5 Nightsoul points, an effect that can occur every 0.3s for a maximum of 10 times during this 15s duration.\nOroron can have a maximum of 80 Nightsoul points.\n\nAlso, when nearby opponents take Electro-Charged or Lunar-Charged reaction DMG or Nightsoul-aligned DMG dealt by other nearby characters, Ororon will consume 10 Nightsoul points (provided he has at least that amount), entering the Nightsoul's Blessing state and triggering the Hypersense effect: Deal Nightsoul-aligned Electro DMG based on 160% of Ororon's ATK to at most 4 nearby opponents. The aforementioned effect can trigger once every 1.8s.\n\nNightsoul's Blessing: Ororon\nOroron's Nightsoul's Blessing state lasts 6s.",
     "icon": "character-profiles/10000105/skills/04_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Aspect Catalyst",
     "type": "passive",
+    "description": "After the Elemental Skill Night's Sling's Spirit Orb hits an opponent, Ororon will gain the Aspect Sigil effect for 15s.\n\nAspect Sigil\nWhen a nearby active party member hits an opponent with Normal, Charged, or Plunging Attacks, that character will restore 3 Energy. If Ororon is off-field, Ororon will also restore 3 Energy. This effect can trigger once every 1s, and can trigger 3 times per duration.",
     "icon": "character-profiles/10000105/skills/05_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2768,6 +2774,7 @@
   {
     "name": "Night Realm's Gift: Flowing Fog, Spritely Shadows",
     "type": "passive",
+    "description": "While in an area with Phlogiston Mechanics within Natlan, he can use Nightsoul Transmission: Ororon. When the active character is currently in the air, the following will trigger when switching to Ororon: Ororon will leap up high. Nightsoul Transmission can be triggered once every 10s by your party.\n\nHolding Aiming Mode will cause Ororon to enter the \"Spiritspeaker\" state, which will allow him to interact with \"Nightspirit Graffiti\" and \"Nightspirit Sigils,\" extracting information and power from them. The rules for interacting with these objects follow the same rules as those governing Iktomisaurus interactions.\n\nAdditionally, holding the jump button will cause Ororon to consume 75 Stamina and leap. In areas within Natlan where Phlogiston mechanics are present, Ororon will prioritize consuming 5 Phlogiston to leap to a height higher still.\nWhen in the air, Ororon can Hold his Normal Attack to consume Phlogiston or Stamina and enter Aiming Mode.",
     "icon": "character-profiles/10000105/skills/06_passive_3.png",
     "cooldown": null,
     "cost": null,
@@ -2776,6 +2783,7 @@
   {
     "name": "The Art of Skinchanging",
     "type": "passive",
+    "description": "Increases gliding SPD for your own party members by 15%.\nNot stackable with Passive Talents that provide the exact same effects.",
     "icon": "character-profiles/10000105/skills/07_passive_4.png",
     "cooldown": null,
     "cost": null,

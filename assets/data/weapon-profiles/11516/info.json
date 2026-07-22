@@ -9,5 +9,11 @@
   "base_atk_lvl90": 541.8,
   "substat_type": "FIGHT_PROP_DEFENSE_PERCENT",
   "substat_lvl1": 0.18,
-  "substat_lvl90": 0.8269
+  "substat_lvl90": 0.8269,
+  "awakenCost": [
+    2000,
+    4000,
+    8000,
+    16000
+  ]
 }

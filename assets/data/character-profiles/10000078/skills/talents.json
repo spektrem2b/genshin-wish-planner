@@ -2,6 +2,7 @@
   {
     "name": "Abductive Reasoning",
     "type": "normal_attack",
+    "description": "Normal Attack\nPerforms up to 5 rapid strikes.\n\nCharged Attack\nConsumes a certain amount of Stamina to unleash 2 rapid sword strikes.\n\nPlunging Attack\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
     "icon": "character-profiles/10000002/skills/00_normal_attack.png",
     "cooldown": 0.0,
     "cost": 0,
@@ -916,6 +917,7 @@
   {
     "name": "Universality: An Elaboration on Form",
     "type": "skill",
+    "description": "Rushes forward, dealing Dendro DMG to nearby opponents when the rush ends, causing a Chisel-Light Mirror to form.\nHolding this skill will cause it to behave differently.\n\nHold\nEnters Aiming Mode to adjust the direction of Alhaitham's rush attack.\n\nChisel-Light Mirror\nWhen this skill is unleashed, Alhaitham will generate 1 Chisel-Light Mirror. If there are no Mirrors at this time, he will generate 1 additional Mirror. Chisel-Light Mirrors will have the following properties:\n·When he possesses Chisel-Light Mirrors, Alhaitham's Normal, Charged, and Plunging Attacks will be converted to Dendro DMG. This cannot be overridden.\n·When attacks of the aforementioned kind hit opponents, the Chisel-Light Mirrors will unleash a Projection Attack that deals AoE Dendro DMG based on the number of Mirrors on the field.\n·A total of 3 Chisel-Light Mirrors can exist at once.\n·The Chisel-Light Mirrors will disappear one after the other over time, and will all disappear when Alhaitham leaves the field.\n\n\"Truth inherently exists amidst uncertainty. Even the greatest of scholars are not immune to error.\"",
     "icon": "character-profiles/10000078/skills/01_skill.png",
     "cooldown": 18.0,
     "cost": 0,
@@ -1830,6 +1832,7 @@
   {
     "name": "Particular Field: Fetters of Phenomena",
     "type": "burst",
+    "description": "Creates a Particular Binding Field and deals multiple instances of AoE Dendro DMG.\nIf Chisel-Light Mirrors exist when this ability is unleashed, all such Mirrors will be consumed and increase the number of DMG instances dealt.\n2s after this ability is unleashed, if 0/1/2/3 Mirrors were consumed, Alhaitham will generate 3/2/1/0 new Mirrors in turn.\n\n\"If a researcher makes wisdom their goal, then they should be prepared to make an enemy of every word they read. Only then can they avoid bias.\"",
     "icon": "character-profiles/10000078/skills/02_burst.png",
     "cooldown": 18.0,
     "cost": 70,
@@ -2744,6 +2747,7 @@
   {
     "name": "Four-Causal Correction",
     "type": "passive",
+    "description": "When Alhaitham's Charged or Plunging Attacks hit opponents, they will generate 1 Chisel-Light Mirror. This effect can be triggered once every 12s.",
     "icon": "character-profiles/10000078/skills/03_passive_1.png",
     "cooldown": null,
     "cost": null,
@@ -2752,6 +2756,7 @@
   {
     "name": "Mysteries Laid Bare",
     "type": "passive",
+    "description": "Each point of Alhaitham's Elemental Mastery will increase the DMG dealt by Projection Attacks and Particular Field: Fetters of Phenomena by 0.1%.\nThe DMG of both aforementioned abilities can be increased by a maximum of 100% this way.",
     "icon": "character-profiles/10000078/skills/04_passive_2.png",
     "cooldown": null,
     "cost": null,
@@ -2760,6 +2765,7 @@
   {
     "name": "Law of Reductive Overdetermination",
     "type": "passive",
+    "description": "When Alhaitham crafts Weapon Ascension Materials, he has a 10% chance to receive double the product.",
     "icon": "character-profiles/10000078/skills/05_passive_3.png",
     "cooldown": null,
     "cost": null,

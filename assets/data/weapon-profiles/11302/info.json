@@ -9,5 +9,11 @@
   "base_atk_lvl90": 401.3,
   "substat_type": "FIGHT_PROP_CRITICAL_HURT",
   "substat_lvl1": 0.102,
-  "substat_lvl90": 0.4686
+  "substat_lvl90": 0.4686,
+  "awakenCost": [
+    500,
+    1000,
+    2000,
+    4000
+  ]
 }

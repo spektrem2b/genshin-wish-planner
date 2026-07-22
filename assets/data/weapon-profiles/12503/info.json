@@ -9,5 +9,11 @@
   "base_atk_lvl90": 740.6,
   "substat_type": "FIGHT_PROP_PHYSICAL_ADD_HURT",
   "substat_lvl1": 0.045,
-  "substat_lvl90": 0.2067
+  "substat_lvl90": 0.2067,
+  "awakenCost": [
+    2000,
+    4000,
+    8000,
+    16000
+  ]
 }
