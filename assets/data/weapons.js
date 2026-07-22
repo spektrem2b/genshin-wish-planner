@@ -1807,7 +1807,7 @@ function makeCustomWeapon(name, rarity = 5) {
     name,
     rarity,
     weaponType: null,
-    icon: "custom-icons/Weapon_Dull_Blade_custom.webp",
+    icon: "custom_icons/Weapon_Dull_Blade_custom.webp",
     isCustom: true
   };
 }
