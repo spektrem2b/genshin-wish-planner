@@ -36,7 +36,7 @@
     return element ? dataAssetSrc(`element_icons/Element_${element}.svg`) : null;
   }
   function weaponIconSrc(weaponType) {
-    return weaponType ? dataAssetSrc(`weapon_icons/Weapon_${weaponType}.svg`) : null;
+    return weaponType ? dataAssetSrc(`weapon_types_icons/Icon_${weaponType}_type.webp`) : null;
   }
   const REGION_ICON_FALLBACK = dataAssetSrc("region_icons/unknown-region.webp");
   function regionIconSrc(region) {
@@ -93,7 +93,6 @@
     if (!label) return null;
     return { label, value: renderTemplate(template, params) };
   }
-  const DEFAULT_LEVELS = [1, 6, 8, 9, 10, 13];
   function scalingTableHtml(levels, uid) {
     const rows = (levels || []).filter((l) => l.level && l.description && l.description.length);
     if (!rows.length) return "";
@@ -102,20 +101,17 @@
     const buildRow = (l) => {
       const parsed = (l.description || []).map((raw) => parseDescRow(raw, l.params)).filter(Boolean);
       const cells = labels.map((label, i) => escapeHtml(parsed[i] && parsed[i].value || "\u2014"));
-      const hiddenCls = DEFAULT_LEVELS.includes(l.level) ? "" : " ci-level-extra";
       const highlightCls = l.level === 10 ? " ci-level-10" : "";
-      return `<tr class="${(hiddenCls + highlightCls).trim()}"><td>${l.level}</td>${cells.map((v) => `<td>${v}</td>`).join("")}</tr>`;
+      return `<tr class="${highlightCls.trim()}"><td>${l.level}</td>${cells.map((v) => `<td>${v}</td>`).join("")}</tr>`;
     };
     const bodyRows = rows.map(buildRow).join("");
-    const hasExtra = rows.some((l) => !DEFAULT_LEVELS.includes(l.level));
     return `
             <div class="ci-scaling-wrap">
                 <table class="ci-scaling" id="${uid}">
                     <thead><tr><th>Lv.</th>${labels.map((l) => `<th>${escapeHtml(l)}</th>`).join("")}</tr></thead>
                     <tbody>${bodyRows}</tbody>
                 </table>
-            </div>
-            ${hasExtra ? `<button type="button" class="ci-scaling-toggle" data-target="${uid}">Show full scaling</button>` : ""}`;
+            </div>`;
   }
   function quickStatsHtml(t) {
     const stats = [];
@@ -178,7 +174,7 @@
                     ${talentSummaryStatsHtml(t)}
                 </summary>
                 <div class="ci-talent-accordion-body">
-                    ${t.description ? `<div class="ci-flavor ci-flavor-lead">${escapeHtml(t.description)}</div>` : ""}
+                    ${t.description ? `<div class="ci-talent-flavor">${escapeHtml(t.description)}</div>` : ""}
                     ${quickStatsHtml(t)}
                     ${table || '<div class="ci-talent-desc ci-muted">No scaling data.</div>'}
                 </div>
@@ -325,7 +321,7 @@
                 <span class="ci-hero-fact-label">${escapeHtml(label)}</span><span class="ci-hero-fact-bullet">\u2022</span><span class="ci-hero-fact-value">${escapeHtml(value)}</span>
             </div>`;
   }
-  function heroHtml(c) {
+  function profileHeaderHtml(c) {
     const facts = [];
     if (c.element) facts.push(iconFactHtml(elementIconSrc(c.element), null, c.element));
     if (c.weapon_type) facts.push(iconFactHtml(weaponIconSrc(c.weapon_type), null, c.weapon_type));
@@ -334,6 +330,10 @@
     if (bday) facts.push(textFactHtml("Birthday", bday));
     const release = releaseLabel(c.release);
     if (release) facts.push(textFactHtml("Released", release));
+    const vaLine = (c.cv || []).map((v) => `${v.lang}: ${v.va}`).join("   \xB7   ");
+    const metaBits = [];
+    if (c.constellationName) metaBits.push(`<span class="ci-hero-meta-label">Constellation</span> ${escapeHtml(c.constellationName)}`);
+    if (c.native) metaBits.push(`<span class="ci-hero-meta-label">Affiliation</span> ${escapeHtml(c.native)}`);
     return `
             <div class="ci-hero">
                 <img class="ci-hero-portrait" src="${dataAssetSrc(c.icon)}" alt="">
@@ -344,59 +344,19 @@
                     <div class="ci-hero-facts">
                         ${facts.join("")}
                     </div>
-                    <div class="ci-hero-id">ID: ${escapeHtml(c.id)}</div>
+                    ${c.description ? `<p class="ci-hero-desc">${escapeHtml(c.description)}</p>` : ""}
+                    ${metaBits.length ? `<div class="ci-hero-meta-line">${metaBits.join(" &nbsp;\u2022&nbsp; ")}</div>` : ""}
+                    ${vaLine ? `<div class="ci-hero-meta-line"><span class="ci-hero-meta-label">Voice Actors</span> ${escapeHtml(vaLine)}</div>` : ""}
                 </div>
             </div>`;
-  }
-  function navHtml() {
-    const items = [
-      ["ci-sec-overview", "Overview"],
-      ["ci-sec-talents", "Talents"],
-      ["ci-sec-passives", "Passives"],
-      ["ci-sec-const", "Constellations"],
-      ["ci-sec-materials", "Materials"]
-    ];
-    return `
-            <nav class="ci-subnav">
-                ${items.map(([id, label]) => `<a href="#${id}" class="ci-subnav-link">${label}</a>`).join("")}
-            </nav>`;
-  }
-  function overviewHtml(c) {
-    const vaLine = (c.cv || []).map((v) => `${v.lang}: ${v.va}`).join("   \xB7   ");
-    const hasContent = c.title || c.description || c.constellationName || c.native || vaLine;
-    if (!hasContent) {
-      return `
-                <section id="ci-sec-overview" class="ci-panel">
-                    <h2 class="ci-panel-title">Overview</h2>
-                    <div class="ci-item-desc ci-muted">Bio data isn't available for this character.</div>
-                </section>`;
-    }
-    return `
-            <section id="ci-sec-overview" class="ci-panel">
-                <h2 class="ci-panel-title">Overview</h2>
-                <div class="ci-overview-grid">
-                    <div class="ci-overview-main">
-                        ${c.title ? `<div class="ci-overview-epithet">"${escapeHtml(c.title)}"</div>` : ""}
-                        ${c.description ? `<p class="ci-overview-desc">${escapeHtml(c.description)}</p>` : ""}
-                    </div>
-                    <div class="ci-overview-side">
-                        ${c.constellationName ? `<div class="ci-fact-block"><div class="ci-fact-label">Constellation</div><div class="ci-fact-value">${escapeHtml(c.constellationName)}</div></div>` : ""}
-                        ${c.native ? `<div class="ci-fact-block"><div class="ci-fact-label">Affiliation</div><div class="ci-fact-value">${escapeHtml(c.native)}</div></div>` : ""}
-                        ${vaLine ? `<div class="ci-fact-block"><div class="ci-fact-label">Voice Actors</div><div class="ci-fact-value">${escapeHtml(vaLine)}</div></div>` : ""}
-                    </div>
-                </div>
-            </section>`;
   }
   function renderCharacterInfo(c, root) {
     talentAccordionIdx = 0;
     const activeTalents = (c.talents || []).filter(isActiveTalent);
     const passiveTalents = (c.talents || []).filter((t) => !isActiveTalent(t));
     root.innerHTML = `
-            ${heroHtml(c)}
-            ${navHtml()}
+            ${profileHeaderHtml(c)}
             <div class="ci-layout">
-                ${overviewHtml(c)}
-
                 <section id="ci-sec-talents" class="ci-panel">
                     <h2 class="ci-panel-title">Talents</h2>
                     <div class="ci-talent-list">
@@ -405,62 +365,35 @@
                 </section>
 
                 <div class="ci-split-row">
-                    <section id="ci-sec-passives" class="ci-panel">
-                        <h2 class="ci-panel-title">Passives</h2>
-                        <div class="ci-passive-list">
-                            ${passiveTalents.map(passiveCardHtml).join("") || '<div class="ci-item-desc ci-muted">None</div>'}
-                        </div>
-                    </section>
                     <section id="ci-sec-const" class="ci-panel">
                         <h2 class="ci-panel-title">Constellations</h2>
                         <div class="ci-const-list">
                             ${(c.constellations || []).map((con, i) => constellationCardHtml(con, i, c.id)).join("") || '<div class="ci-item-desc ci-muted">None</div>'}
                         </div>
                     </section>
+                    <div class="ci-split-row-side">
+                        <section id="ci-sec-passives" class="ci-panel">
+                            <h2 class="ci-panel-title">Passives</h2>
+                            <div class="ci-passive-list">
+                                ${passiveTalents.map(passiveCardHtml).join("") || '<div class="ci-item-desc ci-muted">None</div>'}
+                            </div>
+                        </section>
+                        <section id="ci-sec-materials" class="ci-panel">
+                            <h2 class="ci-panel-title">Ascension Materials</h2>
+                            ${materialsHtml(c)}
+                        </section>
+                    </div>
                 </div>
-
-                <section id="ci-sec-materials" class="ci-panel">
-                    <h2 class="ci-panel-title">Ascension Materials</h2>
-                    ${materialsHtml(c)}
-                </section>
             </div>`;
     wireInteractions(root);
   }
   function wireInteractions(root) {
-    const links = Array.from(root.querySelectorAll(".ci-subnav-link"));
-    links.forEach((link) => {
-      link.addEventListener("click", (e) => {
-        e.preventDefault();
-        const target = root.querySelector(link.getAttribute("href"));
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    });
-    if (links.length) {
-      const sections = links.map((l) => root.querySelector(l.getAttribute("href"))).filter(Boolean);
-      const onScroll = () => {
-        let current = sections[0];
-        for (const sec of sections) {
-          if (sec.getBoundingClientRect().top - 140 <= 0) current = sec;
-        }
-        links.forEach((l) => l.classList.toggle("active", root.querySelector(l.getAttribute("href")) === current));
-      };
-      window.addEventListener("scroll", onScroll, { passive: true });
-      onScroll();
-    }
     const accordions = Array.from(root.querySelectorAll(".ci-talent-accordion"));
     accordions.forEach((acc) => {
       acc.addEventListener("toggle", () => {
         if (acc.open) accordions.forEach((other) => {
           if (other !== acc) other.open = false;
         });
-      });
-    });
-    root.querySelectorAll(".ci-scaling-toggle").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const table = root.querySelector(`#${btn.dataset.target}`);
-        if (!table) return;
-        const expanded = table.classList.toggle("ci-scaling-expanded");
-        btn.textContent = expanded ? "Show fewer levels" : "Show full scaling";
       });
     });
   }
