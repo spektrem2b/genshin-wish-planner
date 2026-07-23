@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  const CHARACTER_ID = "10000002";
+  const DEFAULT_CHARACTER_ID = "10000002";
   function getJson(url) {
     return fetch(url).then((res) => res.ok ? res.json() : null).catch(() => null);
   }
@@ -44,6 +44,50 @@
   }
   function titleCase(str) {
     return String(str || "").replace(/\w\S*/g, (w) => w[0].toUpperCase() + w.slice(1).toLowerCase());
+  }
+  const ELEMENT_BASE_COLORS = {
+    Electro: "#A368BE",
+    Pyro: "#B66A51",
+    Cryo: "#79D6ED",
+    Hydro: "#2F86C7",
+    Anemo: "#4ABBAF",
+    Dendro: "#78B046",
+    Geo: "#BC9F4C"
+  };
+  function hexToRgb(hex) {
+    const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : [162, 85, 255];
+  }
+  function rgbToHex(rgb) {
+    return "#" + rgb.map((c) => Math.max(0, Math.min(255, Math.round(c))).toString(16).padStart(2, "0")).join("");
+  }
+  function brighten(rgb, amount) {
+    return rgb.map((c) => c + (255 - c) * amount);
+  }
+  function darken(rgb, amount) {
+    return rgb.map((c) => c * (1 - amount));
+  }
+  const ELEMENT_THEMES = Object.keys(ELEMENT_BASE_COLORS).reduce((map, element) => {
+    const accentRgb = brighten(hexToRgb(ELEMENT_BASE_COLORS[element]), 0.12);
+    map[element] = {
+      accent: rgbToHex(accentRgb),
+      accentDark: rgbToHex(darken(accentRgb, 0.3)),
+      accentRgb: accentRgb.map((c) => Math.round(c)).join(", ")
+    };
+    return map;
+  }, {});
+  ELEMENT_THEMES.Electro = { accent: "#a255ff", accentDark: "#7b2cbf", accentRgb: "162, 85, 255" };
+  function applyElementTheme(page, element) {
+    const theme = ELEMENT_THEMES[element];
+    if (!theme) {
+      page.style.removeProperty("--ci-accent");
+      page.style.removeProperty("--ci-accent-dark");
+      page.style.removeProperty("--ci-accent-rgb");
+      return;
+    }
+    page.style.setProperty("--ci-accent", theme.accent);
+    page.style.setProperty("--ci-accent-dark", theme.accentDark);
+    page.style.setProperty("--ci-accent-rgb", theme.accentRgb);
   }
   function birthdayLabel(b) {
     if (!b) return null;
@@ -401,18 +445,47 @@
       });
     });
   }
-  let initialized = false;
+  function characterRoster() {
+    const roster = typeof GENSHIN_CHARACTER_PROFILE_INDEX !== "undefined" ? GENSHIN_CHARACTER_PROFILE_INDEX : [];
+    return roster.slice().sort((a, b) => a.name.localeCompare(b.name));
+  }
+  function characterPickerHtml(selectedId) {
+    const roster = characterRoster();
+    if (!roster.length) return "";
+    const options = roster.map((c) => `
+            <option value="${escapeHtml(c.id)}"${c.id === selectedId ? " selected" : ""}>${escapeHtml(c.name)}${c.element ? ` (${escapeHtml(c.element)})` : ""}</option>`).join("");
+    return `
+            <div class="ci-picker-placeholder">
+                <label for="ciCharacterPicker">Character:</label>
+                <select id="ciCharacterPicker">${options}</select>
+            </div>`;
+  }
+  function loadCharacter(root, id) {
+    const content = root.querySelector("#ciContent") || root;
+    content.innerHTML = '<div class="ci-item-desc ci-muted">Loading\u2026</div>';
+    fetchFullCharacterProfile(id).then((profile) => {
+      if (!profile) {
+        applyElementTheme(root, null);
+        content.innerHTML = '<div class="ci-item-desc ci-muted">Character data not found.</div>';
+        return;
+      }
+      applyElementTheme(root, profile.element);
+      renderCharacterInfo(profile, content);
+    });
+  }
   window.activateCharacterInfoTab = function() {
     const root = document.getElementById("characterInfoPanel");
     if (!root) return;
-    if (initialized) return;
-    initialized = true;
-    fetchFullCharacterProfile(CHARACTER_ID).then((profile) => {
-      if (!profile) {
-        root.innerHTML = '<div class="ci-item-desc ci-muted">Character data not found.</div>';
-        return;
-      }
-      renderCharacterInfo(profile, root);
-    });
+    if (root.dataset.ciInit) return;
+    root.dataset.ciInit = "1";
+    const roster = characterRoster();
+    const defaultEntry = roster.find((c) => c.id === DEFAULT_CHARACTER_ID) || roster[0];
+    const defaultId = defaultEntry ? defaultEntry.id : DEFAULT_CHARACTER_ID;
+    root.innerHTML = `${characterPickerHtml(defaultId)}<div id="ciContent"></div>`;
+    const picker = root.querySelector("#ciCharacterPicker");
+    if (picker) {
+      picker.addEventListener("change", () => loadCharacter(root, picker.value));
+    }
+    loadCharacter(root, defaultId);
   };
 })();
