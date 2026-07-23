@@ -104,6 +104,8 @@ body {
   font-size: 0.98rem;
   cursor: pointer;
   transition: all 0.15s ease;
+  text-decoration: none;
+  box-sizing: border-box;
 }
 .nav-link-icon {
   opacity: 0.85;
