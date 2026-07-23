@@ -56,49 +56,12 @@
   function titleCase(str) {
     return String(str || "").replace(/\w\S*/g, (w) => w[0].toUpperCase() + w.slice(1).toLowerCase());
   }
-  const ELEMENT_BASE_COLORS = {
-    Electro: "#A368BE",
-    Pyro: "#B66A51",
-    Cryo: "#79D6ED",
-    Hydro: "#2F86C7",
-    Anemo: "#4ABBAF",
-    Dendro: "#78B046",
-    Geo: "#BC9F4C"
-  };
-  function hexToRgb(hex) {
-    const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : [162, 85, 255];
-  }
-  function rgbToHex(rgb) {
-    return "#" + rgb.map((c) => Math.max(0, Math.min(255, Math.round(c))).toString(16).padStart(2, "0")).join("");
-  }
-  function brighten(rgb, amount) {
-    return rgb.map((c) => c + (255 - c) * amount);
-  }
-  function darken(rgb, amount) {
-    return rgb.map((c) => c * (1 - amount));
-  }
-  const ELEMENT_THEMES = Object.keys(ELEMENT_BASE_COLORS).reduce((map, element) => {
-    const accentRgb = brighten(hexToRgb(ELEMENT_BASE_COLORS[element]), 0.12);
-    map[element] = {
-      accent: rgbToHex(accentRgb),
-      accentDark: rgbToHex(darken(accentRgb, 0.3)),
-      accentRgb: accentRgb.map((c) => Math.round(c)).join(", ")
-    };
-    return map;
-  }, {});
-  ELEMENT_THEMES.Electro = { accent: "#a255ff", accentDark: "#7b2cbf", accentRgb: "162, 85, 255" };
   function applyElementTheme(page, element) {
-    const theme = ELEMENT_THEMES[element];
-    if (!theme) {
-      page.style.removeProperty("--ci-accent");
-      page.style.removeProperty("--ci-accent-dark");
-      page.style.removeProperty("--ci-accent-rgb");
+    if (!element) {
+      page.removeAttribute("data-element");
       return;
     }
-    page.style.setProperty("--ci-accent", theme.accent);
-    page.style.setProperty("--ci-accent-dark", theme.accentDark);
-    page.style.setProperty("--ci-accent-rgb", theme.accentRgb);
+    page.setAttribute("data-element", String(element).toLowerCase());
   }
   function birthdayLabel(b) {
     if (!b) return null;

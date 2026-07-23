@@ -14,22 +14,26 @@
   --success: #38e4c6;
   --warning: #ffc233;
   --danger: #ff4d5a;
-  --electro: #6723b4;
-  --electro-dark: #351b4e;
-  --pyro: #ff0000;
-  --pyro-dark: #a90404;
-  --cryo: #6ae5f2;
-  --cryo-dark: #47a4c0;
-  --hydro: #0089c6;
-  --hydro-2: #0f58c1;
-  --hydro-dark: #003a8e;
-  --anemo: #43cacd;
-  --anemo-dark: #42a19b;
-  --dendro: #9cff29;
-  --dendro-dark: #577a1b;
-  --geo: #ffd704;
-  --geo-2: #a87507;
-  --geo-dark: #945909;
+  --electro: #954fe3;
+  --electro-dark: #613394;
+  --pyro: #cf4a4a;
+  --pyro-dark: #873030;
+  --cryo: #56bbc5;
+  --cryo-dark: #387a80;
+  --hydro: #21aae7;
+  --hydro-2: #268ebd;
+  --hydro-dark: #156e96;
+  --anemo: #1bbcbf;
+  --anemo-dark: #127a7c;
+  --dendro: #77a344;
+  --dendro-dark: #4d6a2c;
+  --geo: #d5bf4c;
+  --geo-2: #8a7c31;
+  --geo-dark: #8a7c31;
+  --ci-shadow-rgb:
+    36,
+    28,
+    63;
 }
 html {
   background: var(--bg-color);
@@ -2695,13 +2699,13 @@ body.scen-modal-open {
   --ci-accent: var(--electro);
   --ci-accent-dark: var(--electro-dark);
   --ci-accent-rgb:
-    103,
-    35,
-    180;
+    149,
+    79,
+    227;
   --ci-accent-2-rgb:
-    103,
-    35,
-    180;
+    149,
+    79,
+    227;
   --ci-card-bg: rgba(26, 26, 31, 0.85);
   --ci-header-bg: rgba(26, 26, 31, 0.97);
   --ci-border: rgba(var(--ci-accent-rgb), 0.32);
@@ -2713,85 +2717,85 @@ body.scen-modal-open {
   --ci-accent: var(--pyro);
   --ci-accent-dark: var(--pyro-dark);
   --ci-accent-rgb:
-    255,
-    0,
-    0;
+    207,
+    74,
+    74;
   --ci-accent-2-rgb:
-    255,
-    0,
-    0;
+    207,
+    74,
+    74;
 }
 .char-info-page[data-element=cryo i] {
   --ci-accent: var(--cryo);
   --ci-accent-dark: var(--cryo-dark);
   --ci-accent-rgb:
-    106,
-    229,
-    242;
+    86,
+    187,
+    197;
   --ci-accent-2-rgb:
-    106,
-    229,
-    242;
+    86,
+    187,
+    197;
 }
 .char-info-page[data-element=hydro i] {
   --ci-accent: var(--hydro);
   --ci-accent-dark: var(--hydro-dark);
   --ci-accent-rgb:
-    0,
-    137,
-    198;
+    33,
+    170,
+    231;
   --ci-accent-2-rgb:
-    15,
-    88,
-    193;
+    38,
+    142,
+    189;
 }
 .char-info-page[data-element=anemo i] {
   --ci-accent: var(--anemo);
   --ci-accent-dark: var(--anemo-dark);
   --ci-accent-rgb:
-    67,
-    202,
-    205;
+    27,
+    188,
+    191;
   --ci-accent-2-rgb:
-    67,
-    202,
-    205;
+    27,
+    188,
+    191;
 }
 .char-info-page[data-element=dendro i] {
   --ci-accent: var(--dendro);
   --ci-accent-dark: var(--dendro-dark);
   --ci-accent-rgb:
-    156,
-    255,
-    41;
+    119,
+    163,
+    68;
   --ci-accent-2-rgb:
-    156,
-    255,
-    41;
+    119,
+    163,
+    68;
 }
 .char-info-page[data-element=geo i] {
   --ci-accent: var(--geo);
   --ci-accent-dark: var(--geo-dark);
   --ci-accent-rgb:
-    255,
-    215,
-    4;
+    213,
+    191,
+    76;
   --ci-accent-2-rgb:
-    168,
-    117,
-    7;
+    138,
+    124,
+    49;
 }
 .char-info-page[data-element=electro i] {
   --ci-accent: var(--electro);
   --ci-accent-dark: var(--electro-dark);
   --ci-accent-rgb:
-    103,
-    35,
-    180;
+    149,
+    79,
+    227;
   --ci-accent-2-rgb:
-    103,
-    35,
-    180;
+    149,
+    79,
+    227;
 }
 .ci-picker-placeholder {
   display: flex;
@@ -2824,8 +2828,9 @@ body.scen-modal-open {
     linear-gradient(
       160deg,
       rgba(var(--ci-accent-rgb), 0.95) 0%,
-      rgba(var(--ci-accent-2-rgb), 0.68) 30%,
-      rgba(var(--ci-accent-2-rgb), 0.38) 55%,
+      rgba(var(--ci-accent-2-rgb), 0.6) 16%,
+      rgba(var(--ci-accent-2-rgb), 0.35) 28%,
+      rgba(var(--ci-shadow-rgb), 0.85) 42%,
       var(--ci-card-bg) 92%);
   border: 1px solid var(--ci-border-soft);
   margin-bottom: 16px;
@@ -2835,8 +2840,9 @@ body.scen-modal-open {
     linear-gradient(
       160deg,
       rgba(var(--ci-accent-rgb), 0.85) 0%,
-      rgba(var(--ci-accent-2-rgb), 0.55) 32%,
-      rgba(var(--ci-accent-2-rgb), 0.25) 55%,
+      rgba(var(--ci-accent-2-rgb), 0.5) 18%,
+      rgba(var(--ci-accent-2-rgb), 0.28) 30%,
+      rgba(var(--ci-shadow-rgb), 0.8) 44%,
       var(--ci-card-bg) 92%);
 }
 .ci-hero-portrait {
@@ -2928,7 +2934,7 @@ body.scen-modal-open {
 }
 .ci-split-row {
   display: grid;
-  grid-template-columns: 1.3fr 1fr;
+  grid-template-columns: 1fr 1.05fr;
   gap: 16px;
   align-items: start;
 }
