@@ -4,6 +4,16 @@
   function getJson(url) {
     return fetch(url).then((res) => res.ok ? res.json() : null).catch(() => null);
   }
+  const CHARACTER_DATA_OVERRIDES = {
+    "traveler": { region: "Main Character" },
+    "zibai": { region: "Liyue" }
+  };
+  function applyCharacterOverrides(info) {
+    if (!info) return info;
+    const key = String(info.name || "").trim().toLowerCase();
+    const override = CHARACTER_DATA_OVERRIDES[key];
+    return override ? { ...info, ...override } : info;
+  }
   function fetchFullCharacterProfile(id) {
     const base = `assets/data/character-profiles/${id}`;
     return Promise.all([
@@ -12,6 +22,7 @@
       getJson(`${base}/constellations/constellations.json`),
       getJson(`${base}/materials/materials.json`)
     ]).then(([info, talents, constellations, materials]) => {
+      info = applyCharacterOverrides(info);
       if (!info) return null;
       return {
         ...info,
@@ -378,7 +389,8 @@
     if (bday) facts.push(textFactHtml("Birthday", bday));
     const release = releaseLabel(c.release);
     if (release) facts.push(textFactHtml("Released", release));
-    const vaLine = (c.cv || []).map((v) => `${v.lang}: ${v.va}`).join("   \xB7   ");
+    const VA_LANG_LABELS = { CHS: "CN" };
+    const vaLine = (c.cv || []).map((v) => `${VA_LANG_LABELS[v.lang] || v.lang}: ${v.va}`).join("   \xB7   ");
     const metaBits = [];
     if (c.constellationName) metaBits.push(`<span class="ci-hero-meta-label">Constellation</span> ${escapeHtml(c.constellationName)}`);
     if (c.native) metaBits.push(`<span class="ci-hero-meta-label">Affiliation</span> ${escapeHtml(c.native)}`);
